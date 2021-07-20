@@ -356,6 +356,7 @@ class ResourceActivity(models.Model):
         "set_allocation_span",
     )
     def default_allocation_span(self):
+        # fixme not triggered when created in demo data
         if self.date_start:
             if self.need_delivery:
                 if self.set_allocation_span:
