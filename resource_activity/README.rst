@@ -1,5 +1,5 @@
 =================
-Resource activity
+Resource Activity
 =================
 
 .. !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19,6 +19,7 @@ Resource activity
 
 |badge1| |badge2| |badge3| 
 
+Manage activities, book resources and generate sale orders.
 
 **Table of contents**
 
@@ -41,7 +42,7 @@ Credits
 Authors
 ~~~~~~~
 
-* Houssine BAKKALI <houssine@coopiteasy.be>
+* Coop IT Easy SCRLfs
 
 Contributors
 ~~~~~~~~~~~~
