@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
-    <data>
-    	
+<odoo>
+
         <record id="view_resource_config_settings" model="ir.ui.view">
             <field name="name">Resource settings</field>
             <field name="model">resource.config.settings</field>
@@ -23,7 +22,4 @@
                 </form>
             </field>
         </record>
-
-
-    </data>
-</openerp>
+</odoo>

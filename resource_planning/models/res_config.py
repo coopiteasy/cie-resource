@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from openerp import SUPERUSER_ID
-from openerp.tools import DEFAULT_SERVER_DATE_FORMAT as DF
-from openerp import api, fields, models, _
-from openerp.exceptions import UserError
+from odoo import SUPERUSER_ID
+from odoo.tools import DEFAULT_SERVER_DATE_FORMAT as DF
+from odoo import api, fields, models, _
+from odoo.exceptions import UserError
 
 
 class ResourceConfigSettings(models.TransientModel):
