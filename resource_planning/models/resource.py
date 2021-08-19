@@ -14,15 +14,7 @@ class Resource(models.Model):
     def _get_default_location(self):
         location = self.env.user.resource_location
         if not location:
-            main_location = self.env.ref(
-                "resource_planning.main_location", False
-            )
-            return (
-                main_location
-                if main_location
-                else self.env["resource.location"]
-            )
-
+            location = self.env.ref("resource_planning.main_location", False)
         return location
 
     category_id = fields.Many2one("resource.category", string="Category")
@@ -46,7 +38,10 @@ class Resource(models.Model):
     )
     serial_number = fields.Char(string="ID number")
     location = fields.Many2one(
-        "resource.location", string="Location", default=_get_default_location
+        "resource.location",
+        string="Location",
+        default=_get_default_location,
+        required=True,
     )
 
     _sql_constraints = [
@@ -112,8 +107,7 @@ class Resource(models.Model):
         )
         unavailable_resources_ids = conflicting_allocations.mapped(
             "resource_id.id"
-        )  # noqa
-
+        )
         for resource_id in unavailable_resources_ids:
             available_resources_ids.remove(resource_id)
         return available_resources_ids
