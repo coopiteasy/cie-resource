@@ -8,8 +8,9 @@ from openerp.exceptions import UserError
 
 class ResCompany(models.Model):
     _inherit = "res.company"
-    sale_note_html = fields.Html(
-        string="Default Terms and Conditions", translate=True, sanitize=False
+    sale_note_html_id = fields.Many2one(
+        comodel_name="res.company.note",
+        string="Default Terms and Conditions",
     )
 
 
@@ -18,7 +19,7 @@ class SaleOrder(models.Model):
 
     @api.model
     def _default_note_html(self):
-        return self.env.user.company_id.sale_note_html
+        return self.env.user.company_id.sale_note_html_id
 
     activity_sale = fields.Boolean(string="Activity Sale?")
     activity_id = fields.Many2one(
@@ -91,9 +92,31 @@ class SaleOrder(models.Model):
         related="activity_id.booked_resources",
         readonly=True,
     )
-    note_html = fields.Html(
-        "Terms and conditions", default=lambda self: self._default_note_html()
+    note_html_id = fields.Many2one(
+        comodel_name="res.company.note",
+        string="Terms and conditions",
     )
+
+    @api.model
+    def create(self, vals):
+        sale_order = super(SaleOrder, self).create(vals)
+        sale_order._set_note_html_id()
+        return sale_order
+
+    @api.model
+    def _set_note_html_id(self):
+        self.ensure_one()
+        if self.activity_id:
+            activity = self.activity_id
+            sale_note_html_id = (
+                activity.location_id.terms_ids.filtered(
+                    lambda r: r.note_id.active
+                          and r.location_id == activity.location_id
+                          and r.activity_type_id == activity.activity_type
+                ).note_id
+                or self._default_note_html()
+            )
+            self.note_html_id = sale_note_html_id
 
     @api.multi
     def action_draft(self):
@@ -152,6 +175,11 @@ class SaleOrder(models.Model):
                 category_qty.get(booked_resource.category_id.name, 0) + 1
             )
         return category_qty
+
+    @api.model
+    def cron_init_note_html(self):
+        for sale_order in self.search([]):
+            sale_order._set_note_html_id()
 
 
 class SaleOrderLine(models.Model):
