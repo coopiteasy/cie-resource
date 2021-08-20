@@ -1,9 +1,6 @@
 # Copyright 2018 Coop IT Easy SCRLfs.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
-from odoo import SUPERUSER_ID
-from odoo.tools import DEFAULT_SERVER_DATE_FORMAT as DF
-from odoo import api, fields, models, _
-from odoo.exceptions import UserError
+from odoo import api, fields, models
 
 
 class ResourceConfigSettings(models.TransientModel):
@@ -26,7 +23,5 @@ class ResourceConfigSettings(models.TransientModel):
             "resource_planning", "group_multi_location"
         )
         if self.group_multi_location:
-            group_resource_user.write(
-                {"implied_ids": [(4, group_location.id)]}
-            )
+            group_resource_user.write({"implied_ids": [(4, group_location.id)]})
         return True

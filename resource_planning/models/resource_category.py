@@ -1,13 +1,13 @@
-# -*- coding: utf-8 -*-
 # Copyright 2018 Coop IT Easy SCRLfs.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from openerp import api, fields, models
+from odoo import api, fields, models
 
 
 class ResourceCategory(models.Model):
     _name = "resource.category"
     _inherit = "mail.thread"
+    _description = "Resource Category"
 
     name = fields.Char(
         string="Category name",
@@ -15,7 +15,9 @@ class ResourceCategory(models.Model):
         translate=True,
     )
     resources = fields.One2many(
-        "resource.resource", "category_id", string="Resources"
+        comodel_name="resource.resource",
+        inverse_name="category_id",
+        string="Resources",
     )
     is_accessory = fields.Boolean(string="Is Accessory")
 

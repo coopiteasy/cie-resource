@@ -8,12 +8,20 @@
         <field name="name">resource.allocation.tree</field>
         <field name="model">resource.allocation</field>
         <field name="arch" type="xml">
-            <tree string="Resource Allocation" delete="false"
-                  colors="blue:state == 'reservation'; red:state == 'option';grey:state == 'cancel'">
+            <tree
+                string="Resource Allocation"
+                delete="false"
+                decoration-muted="state == 'cancel'"
+                decoration-info="state == 'reservation'"
+                decoration-danger="state == 'option'"
+            >
                 <field name="resource_id"/>
                 <field name="serial_number"/>
                 <field name="resource_category_id"/>
-                <field name="location" groups="resource_planning.group_multi_location"/>
+                <field
+                    name="location"
+                    groups="resource_planning.group_multi_location"
+                />
                 <field name="partner_id"/>
                 <field name="date_start"/>
                 <field name="date_end"/>
@@ -29,9 +37,25 @@
         <field name="arch" type="xml">
             <form string="Resource Allocation">
                 <header>
-                    <button name="action_confirm" string="Confirm" type="object" states="option" class="btn-primary"/>
-                    <button name="action_cancel" string="Cancel" type="object" states="booked,option"/>
-                    <button name="action_option" string="Set an option" type="object" states="booked"/>
+                    <button
+                        name="action_confirm"
+                        string="Confirm"
+                        type="object"
+                        states="option"
+                        class="btn-primary"
+                    />
+                    <button
+                        name="action_cancel"
+                        string="Cancel"
+                        type="object"
+                        states="booked,option"
+                    />
+                    <button
+                        name="action_option"
+                        string="Set an option"
+                        type="object"
+                        states="booked"
+                    />
                     <field name="state" widget="statusbar"/>
                 </header>
                 <sheet>
@@ -39,7 +63,11 @@
                         <group>
                             <field name="resource_id"/>
                             <field name="resource_category_id"/>
-                            <field name="location" readonly="True" groups="resource_planning.group_multi_location"/>
+                            <field
+                                name="location"
+                                readonly="True"
+                                groups="resource_planning.group_multi_location"
+                            />
                         </group>
                         <group>
                             <field name="date_start"/>
@@ -59,18 +87,47 @@
             <search string="Search Resource Allocation">
                 <field name="resource_id" string="Resource"/>
                 <field name="partner_id" string="Partner"/>
-                <field name="location" string="location" groups="resource_planning.group_multi_location"/>
-                <filter string="Option" name="option" domain="[('state','=','option')]"/>
-                <filter string="Booked" name="booked" domain="[('state','=','booked')]"/>
-                <filter string="Maintenance" name="maintenance" domain="[('state','=','maintenance')]"/>
+                <field
+                    name="location"
+                    string="location"
+                    groups="resource_planning.group_multi_location"
+                />
+                <filter
+                    string="Option"
+                    name="option"
+                    domain="[('state','=','option')]"
+                />
+                <filter
+                    string="Booked"
+                    name="booked"
+                    domain="[('state','=','booked')]"
+                />
+                <filter
+                    string="Maintenance"
+                    name="maintenance"
+                    domain="[('state','=','maintenance')]"
+                />
                 <separator/>
-                <filter string="Currently" name="currently"
-                        domain="[('date_start','&lt;=', datetime.datetime.combine(context_today(), datetime.time(23, 59, 59))),
-                     ('date_end', '&gt;=', datetime.datetime.combine(context_today(), datetime.time(0, 0, 0)))]"/>
+                <filter
+                    string="Currently"
+                    name="currently"
+                    domain="[('date_start','&lt;=', datetime.datetime.combine(context_today(), datetime.time(23, 59, 59))),
+                     ('date_end', '&gt;=', datetime.datetime.combine(context_today(), datetime.time(0, 0, 0)))]"
+                />
                 <separator/>
                 <group string="Group By...">
-                    <filter string="Resource" domain="[]" context="{'group_by':'resource_id'}"/>
-                    <filter string="Resource Category" domain="[]" context="{'group_by':'resource_category_id'}"/>
+                    <filter
+                        name="resource_group"
+                        string="Resource"
+                        domain="[]"
+                        context="{'group_by':'resource_id'}"
+                    />
+                    <filter
+                        name="resource_category_group"
+                        string="Resource Category"
+                        domain="[]"
+                        context="{'group_by':'resource_category_id'}"
+                    />
                 </group>
             </search>
         </field>
@@ -79,11 +136,14 @@
     <record id="view_resource_allocation_gantt" model="ir.ui.view">
         <field name="name">resource.allocation.gantt</field>
         <field name="model">resource.allocation</field>
-        <field name="type">gantt8</field>
         <field name="arch" type="xml">
-            <gantt8 editable="False" date_start="date_start" date_stop="date_end" string="Allocations"
-                    default_group_by="serial_number">
-            </gantt8>
+            <gantt date_start="date_start"
+                   date_stop="date_end"
+                   string="Allocations"
+                   default_group_by="serial_number">
+            </gantt>
         </field>
     </record>
+
+
 </odoo>

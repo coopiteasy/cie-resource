@@ -1,12 +1,13 @@
 # Copyright 2018 Coop IT Easy SCRLfs.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 
 
 class ResourceLocation(models.Model):
     _name = "resource.location"
     _inherit = "mail.thread"
+    _description = "Resource Location"
 
     @api.multi
     @api.depends("resources")
@@ -25,15 +26,18 @@ class ResourceLocation(models.Model):
         "res.partner.bank", string="Bank Account"
     )
     customers = fields.One2many(
-        "res.partner",
-        "resource_location",
+        comodel_name="res.partner",
+        inverse_name="resource_location",
         domain=[("customer", "=", True)],
         string="Customers",
     )
     resources = fields.One2many(
-        "resource.resource", "location", string="Resources"
-    )
-    users = fields.One2many("res.users", "resource_location", string="Users")
+        comodel_name="resource.resource",
+        inverse_name="location",
+        string="Resources")
+    users = fields.One2many(
+        comodel_name="res.users",
+        inverse_name="resource_location", string="Users")
     resource_categories = fields.Many2many(
         comodel_name="resource.category",
         string="Available Categories",

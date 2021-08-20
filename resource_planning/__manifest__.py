@@ -2,33 +2,33 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 {
     "name": "Resource Planning",
-    "version": "11.0.1.0.0",
+    "version": "12.0.1.0.0",
     "depends": [
         "base",
         "mail",
         "resource",
-        "web_gantt8",
     ],
-    "author": "Houssine BAKKALI <houssine@coopiteasy.be>",
+    "author": "Coop IT Easy SCRLfs",
     "category": "Resource",
-    "website": "www.coopiteasy.be",
+    "website": "https://github.com/OCA/sale-workflow",
     "license": "AGPL-3",
-    "description": """
-    This module manages the planning of the resources. It aims to provide an api in
-    in order to be able to tie a resource with any other model.
+    "summary": """
+    This module manages the planning of the resources (reservation, booking, ...).
+    It provides an api in order to tie a resource with any other model.
     """,
     "data": [
         "data/resource_planning_data.xml",
         "security/resource_planning_security.xml",
         "security/ir.model.access.csv",
         "wizard/allocate_resource_wizard.xml",
-        "wizard/check_resource_availabilities_wizard.xml",
-        "views/partner_views.xml",
         "views/res_config_views.xml",
+        "views/res_partner_views.xml",
+        "views/res_users_views.xml",
         "views/resource_allocation_views.xml",
         "views/resource_category_views.xml",
         "views/resource_location_views.xml",
         "views/resource_resource_views.xml",
+        "wizard/check_resource_availabilities_wizard.xml",
         "views/actions.xml",
         "views/menus.xml",
     ],

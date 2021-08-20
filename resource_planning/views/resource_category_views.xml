@@ -36,7 +36,6 @@
                             <field name="resources">
                                 <tree delete="false" create="false">
                                     <field name="name"/>
-                                    <field name="code"/>
                                     <field name="resource_type"/>
                                     <field name="state"/>
                                 </tree>
@@ -51,4 +50,6 @@
             </form>
         </field>
     </record>
+
+
 </odoo>

@@ -1,11 +1,11 @@
 # Copyright 2018 Coop IT Easy SCRLfs.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from openerp import _, api, fields, models
-from openerp.exceptions import ValidationError
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
 
 
-class Resource(models.Model):
+class ResourceResource(models.Model):
     _name = "resource.resource"
     _inherit = ["resource.resource", "mail.thread"]
 
@@ -37,7 +37,7 @@ class Resource(models.Model):
     )
     serial_number = fields.Char(string="ID number")
     location = fields.Many2one(
-        "resource.location",
+        comodel_name="resource.location",
         string="Location",
         default=_get_default_location,
         required=True,
@@ -68,15 +68,12 @@ class Resource(models.Model):
 
     def check_dates(self, date_start, date_end):
         if not date_start or not date_end:
-            raise ValidationError(
-                _("Error. Date start or date end aren't set")
-            )
+            raise ValidationError(_("Error. Date start or date end aren't set"))
         elif date_end < date_start:
             raise ValidationError(
                 _(
-                    "Error. End date is preceding start "
-                    "date. Please choose an end date after a "
-                    "start date "
+                    "End date is preceding start date. Please "
+                    "choose an end date after a start date "
                 )
             )
 
@@ -91,7 +88,6 @@ class Resource(models.Model):
             )
         available_resources_ids = available_resources.ids
 
-        # assert start < end
         conflicting_allocation_domain = [
             ("resource_id", "in", available_resources_ids),
             ("state", "!=", "cancel"),
@@ -104,9 +100,7 @@ class Resource(models.Model):
         conflicting_allocations = self.env["resource.allocation"].search(
             conflicting_allocation_domain
         )
-        unavailable_resources_ids = conflicting_allocations.mapped(
-            "resource_id.id"
-        )
+        unavailable_resources_ids = conflicting_allocations.mapped("resource_id.id")
         for resource_id in unavailable_resources_ids:
             available_resources_ids.remove(resource_id)
         return available_resources_ids

@@ -4,7 +4,7 @@
 		<menuitem name="Resource Planning"
 				  id="menu_main_resource_planning"
 				  sequence="40"
-				  groups="group_resource_user,base.group_configuration"/>
+				  groups="group_resource_user"/>
 
 		<menuitem name="Resource"
 				  id="menu_main_resource"
@@ -15,7 +15,7 @@
 				  id="menu_resource_configuration"
 				  parent="menu_main_resource_planning"
 				  sequence="150"
-				  groups="group_resource_manager,base.group_configuration"/>
+				  groups="group_resource_manager"/>
 
 		<menuitem action="action_resource_resource_tree"
 				  id="menu_resource_resource"
@@ -56,7 +56,7 @@
 				  parent="menu_resource_configuration"
 				  sequence="10"
 				  action="action_resource_config"
-				  groups="base.group_configuration"/>
+				  groups="group_resource_manager"/>
 
 		<menuitem action="action_resource_category"
 				  id="resource_category_menu"

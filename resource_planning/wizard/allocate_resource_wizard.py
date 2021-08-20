@@ -1,16 +1,20 @@
 # Copyright 2018 Coop IT Easy SCRLfs.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import api, fields, models, _
-from odoo.exceptions import ValidationError, UserError
+from odoo import api, fields, models
+from odoo.exceptions import ValidationError
 
 
 class AllocateResourceWizard(models.TransientModel):
     _name = "allocate.resource.wizard"
+    _description = "Allocate Resource Wizard"
 
     date_start = fields.Datetime(string="Date Start", required=True)
-    date_end = fields.Datetime(string="Date end", required=True)
-    resources = fields.Many2many("resource.resource", string="Resources")
+    date_end = fields.Datetime(string="Date End", required=True)
+    resources = fields.Many2many(
+        comodel_name="resource.resource",
+        string="Resources"
+    )
     allocation_type = fields.Selection(
         [
             ("booked", "Book"),
@@ -27,15 +31,15 @@ class AllocateResourceWizard(models.TransientModel):
         required=True,
     )
     resource_category_id = fields.Many2one(
-        "resource.category", string="Resource Category"
+        comodel_name="resource.category", string="Resource Category"
     )
     checked_resources = fields.Boolean(string="Checked resources")
-    partner_id = fields.Many2one(
-        "res.partner", string="Allocate to", required=True
-    )
-    date_lock = fields.Date(string="Date lock")
+    partner_id = fields.Many2one(comodel_name="res.partner", string="Allocate to", required=True)
+    date_lock = fields.Date(string="Date Lock")
     display_error = fields.Boolean(string="Display error")
-    location = fields.Many2one("resource.location", string="Location")
+    location = fields.Many2one(
+        comodel_name="resource.location",
+        string="Location")
 
     @api.model
     def default_get(self, fields):
