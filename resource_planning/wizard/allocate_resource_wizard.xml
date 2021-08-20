@@ -1,6 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright 2021 Coop IT Easy
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
 <odoo>
 	<data>
-		
 		<record id="view_allocate_resource_wizard" model="ir.ui.view">
             <field name="name">Allocate resources</field>
             <field name="model">allocate.resource.wizard</field>
@@ -42,7 +46,7 @@
                 </form>
             </field>
         </record>
-        
+
         <record id="action_view_allocate_resource" model="ir.actions.act_window">
             <field name="name">Allocate Resource</field>
             <field name="type">ir.actions.act_window</field>
@@ -50,16 +54,8 @@
             <field name="view_type">form</field>
             <field name="view_mode">form</field>
             <field name="target">new</field>
+            <field name="binding_model_id" ref="model_resource_resource"/>
         </record>
 
-        <!-- TODO: check if we need this -->
-        <record model="ir.values" id="allocate_resource">
-            <field name="model_id" ref="resource.model_resource_resource" />
-            <field name="name">Allocate Resources</field>
-            <field name="key2">client_action_multi</field>
-            <field name="value" eval="'ir.actions.act_window,' + str(ref('action_view_allocate_resource'))" />
-            <field name="key">action</field>
-            <field name="model">resource.resource</field>
-        </record>
 	</data>
 </odoo>
