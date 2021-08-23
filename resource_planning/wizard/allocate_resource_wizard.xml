@@ -48,15 +48,17 @@
                     </page>
                 </notebook>
                 <footer>
-                    <field name="checked_resources" invisible="1"/>
-                    <label for="checked_resources"
-                           string="Search Resources"
-                           class="btn btn-primary"
-                           style="margin-right: 10px"/>
-                    <field name="checked_resources" invisible="1"/>
+                    <field name="booking_allowed" invisible="1"/>
+                    <button
+                        name="search_resources"
+                        attrs="{'invisible':[('booking_allowed','=',True)]}"
+                        string="Search resources"
+                        type="object"
+                        class="btn-primary"
+                    />
                     <button
                         name="book_resource"
-                        attrs="{'invisible':[('checked_resources','=',False)]}"
+                        attrs="{'invisible':[('booking_allowed','=',False)]}"
                         string="Book resources"
                         type="object"
                         class="btn-primary"
