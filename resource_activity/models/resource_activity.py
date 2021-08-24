@@ -6,9 +6,9 @@ from datetime import datetime, timedelta
 
 import pytz
 
-from openerp import _, api, fields, models
-from openerp.exceptions import ValidationError, UserError
-from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT as DTF
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError, UserError
+from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT as DTF
 
 OrderLine = namedtuple(
     "OrderLine", ["partner", "product", "qty", "type", "registration"]
