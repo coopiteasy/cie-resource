@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 import pytz
 
 from odoo import _, api, fields, models
-from odoo.exceptions import ValidationError, UserError
+from odoo.exceptions import UserError, ValidationError
 
 OrderLine = namedtuple(
     "OrderLine", ["partner", "product", "qty", "type", "registration"]
@@ -29,9 +29,7 @@ class ResourceActivity(models.Model):
                 registrations_need_push = any(
                     activity.registrations.mapped("need_push")
                 )
-                activity.need_push = (
-                    activity.need_push or registrations_need_push
-                )
+                activity.need_push = activity.need_push or registrations_need_push
         return
 
     @api.multi
@@ -49,15 +47,6 @@ class ResourceActivity(models.Model):
                 if res_ids:
                     booked_resources = booked_resources + res_ids
             activity.booked_resources = booked_resources
-
-    @api.multi
-    def _compute_sale_orders(self):
-        for activity in self:
-            activity.sale_orders = (
-                self.env["sale.order"]
-                .search([("activity_id", "=", activity.id)])
-                .ids
-            )
 
     @api.multi
     @api.depends("date_start")
@@ -103,9 +92,7 @@ class ResourceActivity(models.Model):
     )
     date_start = fields.Datetime(string="Date start", required=True)
     date_end = fields.Datetime(string="Date end", required=True)
-    duration = fields.Char(
-        string="Duration", compute="_compute_duration", store=True
-    )
+    duration = fields.Char(string="Duration", compute="_compute_duration", store=True)
     registrations = fields.One2many(
         "resource.activity.registration",
         "resource_activity_id",
@@ -158,16 +145,12 @@ class ResourceActivity(models.Model):
         domain=[("is_trainer", "=", True)],
     )
     langs = fields.Many2many("resource.activity.lang", string="Langs")
-    activity_theme = fields.Many2one(
-        "resource.activity.theme", string="Activity theme"
-    )
+    activity_theme = fields.Many2one("resource.activity.theme", string="Activity theme")
     need_participation = fields.Boolean(string="Need participation?")
     set_allocation_span = fields.Boolean(
         string="Set Allocation Span Manually", default=False
     )
-    resource_allocation_start = fields.Datetime(
-        string="Resource Allocation Start"
-    )
+    resource_allocation_start = fields.Datetime(string="Resource Allocation Start")
     resource_allocation_end = fields.Datetime(string="Resource Allocation End")
     registrations_max = fields.Integer(string="Maximum registration")
     registrations_min = fields.Integer(string="Minimum registration")
@@ -207,7 +190,9 @@ class ResourceActivity(models.Model):
         compute="_compute_booked_resources",
     )
     sale_orders = fields.One2many(
-        "sale.order", string="Sale orders", compute="_compute_sale_orders"
+        comodel_name="sale.order",
+        inverse_name="activity_id",
+        string="Sale Orders",
     )
 
     available_category_ids = fields.One2many(
@@ -219,17 +204,11 @@ class ResourceActivity(models.Model):
     )
 
     @api.multi
-    @api.depends(
-        "date_start", "date_end", "location_id", "registrations.state"
-    )
+    @api.depends("date_start", "date_end", "location_id", "registrations.state")
     def _compute_available_categories(self):
         for activity in self:
             activity.available_category_ids = [(5, 0, 0)]  # reset field
-            if (
-                activity.date_start
-                and activity.date_end
-                and activity.location_id
-            ):
+            if activity.date_start and activity.date_end and activity.location_id:
                 available_categories = self.env[
                     "resource.category"
                 ].get_available_categories(
@@ -268,18 +247,12 @@ class ResourceActivity(models.Model):
 
     def _localize(self, date):
         """localizes datetimes received from interface"""
-        tz = (
-            pytz.timezone(self._context["tz"])
-            if self._context["tz"]
-            else pytz.utc
-        )
+        tz = pytz.timezone(self._context["tz"]) if self._context["tz"] else pytz.utc
         return pytz.utc.localize(date).astimezone(tz)
 
     def _trunc_day(self, datetime_):
         datetime_ = self._localize(datetime_)
-        datetime_ = datetime_.replace(
-            hour=0, minute=0, second=0, microsecond=0
-        )
+        datetime_ = datetime_.replace(hour=0, minute=0, second=0, microsecond=0)
         return datetime_.astimezone(pytz.utc)
 
     @api.onchange(
@@ -308,13 +281,14 @@ class ResourceActivity(models.Model):
         if self.date_end:
             self.resource_allocation_end = self.date_end
 
-    @api.one
+    @api.multi
     @api.constrains("date_start", "date_end")
     def _check_date(self):
-        if self.date_end < self.date_start:
-            raise ValidationError(_("Date end can't be before date start:"))
+        for activity in self:
+            if activity.date_end < activity.date_start:
+                raise ValidationError(_("Date end can't be before date start:"))
 
-    @api.one
+    @api.multi
     @api.constrains(
         "date_start",
         "date_end",
@@ -322,29 +296,26 @@ class ResourceActivity(models.Model):
         "resource_allocation_end",
     )
     def _check_booked_resources_blocks_dates(self):
-        if self.booked_resources:
-            raise ValidationError(
-                _(
-                    "You cannot modify activity dates, resource allocation dates "
-                    "when a resource is already booked. "
-                    "You must either delete this activity and create a new one or "
-                    "release all booked resources for this activity."
+        for activity in self:
+            if activity.booked_resources:
+                raise ValidationError(
+                    _(
+                        "You cannot modify activity dates, resource allocation dates "
+                        "when a resource is already booked. "
+                        "You must either delete this activity and create a new one or "
+                        "release all booked resources for this activity."
+                    )
                 )
-            )
 
     @api.multi
-    @api.depends(
-        "registrations_max", "registrations.state", "registrations.quantity"
-    )
+    @api.depends("registrations_max", "registrations.state", "registrations.quantity")
     def _compute_registrations(self):
         for activity in self:
             registrations = activity.registrations.filtered(
                 lambda record: record.state != "cancelled"
             )
 
-            activity.registrations_expected = sum(
-                registrations.mapped("quantity")
-            )
+            activity.registrations_expected = sum(registrations.mapped("quantity"))
             activity.without_resource_reg = sum(
                 map(
                     lambda reg: reg.quantity - reg.quantity_needed,
@@ -389,8 +360,7 @@ class ResourceActivity(models.Model):
 
     @api.multi
     def search_all_resources(self):
-        for activity in self:
-            activity.registrations.search_resources()
+        self.mapped("registrations").search_resources()
 
     @api.multi
     def reserve_needed_resource(self):
@@ -555,38 +525,36 @@ class ResourceActivity(models.Model):
 
             order_lines = self._prepare_lines()
             if not order_lines:
-                raise ValidationError(
-                    _("Nothing to invoice on this activity.")
-                )
+                raise ValidationError(_("Nothing to invoice on this activity."))
 
             sale_orders = self._prepare_sale_orders(activity)
 
-            partners = set(ol.partner for ol in order_lines)
+            partners = {ol.partner for ol in order_lines}
             for partner in partners:
                 order_id = sale_orders[partner]
 
-                partner_lines = [
-                    ol for ol in order_lines if ol.partner == partner
-                ]
-                products = set(ol.product for ol in partner_lines)
+                partner_lines = [ol for ol in order_lines if ol.partner == partner]
+                products = {ol.product for ol in partner_lines}
 
                 for product in sorted(products, key=lambda p: p.name):
                     product_lines = [
                         ol for ol in partner_lines if ol.product == product
                     ]
                     qty = sum(pl.qty for pl in product_lines)
-                    type = product_lines.pop().type
+                    type_ = product_lines.pop().type
 
                     self._create_order_line(
                         order_id,
-                        type,
+                        type_,
                         product,
                         qty,
                     )
 
-            for pl in partner_lines:
-                if pl.registration:
-                    pl.registration.write({"sale_order_id": order_id.id})
+                # todo can't be none because of constraints
+                #  but still not clean
+                for pl in partner_lines:
+                    if pl.registration:
+                        pl.registration.sale_order_id = order_id.id
 
     @api.multi
     def action_quotation(self):
@@ -664,9 +632,7 @@ class ResourceActivity(models.Model):
             registration.product_id,
         )
 
-    def update_participation_line(
-        self, activity, sale_order_id, nb_registrations
-    ):
+    def update_participation_line(self, activity, sale_order_id, nb_registrations):
         participation_line = sale_order_id.order_line.filtered(
             lambda record: record.participation_line
         )
@@ -717,9 +683,7 @@ class ResourceActivity(models.Model):
     def write(self, vals):
         for activity in self:
             if activity.sale_orders:
-                if "need_participation" in vals and not vals.get(
-                    "need_participation"
-                ):
+                if "need_participation" in vals and not vals.get("need_participation"):
                     # reset participation fields
                     # I (Robin) think this should be removed
                     vals["need_participation"] = False

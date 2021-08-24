@@ -1,7 +1,8 @@
 # Copyright 2018 Coop IT Easy SCRLfs.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
-from odoo import api, fields, models
 import logging
+
+from odoo import api, fields, models
 
 _logger = logging.getLogger(__name__)
 
@@ -11,9 +12,7 @@ class ResourceAvailable(models.Model):
     _description = "Resource Available"
 
     name = fields.Char(related="resource_id.serial_number", string="Name")
-    resource_id = fields.Many2one(
-        "resource.resource", string="Resource", required=True
-    )
+    resource_id = fields.Many2one("resource.resource", string="Resource", required=True)
     registration_id = fields.Many2one(
         "resource.activity.registration", string="Registration"
     )
@@ -35,9 +34,7 @@ class ResourceAvailable(models.Model):
 
     @api.multi
     def action_reserve(self):
-        for resource_available in self.filtered(
-            lambda record: record.state == "free"
-        ):
+        for resource_available in self.filtered(lambda record: record.state == "free"):
             # todo pass registration / delegate to registration
             allocation_ids = resource_available.resource_id.allocate_resource(
                 resource_available.registration_id.booking_type,
@@ -48,13 +45,9 @@ class ResourceAvailable(models.Model):
                 resource_available.registration_id.date_lock,
             )
             if allocation_ids:
-                allocations = self.env["resource.allocation"].browse(
-                    allocation_ids
-                )
+                allocations = self.env["resource.allocation"].browse(allocation_ids)
                 allocations.write(
-                    {
-                        "activity_registration_id": resource_available.registration_id.id
-                    }
+                    {"activity_registration_id": resource_available.registration_id.id}
                 )
                 resource_available.state = "selected"
                 # resource_available.registration_id.quantity_allocated += 1  # mark
@@ -62,9 +55,9 @@ class ResourceAvailable(models.Model):
                     resource_available.registration_id.booking_type
                 )
             else:
-                _logger.info("no resource found for : " + str(
-                    resource_available.resource_id.ids
-                ))
+                _logger.info(
+                    "no resource found for : " + str(resource_available.resource_id.ids)
+                )
             self.activity_id.registrations.action_refresh()
         return True
 

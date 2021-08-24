@@ -1,7 +1,7 @@
 # Copyright 2018 Coop IT Easy SCRLfs.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 from odoo import _, api, fields, models
-from odoo.exceptions import ValidationError, UserError
+from odoo.exceptions import UserError, ValidationError
 
 
 class ActivityRegistration(models.Model):
@@ -66,9 +66,7 @@ class ActivityRegistration(models.Model):
     def _compute_quantity_allocated(self):
         for registration in self:
             registration.quantity_allocated = len(
-                registration.allocations.filtered(
-                    lambda a: a.state != "cancel"
-                )
+                registration.allocations.filtered(lambda a: a.state != "cancel")
             )
 
     @api.multi
@@ -85,12 +83,8 @@ class ActivityRegistration(models.Model):
             elif registration.quantity_allocated == 0:
                 registration.state = "cancelled"
 
-    resource_activity_id = fields.Many2one(
-        "resource.activity", string="Activity"
-    )
-    order_line_id = fields.Many2one(
-        "sale.order.line", string="Sale order line"
-    )
+    resource_activity_id = fields.Many2one("resource.activity", string="Activity")
+    order_line_id = fields.Many2one("sale.order.line", string="Sale order line")
     partner_id = fields.Many2one(related="resource_activity_id.partner_id")
     attendee_id = fields.Many2one(
         "res.partner", string="Attendee", domain=[("customer", "=", True)]
@@ -151,9 +145,7 @@ class ActivityRegistration(models.Model):
     bring_bike = fields.Boolean(string="Bring his bike")
     registrations_max = fields.Integer(string="Maximum registration")
     registrations_expected = fields.Integer(string="Expected registration")
-    activity_type = fields.Many2one(
-        "resource.activity.type", string="Activity type"
-    )
+    activity_type = fields.Many2one("resource.activity.type", string="Activity type")
     need_push = fields.Boolean(
         string="Need to be pushed to sales order",
         compute="_compute_need_push",
@@ -164,9 +156,7 @@ class ActivityRegistration(models.Model):
         string="Available Categories",
         related="location_id.resource_categories",
     )
-    is_accessory_registration = fields.Boolean(
-        related="resource_category.is_accessory"
-    )
+    is_accessory_registration = fields.Boolean(related="resource_category.is_accessory")
 
     def create_resource_available(self, resource_ids, registration):
         for resource_id in resource_ids:
@@ -192,27 +182,24 @@ class ActivityRegistration(models.Model):
                 res_to_delete.unlink()
                 if registration.resource_category:
                     # we complete with the group resources
-                    cat_resource_ids = registration.resource_category.resources.check_availabilities(
-                        registration.date_start,
-                        registration.date_end,
-                        registration.location_id,
-                    )
-                    self.create_resource_available(
-                        cat_resource_ids, registration
-                    )
-
-                    if (
-                        len(
-                            registration.resources_available.filtered(
-                                lambda record: record.state != "cancelled"
-                            )
+                    cat_resource_ids = (
+                        registration.resource_category.resources.check_availabilities(
+                            registration.date_start,
+                            registration.date_end,
+                            registration.location_id,
                         )
-                        >= registration.quantity_needed
-                    ):
+                    )
+                    self.create_resource_available(cat_resource_ids, registration)
+
+                    available_resources = registration.resources_available.filtered(
+                        lambda record: record.state != "cancelled"
+                    )
+                    if len(available_resources) >= registration.quantity_needed:
                         registration.state = "available"
                     else:
                         registration.state = "waiting"
-                        self.env.cr.commit()
+                        # fixme create own cursor to persist waiting state
+                        self.env.cr.commit()  # pylint: disable=invalid-commit
                         raise UserError(
                             _("Not enough resource found for the registration")
                         )
@@ -247,16 +234,13 @@ class ActivityRegistration(models.Model):
                 )
                 for resource_available in free_resources:
                     if (
-                        registration.quantity_needed
-                        - registration.quantity_allocated
+                        registration.quantity_needed - registration.quantity_allocated
                         <= 0
                     ):
                         break
                     resource_available.action_reserve()
 
-                (
-                    registration.resource_activity_id.registrations.action_refresh()
-                )
+                (registration.resource_activity_id.registrations.action_refresh())
         return True
 
     @api.multi
@@ -301,13 +285,13 @@ class ActivityRegistration(models.Model):
     @api.depends("quantity", "quantity_allocated")
     def compute_state(self):
         for subscription in self:  # fixme
-            if self.quantity_allocated == self.quantity:
-                self.state = self.booking_type
+            if subscription.quantity_allocated == subscription.quantity:
+                subscription.state = subscription.booking_type
             elif (
-                self.state != "draft"
-                and self.quantity_allocated < self.quantity
+                subscription.state != "draft"
+                and subscription.quantity_allocated < subscription.quantity
             ):
-                self.state = "waiting"
+                subscription.state = "waiting"
 
     @api.multi
     def view_registration_form(self):
@@ -329,14 +313,15 @@ class ActivityRegistration(models.Model):
             "context": context,
         }
 
-    @api.model
-    def create(self, vals):
-        max_ = vals.get("registrations_max")
-        expected = vals.get("registrations_expected")
-        needed = vals.get("quantity_needed")
-        if 0 < max_ < expected + needed:
-            raise ValidationError(_("Maximum registration capacity reached"))
-        return super(ActivityRegistration, self).create(vals)
+    @api.multi
+    @api.constrains("registrations_max", "registrations_expected", "quantity_needed")
+    def _check_max_registrations(self):
+        for registration in self:
+            max_ = registration.registrations_max
+            expected_reg = registration.registrations_expected
+            needed_reg = registration.quantity_needed
+            if max_ and expected_reg + needed_reg > max_:
+                raise ValidationError(_("Maximum registration capacity reached"))
 
     @api.multi
     def write(self, vals):
@@ -351,7 +336,5 @@ class ActivityRegistration(models.Model):
                     + vals.get("quantity")
                 )
             ):
-                raise ValidationError(
-                    _("Maximum registration capacity reached")
-                )
+                raise ValidationError(_("Maximum registration capacity reached"))
         return super(ActivityRegistration, self).write(vals)

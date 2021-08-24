@@ -1,7 +1,7 @@
 # Copyright 2018 Coop IT Easy SCRLfs.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import api, fields, models, _
+from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 
@@ -10,7 +10,7 @@ class SaleOrder(models.Model):
 
     activity_sale = fields.Boolean(string="Activity Sale?")
     activity_id = fields.Many2one(
-        "resource.activity", string="Activity", readonly=True
+        comodel_name="resource.activity", string="Activity", readonly=True
     )
     location_id = fields.Many2one(
         related="activity_id.location_id", string="Location", readonly=True
@@ -30,9 +30,7 @@ class SaleOrder(models.Model):
     duration = fields.Char(
         related="activity_id.duration", string="Duration", readonly=True
     )
-    langs = fields.Many2many(
-        related="activity_id.langs", string="Langs", readonly=True
-    )
+    langs = fields.Many2many(related="activity_id.langs", string="Langs", readonly=True)
     registrations_expected = fields.Integer(
         related="activity_id.registrations_expected",
         string="Expected registrations",
@@ -132,6 +130,6 @@ class SaleOrderLine(models.Model):
             for field in onchange_fields:
                 if field not in values:
                     values[field] = line._fields[field].convert_to_write(
-                        line[field]
+                        line[field], line
                     )
             line.write(values)

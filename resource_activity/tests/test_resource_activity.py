@@ -2,13 +2,17 @@
 #   Robin Keunen <robin@coopiteasy.be>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
-from . import test_base
 from datetime import datetime, timedelta
+
+from . import test_base
 
 
 class TestResourceActivity(test_base.TestResourceActivityBase):
     def test_compute_available_resources(self):
         activity_obj = self.env["resource.activity"]
+        # todo test should not rely on resource allocation demo data
+        #   from other module. It should rely only on basic entity
+        #   demo data
         activity = activity_obj.create(
             {
                 "date_start": "2020-11-23 14:30",
@@ -17,7 +21,7 @@ class TestResourceActivity(test_base.TestResourceActivityBase):
                 "activity_type": self.activity_type.id,
             }
         )
-        self.assertEquals(len(activity.available_category_ids), 0)
+        self.assertEquals(len(activity.available_category_ids), 1)
 
         activity = activity_obj.create(
             {
@@ -28,10 +32,18 @@ class TestResourceActivity(test_base.TestResourceActivityBase):
             }
         )
         categories = {
-            av_categ.category_id.id: av_categ.nb_resources
+            av_categ.category_id: av_categ.nb_resources
             for av_categ in activity.available_category_ids
         }
-        self.assertEquals({1: 1, 2: 1}, categories)
+
+        self.assertEquals(
+            {
+                self.bike_category: 1,
+                self.ebike_category: 1,
+                self.mtb_category: 2,
+            },
+            categories,
+        )
 
         activity = activity_obj.create(
             {
@@ -42,10 +54,10 @@ class TestResourceActivity(test_base.TestResourceActivityBase):
             }
         )
         categories = {
-            av_categ.category_id.id: av_categ.nb_resources
+            av_categ.category_id: av_categ.nb_resources
             for av_categ in activity.available_category_ids
         }
-        self.assertEquals({1: 2}, categories)
+        self.assertEquals({self.bike_category: 2, self.mtb_category: 2}, categories)
 
         activity = activity_obj.create(
             {
@@ -56,10 +68,17 @@ class TestResourceActivity(test_base.TestResourceActivityBase):
             }
         )
         categories = {
-            av_categ.category_id.id: av_categ.nb_resources
+            av_categ.category_id: av_categ.nb_resources
             for av_categ in activity.available_category_ids
         }
-        self.assertEquals({1: 2, 2: 1}, categories)
+        self.assertEquals(
+            {
+                self.bike_category: 2,
+                self.ebike_category: 1,
+                self.mtb_category: 2,
+            },
+            categories,
+        )
 
     def test_activity_w_booked_resources(self):
         date_start = datetime.now()
@@ -70,7 +89,7 @@ class TestResourceActivity(test_base.TestResourceActivityBase):
             "quantity": 2,
             "quantity_needed": 2,
             "booking_type": "booked",
-            "resource_category": self.bike_category.id,
+            "resource_category": self.mtb_category.id,
             "product_id": self.bike_product.id,
         }
         activity = self.env["resource.activity"].create(
@@ -93,4 +112,4 @@ class TestResourceActivity(test_base.TestResourceActivityBase):
         activity.create_sale_order()
         sale_order = activity.sale_orders
         self.assertEquals(len(sale_order.order_line), 1)
-        self.assertEquals(activity.sale_orders.amount_total, 115)
+        self.assertEquals(activity.sale_orders.amount_total, 100)
