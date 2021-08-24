@@ -7,13 +7,15 @@
             <field name="model">sale.order</field>
             <field name="inherit_id" ref="sale.view_order_form"/>
             <field name="arch" type="xml">
-                <field name="project_id" position="after">
-                    <field name="activity_sale"/>
-                    <field name="activity_id" attrs="{'invisible':[('activity_sale','=',False)]}"/>
-                    <field name="date_start" attrs="{'invisible':[('activity_sale','=',False)]}"/>
-                    <field name="date_end" attrs="{'invisible':[('activity_sale','=',False)]}"/>
-                    <field name="location_id" attrs="{'invisible':[('activity_sale','=',False)]}"/>
-                </field>
+                <xpath expr="//field[@name='payment_term_id']/.." position="after">
+                    <group>
+                        <field name="activity_sale"/>
+                        <field name="activity_id" attrs="{'invisible':[('activity_sale','=',False)]}"/>
+                        <field name="date_start" attrs="{'invisible':[('activity_sale','=',False)]}"/>
+                        <field name="date_end" attrs="{'invisible':[('activity_sale','=',False)]}"/>
+                        <field name="location_id" attrs="{'invisible':[('activity_sale','=',False)]}"/>
+                    </group>
+                </xpath>
 
                 <group name="technical" position="after">
                     <group name="activity" string="Activity" attrs="{'invisible':[('activity_sale','=',False)]}">
@@ -25,7 +27,7 @@
                         <field name="registrations_expected"/>
                         <field name="activity_type"/>
                         <field name="activity_theme"/>
-                        </group>
+                    </group>
                     <group colspan="4">
                         <field name="booked_resources"/>
                     </group>

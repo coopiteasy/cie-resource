@@ -7,9 +7,8 @@
             <field name="interval_type">days</field>
             <field name="numbercall">-1</field>
             <field name="doall" eval="True"/>
-            <field name="model">product.product</field>
-            <field name="function">compute_registration_counter</field>
-            <field name="args">()</field>
+            <field name="model_id" ref="product.model_product_product"/>
+            <field name="code">model.compute_registration_counter()</field>
             <field name="active" eval="True"/>
         </record>
 
@@ -19,23 +18,9 @@
             <field name="interval_type">days</field>
             <field name="numbercall">-1</field>
             <field name="doall" eval="True"/>
-            <field name="model">resource.category.available</field>
-            <field name="function">garbage_collect</field>
-            <field name="args">()</field>
+            <field name="model_id" ref="resource_activity.model_resource_category_available"/>
+            <field name="code">model.garbage_collect()</field>
             <field name="active" eval="True"/>
-        </record>
-
-        <!-- todo remove at migration -->
-        <record id="ir_cron_init_sale_term_notes" model="ir.cron">
-            <field name="name">Inititialize Sale Term Notes</field>
-            <field name="interval_number">360</field>
-            <field name="interval_type">days</field>
-            <field name="numbercall">-1</field>
-            <field name="doall" eval="False"/>
-            <field name="model">sale.order</field>
-            <field name="function">cron_init_note_html</field>
-            <field name="args">()</field>
-            <field name="active" eval="False"/>
         </record>
     </data>
 </odoo>

@@ -7,17 +7,10 @@ import pytz
 
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError, UserError
-from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT as DTF
 
 OrderLine = namedtuple(
     "OrderLine", ["partner", "product", "qty", "type", "registration"]
 )
-
-
-# fixme use Datetime.from_string
-def _pd(dt):
-    """parse datetime"""
-    return datetime.strptime(dt, DTF) if dt else dt
 
 
 class ResourceActivity(models.Model):
@@ -273,6 +266,7 @@ class ResourceActivity(models.Model):
             self.date_lock = None
 
     def _localize(self, date):
+        """localizes datetimes received from interface"""
         tz = (
             pytz.timezone(self._context["tz"])
             if self._context["tz"]
@@ -281,7 +275,7 @@ class ResourceActivity(models.Model):
         return pytz.utc.localize(date).astimezone(tz)
 
     def _trunc_day(self, datetime_):
-        datetime_ = self._localize(_pd(datetime_))
+        datetime_ = self._localize(datetime_)
         datetime_ = datetime_.replace(
             hour=0, minute=0, second=0, microsecond=0
         )
@@ -373,12 +367,10 @@ class ResourceActivity(models.Model):
                 and activity.date_start < activity.date_end
             ):
 
-                datetime_end = datetime.strptime(activity.date_end, DTF)
-                datetime_start = datetime.strptime(activity.date_start, DTF)
-                date_end = datetime_end.date()
-                date_start = datetime_start.date()
+                date_end = activity.date_end.date()
+                date_start = activity.date_start.date()
 
-                delta_time = datetime_end - datetime_start
+                delta_time = activity.date_end - activity.date_start
 
                 if date_end > date_start:
                     delta = date_end - date_start
