@@ -8,7 +8,7 @@
         </xpath>
     </template>
 
-    <template id="report.external_layout">
+    <template id="web.external_layout">
         <t t-if="not o and doc">
             <t t-set="o" t-value="doc"/>
         </t>
@@ -24,12 +24,12 @@
         </t>
         <!-- override ends here -->
 
-        <t t-call="report.external_layout_header"/>
+        <t t-call="web.external_layout_header"/>
         <t t-raw="0"/>
         <t t-call="resource_activity.external_layout_footer"/>
     </template>
 
-    <template id="extend_external_layout_header" inherit_id="report.external_layout_header">
+    <template id="extend_external_layout_header" inherit_id="web.external_layout_header">
         <xpath expr="//div[@name='company_address']" position="replace">
             <div class="col-xs-5" name="company_address">
                 <div t-if="location.address">

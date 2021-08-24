@@ -1,7 +1,9 @@
-# -*- coding: utf-8 -*-
 # Copyright 2018 Coop IT Easy SCRLfs.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 from odoo import api, fields, models
+import logging
+
+_logger = logging.getLogger(__name__)
 
 
 class ResourceAvailable(models.Model):
@@ -35,6 +37,7 @@ class ResourceAvailable(models.Model):
         for resource_available in self.filtered(
             lambda record: record.state == "free"
         ):
+            # todo pass registration / delegate to registration
             allocation_ids = resource_available.resource_id.allocate_resource(
                 resource_available.registration_id.booking_type,
                 resource_available.registration_id.date_start,
@@ -58,9 +61,9 @@ class ResourceAvailable(models.Model):
                     resource_available.registration_id.booking_type
                 )
             else:
-                print "no resource found for : " + str(
+                _logger.info("no resource found for : " + str(
                     resource_available.resource_id.ids
-                )
+                ))
             self.activity_id.registrations.action_refresh()
         return True
 
