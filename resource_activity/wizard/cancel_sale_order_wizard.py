@@ -1,9 +1,13 @@
-from odoo import api, fields, models, _
-from odoo.exceptions import ValidationError, UserError
+# Copyright 2021 Coop IT Easy SCRL fs
+#   Robin Keunen <robin@coopiteasy.be>
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
+
+from odoo import api, models
 
 
 class CancelSaleOrderWizard(models.TransientModel):
     _name = "cancel.sale.order.wizard"
+    _description = "Cancel Sale Order Wizard"
 
     @api.multi
     def cancel_sale_order(self):

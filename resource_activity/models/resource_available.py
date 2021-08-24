@@ -8,6 +8,7 @@ _logger = logging.getLogger(__name__)
 
 class ResourceAvailable(models.Model):
     _name = "resource.available"
+    _description = "Resource Available"
 
     name = fields.Char(related="resource_id.serial_number", string="Name")
     resource_id = fields.Many2one(

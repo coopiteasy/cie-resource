@@ -13,6 +13,8 @@ class ResourceCategory(models.Model):
 
 class ResourceCategoryAvailable(models.Model):
     _name = "resource.category.available"
+    _description = "Resource Category Available"
+
     activity_id = fields.Many2one(
         comodel_name="resource.activity", string="Activity"
     )

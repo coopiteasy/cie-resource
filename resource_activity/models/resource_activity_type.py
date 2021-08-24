@@ -6,6 +6,7 @@ from odoo import fields, models
 
 class ResourceActivityType(models.Model):
     _name = "resource.activity.type"
+    _description = "Resource Type"
 
     name = fields.Char(
         string="Type",

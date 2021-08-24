@@ -6,6 +6,7 @@ from odoo.exceptions import ValidationError, UserError
 
 class ActivityRegistration(models.Model):
     _name = "resource.activity.registration"
+    _description = "Resource Activity Registration"
 
     def _get_activity_booking_type(self):
         if self.resource_activity_id.booking_type:

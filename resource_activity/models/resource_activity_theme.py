@@ -6,6 +6,7 @@ from odoo import fields, models
 
 class ResourceActivityTheme(models.Model):
     _name = "resource.activity.theme"
+    _description = "Resource Theme"
 
     name = fields.Char(
         string="Type",

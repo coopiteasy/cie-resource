@@ -16,6 +16,7 @@ OrderLine = namedtuple(
 class ResourceActivity(models.Model):
     _name = "resource.activity"
     _inherit = ["mail.thread"]
+    _description = "Resource Activity"
     _order = "date_start"
 
     @api.multi

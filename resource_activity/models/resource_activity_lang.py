@@ -6,6 +6,7 @@ from odoo import fields, models
 
 class ResourceActivityLang(models.Model):
     _name = "resource.activity.lang"
+    _description = "Resource Language"
 
     name = fields.Char(
         string="Lang",
