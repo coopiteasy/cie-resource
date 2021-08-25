@@ -194,7 +194,7 @@
                                     <tree editable="bottom" delete="false">
                                         <button
                                             type="object"
-                                            icon="STOCK_FIND"
+                                            icon="fa-external-link"
                                             name="view_registration_form"
                                         />
                                         <field name="partner_id" invisible="True" />
@@ -259,14 +259,14 @@
                                             name="search_resources"
                                             states="draft,waiting"
                                             help="Search resources"
-                                            icon="gtk-apply"
+                                            icon="fa-search"
                                         />
                                         <button
                                             type="object"
                                             name="action_cancel"
                                             states="draft,booked,option,waiting,available"
                                             help="Cancel"
-                                            icon="gtk-cancel"
+                                            icon="fa-ban"
                                             confirm="Are you sure you want to cancel this registration?"
                                         />
                                         <button
@@ -274,14 +274,14 @@
                                             name="action_draft"
                                             states="cancelled"
                                             help="Set to draft"
-                                            icon="gtk-undo"
+                                            icon="fa-undo"
                                         />
                                         <button
                                             type="object"
                                             name="action_unlink"
                                             states="draft,cancelled"
                                             help="Delete"
-                                            icon="gtk-clear"
+                                            icon="fa-trash"
                                             confirm="Are you sure you want to delete this registration?"
                                         />
                                     </tree>
@@ -320,7 +320,7 @@
                                             type="object"
                                             name="action_open_sale_order"
                                             help="Open Sale Order"
-                                            icon="gtk-open"
+                                            icon="fa-external-link"
                                         />
                                         <field name="name" />
                                         <field name="date_order" />
