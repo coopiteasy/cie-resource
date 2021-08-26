@@ -1,51 +1,81 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <!--
      Copyright 2020 Coop IT Easy
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 <odoo>
 
-    <menuitem name="Activities" id="menu_resource_activity"
-              parent="resource_planning.menu_main_resource_planning"
-              sequence="5"/>
+    <menuitem
+        name="Activities"
+        id="menu_resource_activity"
+        parent="resource_planning.menu_main_resource_planning"
+        sequence="5"
+    />
 
-    <menuitem action="action_resource_activity" id="resource_activity_menu"
-              parent="menu_resource_activity"
-              sequence="10"/>
+    <menuitem
+        action="action_resource_activity"
+        id="resource_activity_menu"
+        parent="menu_resource_activity"
+        sequence="10"
+    />
 
-    <menuitem id="menu_partner_activity" name="Contacts"
-              parent="menu_resource_activity"
-              action="action_partner_activity_tree" sequence="20"/>
+    <menuitem
+        id="menu_partner_activity"
+        name="Contacts"
+        parent="menu_resource_activity"
+        action="action_partner_activity_tree"
+        sequence="20"
+    />
 
 
-    <menuitem name="Sales" id="menu_sale_activity"
-              parent="resource_planning.menu_main_resource_planning"
-              sequence="30"/>
+    <menuitem
+        name="Sales"
+        id="menu_sale_activity"
+        parent="resource_planning.menu_main_resource_planning"
+        sequence="30"
+    />
 
-    <menuitem action="sale.action_quotations" id="resource_quotation_menu"
-              parent="menu_sale_activity" sequence="10"
-              groups="sales_team.group_sale_salesman,sales_team.group_sale_manager"/>
+    <menuitem
+        action="sale.action_quotations"
+        id="resource_quotation_menu"
+        parent="menu_sale_activity"
+        sequence="10"
+        groups="sales_team.group_sale_salesman,sales_team.group_sale_manager"
+    />
 
-    <menuitem action="sale.action_orders" id="resource_sale_order_menu"
-              parent="menu_sale_activity" sequence="15"
-              groups="sales_team.group_sale_salesman,sales_team.group_sale_manager"/>
+    <menuitem
+        action="sale.action_orders"
+        id="resource_sale_order_menu"
+        parent="menu_sale_activity"
+        sequence="15"
+        groups="sales_team.group_sale_salesman,sales_team.group_sale_manager"
+    />
 
-    <menuitem id="activity_configuration_menu" name="Activities"
-              parent="resource_planning.menu_resource_configuration"
-              sequence="40"/>
+    <menuitem
+        id="activity_configuration_menu"
+        name="Activities"
+        parent="resource_planning.menu_resource_configuration"
+        sequence="40"
+    />
 
-    <menuitem action="action_resource_activity_type"
-              id="resource_activity_type_menu"
-              parent="activity_configuration_menu"
-              sequence="70"/>
+    <menuitem
+        action="action_resource_activity_type"
+        id="resource_activity_type_menu"
+        parent="activity_configuration_menu"
+        sequence="70"
+    />
 
-    <menuitem action="action_resource_activity_theme"
-              id="resource_activity_theme_menu"
-              parent="activity_configuration_menu"
-              sequence="90"/>
+    <menuitem
+        action="action_resource_activity_theme"
+        id="resource_activity_theme_menu"
+        parent="activity_configuration_menu"
+        sequence="90"
+    />
 
-    <menuitem action="action_resource_activity_lang"
-              id="resource_activity_lang_menu"
-              parent="activity_configuration_menu"
-              sequence="80"/>
+    <menuitem
+        action="action_resource_activity_lang"
+        id="resource_activity_lang_menu"
+        parent="activity_configuration_menu"
+        sequence="80"
+    />
 </odoo>

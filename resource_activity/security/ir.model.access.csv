@@ -13,4 +13,3 @@ access_resource_activity_lang_manager,resource.activity.lang manager,resource_ac
 access_resource_activity_theme_user,resource.activity.theme user,resource_activity.model_resource_activity_theme,resource_planning.group_resource_user,1,1,1,0
 access_resource_activity_theme_manager,resource.activity.theme manager,resource_activity.model_resource_activity_theme,resource_planning.group_resource_manager,1,1,1,0
 access_sale_order_user,access_sale_order_user,sale.model_sale_order,resource_planning.group_resource_user,1,1,1,0
-access_sale_order_user,access_sale_order_user,sale.model_sale_order,resource_planning.group_resource_manager,1,1,1,0

@@ -1,8 +1,9 @@
 # Copyright 2018 Coop IT Easy SCRLfs.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import api, fields, models
 from datetime import datetime, timedelta
+
+from odoo import api, fields, models
 
 
 class ResourceCategory(models.Model):
@@ -15,9 +16,7 @@ class ResourceCategoryAvailable(models.Model):
     _name = "resource.category.available"
     _description = "Resource Category Available"
 
-    activity_id = fields.Many2one(
-        comodel_name="resource.activity", string="Activity"
-    )
+    activity_id = fields.Many2one(comodel_name="resource.activity", string="Activity")
     category_id = fields.Many2one(
         comodel_name="resource.category", string="Category", required=True
     )

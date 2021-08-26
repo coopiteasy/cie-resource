@@ -15,9 +15,9 @@
     ],
     "author": "Coop IT Easy SCRLfs",
     "category": "Resource",
-    "website": "https://www.coopiteasy.be",
+    "website": "https://github.com/OCA/sale-workflow",
     "license": "AGPL-3",
-    "description": """
+    "summary": """
         Manage activities, book resources and generate sale orders.
     """,
     "data": [

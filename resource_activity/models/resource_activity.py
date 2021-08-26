@@ -473,6 +473,7 @@ class ResourceActivity(models.Model):
             {
                 "partner_id": partner_id,
                 "activity_id": activity.id,
+                # fixme move to provelo_analytic_account
                 "project_id": activity.analytic_account.id,
                 "activity_sale": True,
             }

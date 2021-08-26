@@ -353,7 +353,6 @@
                     color="activity_type"
                     quick_add="False"
                 >
-                    <!--     todo check how it looks                     display="[description]"-->
                     <field name="description" />
                     <field name="booking_type" />
                     <field name="partner_id" />
@@ -449,24 +448,6 @@
                         />
                     </group>
                 </search>
-            </field>
-        </record>
-
-        <record id="view_resource_activity_calendar" model="ir.ui.view">
-            <field name="name">resource.activity.calendar</field>
-            <field name="model">resource.activity</field>
-            <field eval="3" name="priority" />
-            <field name="arch" type="xml">
-                <calendar
-                    color="activity_type"
-                    date_start="date_start"
-                    date_stop="date_end"
-                    string="Activities"
-                >
-                    <field name="description" />
-                    <field name="booking_type" />
-                    <field name="partner_id" />
-                </calendar>
             </field>
         </record>
 
