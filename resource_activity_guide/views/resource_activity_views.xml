@@ -9,6 +9,11 @@
         <field name="model">resource.activity</field>
         <field name="inherit_id" ref="resource_activity.view_resource_activity_form"/>
         <field name="arch" type="xml">
+
+            <field name="need_participation" position="after">
+                <field name="need_guide"/>
+            </field>
+
             <page name="registrations" position="after">
                 <page name="guides" string="Guides">
                     <group>
