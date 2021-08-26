@@ -1,11 +1,10 @@
-# -*- coding: utf-8 -*-
-
-from openerp import models, fields, api, _
-from openerp.exceptions import ValidationError
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
 
 
 class OpeningHoursDay(models.Model):
     _name = "activity.opening.hours.day"
+    _description = "Activity Opening Hours Day"
     _order = "dayofweek,opening_time"
 
     opening_hours_id = fields.Many2one(
@@ -38,9 +37,10 @@ class OpeningHoursDay(models.Model):
         required=True,
     )
 
-    @api.one
+    @api.multi
     @api.constrains("opening_time", "closing_time")
     def check_time_format(self):
+        self.ensure_one()
         try:
             assert len(self.opening_time) == 5
             assert len(self.closing_time) == 5
@@ -54,9 +54,7 @@ class OpeningHoursDay(models.Model):
         try:
             assert ot < ct
         except AssertionError:
-            raise ValidationError(
-                _("Closing time must be before opening time")
-            )
+            raise ValidationError(_("Closing time must be before opening time"))
 
     def compute_hour_minute(self, time):
         """time is a string HH:mm"""

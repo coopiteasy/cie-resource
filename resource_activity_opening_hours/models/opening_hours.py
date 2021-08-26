@@ -1,22 +1,18 @@
-# -*- coding: utf-8 -*-
-
-from openerp import models, fields, api, _
-from openerp.exceptions import ValidationError
-from openerp.tools.misc import DEFAULT_SERVER_DATETIME_FORMAT
-import datetime as dt
 import pytz
+
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
 
 
 class ActivityOpeningHours(models.Model):
     _name = "activity.opening.hours"
+    _description = "Activity Opening Hours"
 
     @api.model
     def _get_default_location(self):
         location = self.env.user.resource_location
         if not location:
-            main_location = self.env.ref(
-                "resource_planning.main_location", False
-            )
+            main_location = self.env.ref("resource_planning.main_location", False)
             if main_location:
                 return [(6, 0, [main_location.id])]
             else:
@@ -69,30 +65,23 @@ class ActivityOpeningHours(models.Model):
             return False
         if len(opening_hours) >= 2:
             if opening_hours[0].is_holiday and opening_hours[1].is_holiday:
-                raise ValidationError(
-                    _("Two holiday opening hours set for %s") % time
-                )
-            elif (
-                not opening_hours[0].is_holiday
-                and not opening_hours[1].is_holiday
-            ):
+                raise ValidationError(_("Two holiday opening hours set for %s") % time)
+            elif not opening_hours[0].is_holiday and not opening_hours[1].is_holiday:
                 raise ValidationError(_("Two opening hours set for %s") % time)
 
         return opening_hours[0]
 
     def _localize(self, date):
-        tz = (
-            pytz.timezone(self._context["tz"])
-            if self._context["tz"]
-            else pytz.utc
-        )
+        if self._context.get("tz"):
+            tz = pytz.timezone(self._context["tz"])
+        else:
+            tz = pytz.utc
+
         return pytz.utc.localize(date).astimezone(tz)
 
     @api.model
     def is_location_open(self, location, time):
-        if type(time) in (str, unicode):
-            time = dt.datetime.strptime(time, DEFAULT_SERVER_DATETIME_FORMAT)
-            time = self._localize(time)
+        time = self._localize(time)
 
         opening_hours = self.get_opening_hours(location, time)
         if opening_hours:
