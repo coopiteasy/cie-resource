@@ -3,7 +3,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 
-from openerp.addons.resource_activity.tests.test_resource_activity import (
+from odoo.addons.resource_activity.tests.test_resource_activity import (
     TestResourceActivity,
 )
 from datetime import datetime, timedelta
@@ -51,4 +51,4 @@ class TestResourceActivityDelivery(TestResourceActivity):
         sale_order = activity.sale_orders
         self.assertEquals(len(sale_order.order_line), 2)
         # tax = 15%
-        self.assertEquals(activity.sale_orders.amount_total, 138)
+        self.assertEquals(activity.sale_orders.amount_total, 120)

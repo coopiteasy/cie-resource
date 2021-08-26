@@ -3,10 +3,10 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 
-from openerp import api, fields, models
-from openerp.fields import Datetime
-from openerp.exceptions import ValidationError
-from openerp.addons.resource_activity.models.resource_activity import OrderLine
+from odoo import api, fields, models
+from odoo.fields import Datetime
+from odoo.exceptions import ValidationError
+from odoo.addons.resource_activity.models.resource_activity import OrderLine
 from datetime import timedelta
 
 
