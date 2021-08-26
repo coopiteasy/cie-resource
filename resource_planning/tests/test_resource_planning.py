@@ -10,24 +10,12 @@ class TestResourcePlanning(common.TransactionCase):
     def setUp(self):
         super(TestResourcePlanning, self).setUp()
         self.main_location = self.browse_ref("resource_planning.main_location")
-        self.alloc_1 = self.browse_ref(
-            "resource_planning.resource_allocation_1_demo"
-        )
-        self.alloc_2 = self.browse_ref(
-            "resource_planning.resource_allocation_2_demo"
-        )
-        self.alloc_3 = self.browse_ref(
-            "resource_planning.resource_allocation_3_demo"
-        )
-        self.alloc_4 = self.browse_ref(
-            "resource_planning.resource_allocation_4_demo"
-        )
-        self.alloc_5 = self.browse_ref(
-            "resource_planning.resource_allocation_5_demo"
-        )
-        self.alloc_6 = self.browse_ref(
-            "resource_planning.resource_allocation_6_demo"
-        )
+        self.alloc_1 = self.browse_ref("resource_planning.resource_allocation_1_demo")
+        self.alloc_2 = self.browse_ref("resource_planning.resource_allocation_2_demo")
+        self.alloc_3 = self.browse_ref("resource_planning.resource_allocation_3_demo")
+        self.alloc_4 = self.browse_ref("resource_planning.resource_allocation_4_demo")
+        self.alloc_5 = self.browse_ref("resource_planning.resource_allocation_5_demo")
+        self.alloc_6 = self.browse_ref("resource_planning.resource_allocation_6_demo")
 
     def test_get_allocations(self):
         allocation_obj = self.env["resource.allocation"]

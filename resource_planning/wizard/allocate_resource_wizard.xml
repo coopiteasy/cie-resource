@@ -22,10 +22,10 @@
                 </p>
                 <group>
                     <group>
-                        <field name="date_start"/>
-                        <field name="location" widget="selection"/>
-                        <field name="partner_id"/>
-                        <field name="resource_type"/>
+                        <field name="date_start" />
+                        <field name="location" widget="selection" />
+                        <field name="partner_id" />
+                        <field name="resource_type" />
                         <field
                             name="resource_category_id"
                             attrs="{'invisible':[('resource_type','=','resource')],'required':[('resource_type','=','category')]}"
@@ -33,22 +33,22 @@
                         />
                     </group>
                     <group>
-                        <field name="date_end"/>
-                        <field name="allocation_type"/>
+                        <field name="date_end" />
+                        <field name="allocation_type" />
                         <field
                             name="date_lock"
                             attrs="{'invisible':[('allocation_type','!=','option')]}"
                         />
-                        <field name="display_error" invisible="1"/>
+                        <field name="display_error" invisible="1" />
                     </group>
                 </group>
                 <notebook>
                     <page name="resource" string="Resources">
-                        <field name="resources"/>
+                        <field name="resources" />
                     </page>
                 </notebook>
                 <footer>
-                    <field name="booking_allowed" invisible="1"/>
+                    <field name="booking_allowed" invisible="1" />
                     <button
                         name="search_resources"
                         attrs="{'invisible':[('booking_allowed','=',True)]}"
@@ -81,6 +81,6 @@
         <field name="view_type">form</field>
         <field name="view_mode">form</field>
         <field name="target">new</field>
-        <field name="binding_model_id" ref="model_resource_resource"/>
+        <field name="binding_model_id" ref="model_resource_resource" />
     </record>
 </odoo>

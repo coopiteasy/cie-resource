@@ -14,7 +14,9 @@ class CheckResourceWizard(models.TransientModel):
     multi_resource_category_id = fields.Many2many(
         "resource.category", string="Resource Category"
     )
-    location = fields.Many2one(comodel_name="resource.location", string="Location", required=True)
+    location = fields.Many2one(
+        comodel_name="resource.location", string="Location", required=True
+    )
 
     @api.multi
     def check_resource_availabilities(self):

@@ -11,14 +11,14 @@
             <form>
                 <group>
                     <group>
-                        <field name="date_start"/>
+                        <field name="date_start" />
                     </group>
                     <group>
-                        <field name="date_end"/>
-                        <field name="location" widget="selection"/>
+                        <field name="date_end" />
+                        <field name="location" widget="selection" />
                     </group>
                 </group>
-                <field name="multi_resource_category_id"/>
+                <field name="multi_resource_category_id" />
                 <footer>
                     <button
                         name="check_resource_availabilities"

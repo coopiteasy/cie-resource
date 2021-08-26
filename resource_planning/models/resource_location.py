@@ -22,9 +22,7 @@ class ResourceLocation(models.Model):
     name = fields.Char(string="Name")
     main_location = fields.Boolean(default=False)
     address = fields.Many2one("res.partner", string="Address")
-    partner_bank_id = fields.Many2one(
-        "res.partner.bank", string="Bank Account"
-    )
+    partner_bank_id = fields.Many2one("res.partner.bank", string="Bank Account")
     customers = fields.One2many(
         comodel_name="res.partner",
         inverse_name="resource_location",
@@ -32,18 +30,15 @@ class ResourceLocation(models.Model):
         string="Customers",
     )
     resources = fields.One2many(
-        comodel_name="resource.resource",
-        inverse_name="location",
-        string="Resources")
+        comodel_name="resource.resource", inverse_name="location", string="Resources"
+    )
     users = fields.One2many(
-        comodel_name="res.users",
-        inverse_name="resource_location", string="Users")
+        comodel_name="res.users", inverse_name="resource_location", string="Users"
+    )
     resource_categories = fields.Many2many(
         comodel_name="resource.category",
         string="Available Categories",
         compute=_compute_available_resources,
         store=True,
     )
-    active = fields.Boolean(
-        "Active", default=True, track_visibility="onchange"
-    )
+    active = fields.Boolean("Active", default=True, track_visibility="onchange")

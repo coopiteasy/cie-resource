@@ -2,7 +2,6 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from odoo import api, fields, models
-from odoo.exceptions import ValidationError
 
 
 class AllocateResourceWizard(models.TransientModel):
@@ -11,10 +10,7 @@ class AllocateResourceWizard(models.TransientModel):
 
     date_start = fields.Datetime(string="Date Start", required=True)
     date_end = fields.Datetime(string="Date End", required=True)
-    resources = fields.Many2many(
-        comodel_name="resource.resource",
-        string="Resources"
-    )
+    resources = fields.Many2many(comodel_name="resource.resource", string="Resources")
     allocation_type = fields.Selection(
         [
             ("booked", "Book"),
@@ -39,14 +35,11 @@ class AllocateResourceWizard(models.TransientModel):
         default=False,
     )
     partner_id = fields.Many2one(
-        comodel_name="res.partner",
-        string="Allocate to",
-        required=True)
+        comodel_name="res.partner", string="Allocate to", required=True
+    )
     date_lock = fields.Date(string="Date Lock")
     display_error = fields.Boolean(string="Display error")
-    location = fields.Many2one(
-        comodel_name="resource.location",
-        string="Location")
+    location = fields.Many2one(comodel_name="resource.location", string="Location")
 
     @api.model
     def default_get(self, fields):

@@ -21,9 +21,7 @@ class ResourceCategory(models.Model):
     )
     is_accessory = fields.Boolean(string="Is Accessory")
 
-    active = fields.Boolean(
-        "Active", default=True, track_visibility="onchange"
-    )
+    active = fields.Boolean("Active", default=True, track_visibility="onchange")
 
     @api.model
     def get_available_categories(self, date_start, date_end, location):
