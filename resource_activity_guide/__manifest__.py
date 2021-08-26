@@ -1,9 +1,8 @@
-# -*- coding: utf-8 -*-
 # Copyright 2021 Coop IT Easy SCRL fs
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 {
     "name": "Resource Activity Guide",
-    "version": "9.0.1.0.1",
+    "version": "12.0.1.0.0",
     "depends": ["resource_activity"],
     "author": "Coop IT Easy SCRLfs",
     "category": "Resource",
