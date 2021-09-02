@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <!--
      Copyright 2020 Coop IT Easy SCRLfs
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
@@ -12,9 +12,12 @@
             <form>
                 <group>
                     <group>
-                        <field name="name"/>
-                        <field name="content" widget="html"/>
-                        <field name="active" groups="resource_planning.group_resource_manager"/>
+                        <field name="name" />
+                        <field name="content" widget="html" />
+                        <field
+                            name="active"
+                            groups="resource_planning.group_resource_manager"
+                        />
                     </group>
                 </group>
             </form>
@@ -26,9 +29,12 @@
         <field name="model">res.company.note</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="name"/>
-                <field name="content"/>
-                <field name="active" groups="resource_planning.group_resource_manager"/>
+                <field name="name" />
+                <field name="content" />
+                <field
+                    name="active"
+                    groups="resource_planning.group_resource_manager"
+                />
             </tree>
         </field>
     </record>
@@ -44,9 +50,11 @@
         </field>
     </record>
 
-    <menuitem id="menu_sale_note"
-              name="Sale Note"
-              action="action_sale_note"
-              parent="resource_planning.resource_location_category_menu"
-              sequence="30"/>
+    <menuitem
+        id="menu_sale_note"
+        name="Sale Note"
+        action="action_sale_note"
+        parent="resource_planning.resource_location_category_menu"
+        sequence="30"
+    />
 </odoo>

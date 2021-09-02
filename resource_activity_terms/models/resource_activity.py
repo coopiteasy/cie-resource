@@ -10,9 +10,7 @@ class ResourceActivity(models.Model):
     _inherit = "resource.activity"
 
     def _create_sale_order(self, activity, partner_id):
-        order = super(ResourceActivity, self)._create_sale_order(
-            activity, partner_id
-        )
+        order = super(ResourceActivity, self)._create_sale_order(activity, partner_id)
         sale_note_html = (
             activity.location_id.terms_ids.filtered(
                 lambda r: r.note_id.active

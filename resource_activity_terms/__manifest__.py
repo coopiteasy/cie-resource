@@ -9,7 +9,7 @@
     ],
     "author": "Coop IT Easy SCRL fs",
     "category": "Resource",
-    "website": "https://www.coopiteasy.be",
+    "website": "https://github.com/OCA/sale-workflow",
     "license": "AGPL-3",
     "summary": """
         Manage activity terms per location.
