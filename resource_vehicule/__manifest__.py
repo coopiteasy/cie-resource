@@ -18,6 +18,9 @@
         "views/resource_vehicle_views.xml",
         "views/menus.xml",
     ],
+    "demo": [
+        "demo/demo.xml",
+    ],
     "installable": True,
     "application": True,
 }
