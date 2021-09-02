@@ -3,8 +3,8 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 
-from openerp import api, fields, models, _
-from openerp.exceptions import ValidationError
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
 
 
 class StockRemovalWizard(models.TransientModel):
@@ -76,10 +76,7 @@ class StockRemovalWizard(models.TransientModel):
 
         if not self.stock_removal_reason:
             raise ValidationError(
-                _(
-                    "Please provide a reason for the resource removal from "
-                    "stock "
-                )
+                _("Please provide a reason for the resource removal from " "stock ")
             )
 
         if self.allocations_to_fix_ids and not self.force_remove:
@@ -108,8 +105,7 @@ class StockRemovalWizard(models.TransientModel):
 
         if not self.replacing_resource_id:
             raise ValidationError(
-                _("Please select a resource to replace %s")
-                % self.resource_id.name
+                _("Please select a resource to replace %s") % self.resource_id.name
             )
 
         self.allocations_to_fix_ids.write(
@@ -127,12 +123,10 @@ class StockRemovalWizard(models.TransientModel):
         )
         if self.allocations_to_fix_ids:
             join_date_clause = " or ".join(
-                (
-                    date_clause_template.format(
-                        date_start=a.date_start, date_end=a.date_end
-                    )
-                    for a in self.allocations_to_fix_ids
+                date_clause_template.format(
+                    date_start=a.date_start, date_end=a.date_end
                 )
+                for a in self.allocations_to_fix_ids
             )
             join_date_clause = "and (%s)" % join_date_clause
         else:
@@ -150,6 +144,8 @@ where rr.location = %(location_id)s
     and rr.state = 'available'
     and ra.id is null
         """
+        # pylint: disable=sql-injection
+        # dates are checked by orm
         self.env.cr.execute(
             query.format(join_date_clause=join_date_clause),
             {

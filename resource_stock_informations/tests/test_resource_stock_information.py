@@ -3,9 +3,10 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 from datetime import datetime, timedelta
-from openerp.fields import Date, Datetime
-from openerp.tests import common
-from openerp.exceptions import ValidationError
+
+from odoo.exceptions import ValidationError
+from odoo.fields import Date
+from odoo.tests import common
 
 
 class TestResourceStockInformation(common.TransactionCase):
@@ -15,12 +16,8 @@ class TestResourceStockInformation(common.TransactionCase):
 
         self.partner_demo = self.browse_ref("base.partner_demo")
         self.main_location = self.browse_ref("resource_planning.main_location")
-        self.bike_1 = self.browse_ref(
-            "resource_planning.resource_resource_bike_1_demo"
-        )
-        self.bike_2 = self.browse_ref(
-            "resource_planning.resource_resource_bike_2_demo"
-        )
+        self.bike_1 = self.browse_ref("resource_planning.resource_resource_bike_1_demo")
+        self.bike_2 = self.browse_ref("resource_planning.resource_resource_bike_2_demo")
         self.ebike_1 = self.browse_ref(
             "resource_planning.resource_resource_ebike_1_demo"
         )
@@ -31,8 +28,8 @@ class TestResourceStockInformation(common.TransactionCase):
         self.alloc_r1_1 = self.allocation_obj.create(
             {
                 "resource_id": self.bike_1.id,
-                "date_start": Datetime.to_string(tomorrow_10am),
-                "date_end": Datetime.to_string(tomorrow_12am),
+                "date_start": tomorrow_10am,
+                "date_end": tomorrow_12am,
                 "state": "booked",
                 "location": self.main_location.id,
             }
@@ -43,8 +40,8 @@ class TestResourceStockInformation(common.TransactionCase):
         self.alloc_r1_2 = self.allocation_obj.create(
             {
                 "resource_id": self.bike_1.id,
-                "date_start": Datetime.to_string(next_week_10am),
-                "date_end": Datetime.to_string(next_week_12am),
+                "date_start": next_week_10am,
+                "date_end": next_week_12am,
                 "state": "booked",
                 "location": self.main_location.id,
             }
@@ -55,8 +52,8 @@ class TestResourceStockInformation(common.TransactionCase):
         self.alloc_r2_1 = self.allocation_obj.create(
             {
                 "resource_id": self.bike_2.id,
-                "date_start": Datetime.to_string(d_plus_2_10am),
-                "date_end": Datetime.to_string(d_plus_2_12am),
+                "date_start": d_plus_2_10am,
+                "date_end": d_plus_2_12am,
                 "state": "booked",
                 "location": self.main_location.id,
             }
@@ -66,8 +63,8 @@ class TestResourceStockInformation(common.TransactionCase):
         self.alloc_r2_2 = self.allocation_obj.create(
             {
                 "resource_id": self.bike_2.id,
-                "date_start": Datetime.to_string(d_plus_2_2pm),
-                "date_end": Datetime.to_string(d_plus_2_4pm),
+                "date_start": d_plus_2_2pm,
+                "date_end": d_plus_2_4pm,
                 "state": "booked",
                 "location": self.main_location.id,
             }
@@ -126,12 +123,7 @@ class TestResourceStockInformation(common.TransactionCase):
         wiz.stock_removal_reason = "other"
         wiz.button_remove_resource_from_stock_and_fix_allocations()
         self.assertTrue(
-            all(
-                (
-                    ra.resource_id == self.bike_2
-                    for ra in wiz.allocations_to_fix_ids
-                )
-            ),
+            all(ra.resource_id == self.bike_2 for ra in wiz.allocations_to_fix_ids),
             "Future allocations of bike_1 are replaced by bike2",
         )
 

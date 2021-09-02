@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
 # Copyright 2018 Coop IT Easy SCRLfs.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from openerp import _, api, fields, models
+from odoo import api, fields, models
 
 
 class Resource(models.Model):
@@ -11,9 +10,7 @@ class Resource(models.Model):
     purchase_date = fields.Date(string="Purchase Date")
     purchase_invoice_ref = fields.Char(string="Purchase Invoice Ref")
 
-    removed_from_stock = fields.Boolean(
-        string="Removed From Stock", default=False
-    )
+    removed_from_stock = fields.Boolean(string="Removed From Stock", default=False)
     stock_removal_date = fields.Date(string="Stock Removal Date")
     stock_removal_reason = fields.Selection(
         string="Stock Removal Reason",
