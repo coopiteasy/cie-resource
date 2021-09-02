@@ -21,11 +21,6 @@
                 <group name="purchase" position="after">
                     <group string="Tour" name="tour">
                         <field name="is_partner" />
-                        <field name="is_trainer" />
-                        <field
-                            name="resource_location_trainer"
-                            attrs="{'invisible':[('is_trainer','=',False)],'required':[('is_trainer','=',True)]}"
-                        />
                     </group>
                 </group>
                 <div name="button_box" position="inside">
@@ -67,11 +62,6 @@
             <field name="inherit_id" ref="base.view_res_partner_filter" />
             <field name="arch" type="xml">
                 <xpath expr="//filter[@name='supplier']" position='after'>
-                    <filter
-                        string="Trainer"
-                        name="trainer"
-                        domain="[('is_trainer','=',1)]"
-                    />
                     <filter
                         string="Partner"
                         name="partner"

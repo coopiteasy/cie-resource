@@ -8,5 +8,4 @@ from . import resource_activity_type
 from . import resource_allocation
 from . import resource_available
 from . import resource_category
-from . import resource_location
 from . import sale_order

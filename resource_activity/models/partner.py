@@ -12,7 +12,6 @@ class ResPartner(models.Model):
         for partner in self:
             partner.activity_count = len(partner.resource_activities)
 
-    is_trainer = fields.Boolean(string="Trainer")
     is_partner = fields.Boolean(string="Partner")
     resource_activities = fields.One2many(
         comodel_name="resource.activity",
@@ -21,7 +20,4 @@ class ResPartner(models.Model):
     )
     activity_count = fields.Integer(
         string="# of Activities", compute=_resource_activity_count
-    )
-    resource_location_trainer = fields.Many2one(
-        comodel_name="resource.location", string="Trainer location"
     )

@@ -136,14 +136,7 @@ class ResourceActivity(models.Model):
         readonly=True,
         groups="analytic.group_analytic_accounting",
     )
-    trainers = fields.Many2many(
-        "res.partner",
-        relation="activity_trainer",
-        column1="activity_id",
-        column2="trainer_id",
-        string="Trainer",
-        domain=[("is_trainer", "=", True)],
-    )
+
     langs = fields.Many2many("resource.activity.lang", string="Langs")
     activity_theme = fields.Many2one("resource.activity.theme", string="Activity theme")
     need_participation = fields.Boolean(string="Need participation?")

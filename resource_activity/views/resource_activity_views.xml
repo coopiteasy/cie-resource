@@ -287,13 +287,6 @@
                                     </tree>
                                 </field>
                             </page>
-                            <page name="trainers" string="Trainers">
-                                <field
-                                    name="trainers"
-                                    domain="[('resource_location_trainer','=',location_id)]"
-                                    options="{'no_create':True}"
-                                />
-                            </page>
                             <page name="booked_resources" string="Booked resources">
                                 <field name="booked_resources" />
                             </page>
