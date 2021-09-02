@@ -29,6 +29,7 @@ class ResourceResource(models.Model):
 
 class ResourceBrand(models.Model):
     _name = "resource.brand"
+    _description = "Resource Brand"
 
     name = fields.Char(string="Brand")
     code = fields.Char(string="Code")
@@ -37,6 +38,7 @@ class ResourceBrand(models.Model):
 
 class ResourceModel(models.Model):
     _name = "resource.model"
+    _description = "Resource Model"
 
     name = fields.Char(string="Model")
     code = fields.Char(string="Code")
@@ -45,6 +47,7 @@ class ResourceModel(models.Model):
 
 class ResourceColor(models.Model):
     _name = "resource.color"
+    _description = "Resource Color"
 
     name = fields.Char(string="Color")
     code = fields.Char(string="code")
@@ -53,6 +56,7 @@ class ResourceColor(models.Model):
 
 class ResourceGearbox(models.Model):
     _name = "resource.gearbox"
+    _description = "Resource Gearbox"
 
     name = fields.Char(string="Gearbox")
     code = fields.Char(string="code")
