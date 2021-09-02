@@ -16,27 +16,15 @@ class TestSaleOrder(test_base.TestResourceActivityBase):
             {
                 "company_id": company.id,
                 "name": "Default terms",
-                "content": "Default company terms content",
+                "content": "<p>Default company terms content</p>",
             }
         )
-        company.sale_note_html_id = self.default_terms
+        self.env["ir.config_parameter"].sudo().set_param(
+            "resource_activity_terms.default_sale_note_html_id", self.default_terms.id
+        )
         self.location_terms = self.browse_ref(
             "resource_activity_terms.res_company_note_demo"
         )
-        # self.location_terms = self.env["res.company.note"].create(
-        #     {
-        #         "company_id": company.id,
-        #         "name": "Location terms",
-        #         "content": "Location_specific terms content",
-        #     }
-        # )
-        # self.env["resource.location.terms"].create(
-        #     {
-        #         "location_id": self.main_location.id,
-        #         "activity_type_id": self.activity_type.id,
-        #         "note_id": self.location_terms.id,
-        #     }
-        # )
 
     def test_default_note_assigned_to_sale_order(self):
         date_start = datetime.now()
@@ -68,7 +56,7 @@ class TestSaleOrder(test_base.TestResourceActivityBase):
         activity.create_sale_order()
         # should be only one sale order
         sale_order = activity.sale_orders
-        self.assertEquals(sale_order.note_html_id, self.default_terms)
+        self.assertEquals(sale_order.note_html, self.default_terms.content)
 
     def test_location_note_assigned_to_sale_order(self):
         date_start = datetime.now()
@@ -97,4 +85,4 @@ class TestSaleOrder(test_base.TestResourceActivityBase):
         activity.create_sale_order()
         # should be only one sale order
         sale_order = activity.sale_orders
-        self.assertEquals(sale_order.note_html_id, self.location_terms)
+        self.assertEquals(sale_order.note_html, self.location_terms.content)

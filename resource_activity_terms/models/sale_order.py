@@ -9,30 +9,15 @@ class SaleOrder(models.Model):
 
     @api.model
     def _default_note_html(self):
-        return self.env.user.company_id.sale_note_html_id
+        note_id = (
+            self.env["ir.config_parameter"]
+            .sudo()
+            .get_param("resource_activity_terms.default_sale_note_html_id")
+        )
+        note = self.env["res.company.note"].browse(int(note_id))
+        return note.content
 
-    note_html_id = fields.Many2one(
-        comodel_name="res.company.note",
-        string="Terms and conditions",
+    note_html = fields.Html(
+        string="Rich Terms and conditions",
+        default=lambda self: self._default_note_html(),
     )
-
-    @api.model
-    def create(self, vals):
-        sale_order = super(SaleOrder, self).create(vals)
-        sale_order._set_note_html_id()
-        return sale_order
-
-    @api.model
-    def _set_note_html_id(self):
-        self.ensure_one()
-        if self.activity_id:
-            activity = self.activity_id
-            sale_note_html_id = (
-                activity.location_id.terms_ids.filtered(
-                    lambda r: r.note_id.active
-                    and r.location_id == activity.location_id
-                    and r.activity_type_id == activity.activity_type
-                ).note_id
-                or self._default_note_html()
-            )
-            self.note_html_id = sale_note_html_id
