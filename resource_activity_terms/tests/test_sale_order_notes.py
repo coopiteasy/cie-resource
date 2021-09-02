@@ -5,6 +5,7 @@
 from openerp.addons.resource_activity.tests import test_base
 from datetime import datetime, timedelta
 
+
 class TestSaleOrder(test_base.TestResourceActivityBase):
     def setUp(self):
         super(TestSaleOrder, self).setUp()
@@ -20,7 +21,7 @@ class TestSaleOrder(test_base.TestResourceActivityBase):
         company.sale_note_html_id = self.default_terms
         self.location_terms = self.browse_ref(
             "resource_activity_terms.res_company_note_demo"
-         )
+        )
         # self.location_terms = self.env["res.company.note"].create(
         #     {
         #         "company_id": company.id,

@@ -14,7 +14,7 @@ class ResourceLocationTerms(models.Model):
             # Constraint unique identifier
             "resource_location_terms_location_activity_terms_note_uq",
             "UNIQUE (location_id, activity_type_id)",  # Constraint SQL syntax
-            "Location and Activity Type must be unique.", # Message
+            "Location and Activity Type must be unique.",  # Message
         ),
     ]
 

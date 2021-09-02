@@ -12,5 +12,3 @@ class ResCompany(models.Model):
         comodel_name="res.company.note",
         string="Default Terms and Conditions",
     )
-
-

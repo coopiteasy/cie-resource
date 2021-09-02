@@ -31,10 +31,9 @@ class SaleOrder(models.Model):
             sale_note_html_id = (
                 activity.location_id.terms_ids.filtered(
                     lambda r: r.note_id.active
-                          and r.location_id == activity.location_id
-                          and r.activity_type_id == activity.activity_type
+                    and r.location_id == activity.location_id
+                    and r.activity_type_id == activity.activity_type
                 ).note_id
                 or self._default_note_html()
             )
             self.note_html_id = sale_note_html_id
-
