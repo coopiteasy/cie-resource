@@ -34,7 +34,6 @@
         "views/resource_allocation_views.xml",
         "views/resource_category_views.xml",
         "views/resource_location_views.xml",
-        "views/resource_resource_views.xml",
         "views/sale_order_views.xml",
         "wizard/activity_draft_to_done.xml",
         "wizard/cancel_sale_order_wizard.xml",
