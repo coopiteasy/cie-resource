@@ -572,6 +572,7 @@ class ResourceActivity(models.Model):
 
     @api.multi
     def action_sale_order(self):
+        # fixme rename action confirm sale order
         res_acti_seq = self.env.ref(
             "resource_activity.sequence_resource_activity", False
         )
