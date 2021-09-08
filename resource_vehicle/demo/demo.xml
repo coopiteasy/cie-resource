@@ -8,14 +8,14 @@
         id="resource_planning.resource_category_bike_demo"
         model="resource.category"
     >
-        <field name="vehicule" eval="True" />
-        <field name="vehicule_type">bike</field>
+        <field name="vehicle" eval="True" />
+        <field name="vehicle_type">bike</field>
     </record>
     <record
         id="resource_planning.resource_category_ebike_demo"
         model="resource.category"
     >
-        <field name="vehicule" eval="True" />
-        <field name="vehicule_type">bike</field>
+        <field name="vehicle" eval="True" />
+        <field name="vehicle_type">bike</field>
     </record>
 </odoo>

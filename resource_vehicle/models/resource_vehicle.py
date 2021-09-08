@@ -7,9 +7,8 @@ from odoo import fields, models
 class ResourceCategory(models.Model):
     _inherit = "resource.category"
 
-    # fixme typo vehicule => vehicle
-    vehicule = fields.Boolean(string="Vehicule")
-    vehicule_type = fields.Selection(
+    vehicle = fields.Boolean(string="Vehicle")
+    vehicle_type = fields.Selection(
         [("bike", "Bike"), ("car", "Car")], string="Vehicle type"
     )
 
@@ -24,7 +23,7 @@ class ResourceResource(models.Model):
     color = fields.Many2one(comodel_name="resource.color", string="Color")
     model_id = fields.Many2one(comodel_name="resource.model", string="Model")
     gearbox = fields.Many2one(comodel_name="resource.gearbox", string="Gearbox")
-    vehicule_type = fields.Selection(related="category_id.vehicule_type")
+    vehicle_type = fields.Selection(related="category_id.vehicle_type")
 
 
 class ResourceBrand(models.Model):
