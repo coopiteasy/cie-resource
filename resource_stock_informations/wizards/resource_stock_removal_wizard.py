@@ -168,7 +168,8 @@ where rr.location = %(location_id)s
     def _compute_allocations_to_fix(self):
         for wiz in self:
             wiz.allocations_to_fix_ids = wiz.resource_id.allocations.filtered(
-                lambda ra: ra.date_start >= fields.Datetime.now()
+                lambda ra: ra.date_start
+                and ra.date_start >= fields.Datetime.now()
                 and ra.state != "cancel"
             )
             wiz._has_allocations_to_fix = bool(wiz.allocations_to_fix_ids)
