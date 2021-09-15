@@ -129,8 +129,10 @@ class StockRemovalWizard(models.TransientModel):
                 for a in self.allocations_to_fix_ids
             )
             join_date_clause = "and (%s)" % join_date_clause
+            allocation_null_clause = "and ra.id is null"
         else:
             join_date_clause = ""
+            allocation_null_clause = ""
 
         query = """
 select rr.id
@@ -142,12 +144,16 @@ where rr.location = %(location_id)s
     and rr.category_id = %(category_id)s
     and rr.id != %(resource_id)s
     and rr.state = 'available'
-    and ra.id is null
+    {allocation_null_clause}
         """
+        query = query.format(
+            join_date_clause=join_date_clause,
+            allocation_null_clause=allocation_null_clause,
+        )
         # pylint: disable=sql-injection
         # dates are checked by orm
         self.env.cr.execute(
-            query.format(join_date_clause=join_date_clause),
+            query,
             {
                 "location_id": self.resource_id.location.id,
                 "category_id": self.resource_id.category_id.id,
@@ -174,7 +180,7 @@ where rr.location = %(location_id)s
             wiz.candidate_resource_ids = wiz._get_candidate_resources()
             wiz._has_candidates = bool(wiz.candidate_resource_ids)
 
-    @api.onchange("stock_removal_reason")
+    @api.onchange("resource_id", "stock_removal_reason")
     def onchange_stock_removal_reason(self):
         """set domain for replacing resource"""
         domain = [("id", "in", self.candidate_resource_ids.ids)]
