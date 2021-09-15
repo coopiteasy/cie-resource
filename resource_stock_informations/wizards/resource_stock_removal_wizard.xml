@@ -10,6 +10,7 @@
             <field name="model">resource.stock.removal.wizard</field>
             <field name="arch" type="xml">
                 <form string="Resource Stock Removal">
+                    <field name="resource_id" invisible="1" />
                     <field name="candidate_resource_ids" invisible="1" />
                     <field name="_has_candidates" invisible="1" />
                     <field name="_has_allocations_to_fix" invisible="1" />
@@ -34,6 +35,7 @@
                         <!-- visible if (_has_allocations_to_fix and _has_candidates and stock_removal_reason -->
                         <field
                             name="replacing_resource_id"
+                            domain="[('id', 'in', candidate_resource_ids)]"
                             attrs="{'invisible':['!', '&amp;', '&amp;', ('_has_allocations_to_fix', '=', True),
                                                                            ('_has_candidates', '=', True),
                                                                   ('stock_removal_reason', '!=', False)]}"

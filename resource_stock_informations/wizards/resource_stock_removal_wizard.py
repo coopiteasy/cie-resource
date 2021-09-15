@@ -180,9 +180,3 @@ where rr.location = %(location_id)s
         for wiz in self:
             wiz.candidate_resource_ids = wiz._get_candidate_resources()
             wiz._has_candidates = bool(wiz.candidate_resource_ids)
-
-    @api.onchange("resource_id", "stock_removal_reason")
-    def onchange_stock_removal_reason(self):
-        """set domain for replacing resource"""
-        domain = [("id", "in", self.candidate_resource_ids.ids)]
-        return {"domain": {"replacing_resource_id": domain}}
