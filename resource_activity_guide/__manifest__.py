@@ -6,7 +6,7 @@
     "depends": ["resource_activity"],
     "author": "Coop IT Easy SCRLfs",
     "category": "Resource",
-    "website": "https://www.coopiteasy.be",
+    "website": "https://github.com/OCA/sale-workflow",
     "license": "AGPL-3",
     "summary": """
         Add guides to you activities
@@ -16,8 +16,8 @@
         "views/product_views.xml",
         "views/resource_activity_views.xml",
         "views/resource_location_views.xml",
-        "reports/activity_registration_report.xml",
-        "reports/activity_report.xml",
+        "reports/d_day_report.xml",
+        "reports/resource_activity_report.xml",
     ],
     "demo": [
         "demo/demo.xml",
