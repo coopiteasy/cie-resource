@@ -462,17 +462,15 @@ class ResourceActivity(models.Model):
         return prepared_lines
 
     def _create_sale_order(self, activity, partner_id):
-        order_id = self.env["sale.order"].create(
+        order = self.env["sale.order"].create(
             {
                 "partner_id": partner_id,
                 "activity_id": activity.id,
-                # fixme move to provelo_analytic_account
-                "project_id": activity.analytic_account.id,
                 "activity_sale": True,
             }
         )
         activity.state = "quotation"
-        return order_id
+        return order
 
     def _prepare_sale_orders(self, activity):
         """
