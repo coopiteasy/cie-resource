@@ -9,7 +9,6 @@
         </xpath>
     </template>
 
-
     <template id="external_layout_standard" inherit_id="web.external_layout_standard">
         <xpath
             expr="//div[hasclass('header')]//div[@name='company_address']"
@@ -89,6 +88,17 @@
                 </div>
             </div>
         </xpath>
+    </template>
 
+    <template id="invoice_header">
+        <div class="row">
+            <div class="col-xs-3">
+                <img
+                    t-if="company.logo"
+                    t-att-src="image_data_uri(company.logo)"
+                    style="height: 113px;"
+                />
+            </div>
+        </div>
     </template>
 </odoo>
