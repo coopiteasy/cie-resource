@@ -8,7 +8,7 @@
     ],
     "author": "Coop IT Easy SCRLfs",
     "category": "Resource",
-    "website": "https://www.coopiteasy.be",
+    "website": "https://github.com/OCA/sale-workflow",
     "license": "AGPL-3",
     "summary": """
         Manage resource deliveries for your activities.
@@ -19,8 +19,8 @@
         "views/resource_activity_delivery_views.xml",
         "views/resource_activity_views.xml",
         "views/sale_order_views.xml",
-        "reports/activity_registration_report.xml",
-        "reports/activity_report.xml",
+        "reports/d_day_report.xml",
+        "reports/resource_activity_report.xml",
         "reports/sale_order_report.xml",
     ],
     "demo": [
