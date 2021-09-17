@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+     Copyright 2021 Coop IT Easy
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <record id="view_users_form" model="ir.ui.view">
+        <field name="name">res.users.form</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form" />
+        <field name="arch" type="xml">
+            <group name="preferences" position="after">
+                <group
+                    string="Location"
+                    name="location"
+                    groups="resource_planning.group_multi_location"
+                >
+                    <field name="resource_location" />
+                </group>
+            </group>
+        </field>
+    </record>
+</odoo>

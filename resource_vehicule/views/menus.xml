@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+     Copyright 2020 Coop IT Easy
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <menuitem
+        id="vehicles_configuration_menu"
+        name="Vehicles"
+        parent="resource_planning.menu_resource_configuration"
+        sequence="50"
+    />
+
+    <menuitem
+        action="action_resource_model"
+        id="resource_model_menu"
+        parent="vehicles_configuration_menu"
+        sequence="30"
+    />
+
+    <menuitem
+        action="action_resource_brand"
+        id="resource_brand_menu"
+        parent="vehicles_configuration_menu"
+        sequence="40"
+    />
+
+    <menuitem
+        action="action_resource_gearbox"
+        id="resource_gearbox_menu"
+        parent="vehicles_configuration_menu"
+        sequence="50"
+    />
+
+    <menuitem
+        action="action_resource_color"
+        id="resource_color_menu"
+        parent="vehicles_configuration_menu"
+        sequence="60"
+    />
+
+</odoo>

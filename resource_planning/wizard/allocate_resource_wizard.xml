@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+     Copyright 2021 Coop IT Easy
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <record id="view_allocate_resource_wizard" model="ir.ui.view">
+        <field name="name">Allocate resources</field>
+        <field name="model">allocate.resource.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Resource allocation">
+                <p class="oe_grey">
+                    Resource Allocations will be created for the selected resources.
+                </p>
+
+                <p
+                    class="oe_grey"
+                    style="color:red;"
+                    attrs="{'invisible':[('display_error','=',False)]}"
+                >
+                    Please correct the start date and the end date.
+                </p>
+                <group>
+                    <group>
+                        <field name="date_start" />
+                        <field name="location" widget="selection" />
+                        <field name="partner_id" />
+                        <field name="resource_type" />
+                        <field
+                            name="resource_category_id"
+                            attrs="{'invisible':[('resource_type','=','resource')],'required':[('resource_type','=','category')]}"
+                            widget="selection"
+                        />
+                    </group>
+                    <group>
+                        <field name="date_end" />
+                        <field name="allocation_type" />
+                        <field
+                            name="date_lock"
+                            attrs="{'invisible':[('allocation_type','!=','option')]}"
+                        />
+                        <field name="display_error" invisible="1" />
+                    </group>
+                </group>
+                <notebook>
+                    <page name="resource" string="Resources">
+                        <field name="resources" />
+                    </page>
+                </notebook>
+                <footer>
+                    <field name="booking_allowed" invisible="1" />
+                    <button
+                        name="search_resources"
+                        attrs="{'invisible':[('booking_allowed','=',True)]}"
+                        string="Search resources"
+                        type="object"
+                        class="btn-primary"
+                    />
+                    <button
+                        name="book_resource"
+                        attrs="{'invisible':[('booking_allowed','=',False)]}"
+                        string="Book resources"
+                        type="object"
+                        class="btn-primary"
+                    />
+                    <button
+                        name="cancel"
+                        string="Cancel"
+                        class="btn-default"
+                        special="cancel"
+                    />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_view_allocate_resource" model="ir.actions.act_window">
+        <field name="name">Allocate Resource</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">allocate.resource.wizard</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="model_resource_resource" />
+    </record>
+</odoo>
