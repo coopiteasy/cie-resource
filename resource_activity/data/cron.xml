@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data noupdate="1">
+        <record id="ir_cron_compute_product_registration_counter" model="ir.cron">
+            <field name="name">Compute product registration counter</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="True" />
+            <field name="model_id" ref="product.model_product_product" />
+            <field name="code">model.compute_registration_counter()</field>
+            <field name="active" eval="True" />
+        </record>
+
+        <record id="ir_cron_garbage_collect_available_categories" model="ir.cron">
+            <field name="name">Garbage Collect Available Categories</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="True" />
+            <field
+                name="model_id"
+                ref="resource_activity.model_resource_category_available"
+            />
+            <field name="code">model.garbage_collect()</field>
+            <field name="active" eval="True" />
+        </record>
+    </data>
+</odoo>

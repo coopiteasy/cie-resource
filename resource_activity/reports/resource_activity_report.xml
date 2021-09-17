@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <template id="resource_activity_report_document">
+        <t t-set="company" t-value="o.company_id" />
+        <div class="page">
+            <t t-call="resource_activity.invoice_header" />
+            <div
+                class="row"
+                tyle="position:relative; margin-top:50px"
+                name="description"
+            >
+                <div class="col-xs-6">
+                    <h2>
+                        <span style="border-bottom: 4pt solid #00B9E4;">
+                            Guide report:
+                            <span t-field="o.description" />
+                            <span
+                                t-field="o.date_start"
+                                t-options="{&quot;format&quot;: &quot;d MMMM y&quot;}"
+                            />
+                        </span>
+                    </h2>
+                </div>
+            </div>
+
+            <div class="row row-cols-2" name="activity">
+                <div class="col" name="customer-information">
+                    <div class="row" name="customer-title">
+                        <h3>Client:</h3>
+                    </div>
+                    <div class="row" name="customer-name">
+                        <h4>Name:</h4>
+                        <span
+                            t-if="o.partner_id.parent_id.name"
+                            t-field="o.partner_id.parent_id.name"
+                        />
+                        <span t-if="o.partner_id.name" t-field="o.partner_id.name" />
+                    </div>
+                    <div class="row" name="customer-participants">
+                        <h4>Expected participants:</h4>
+                        <span t-field="o.registrations_expected" />
+                    </div>
+                </div>
+                <div class="col" name="activity-information">
+                    <div class="row" name="activity-title">
+                        <h3>Activity:</h3>
+                    </div>
+                    <div class="row" name="activity-start">
+                        <h4>Start time and place:</h4>
+                        <span t-field="o.date_start" />
+                        <span t-field="o.departure" />
+                    </div>
+                    <div class="row" name="activity-arrival">
+                        <h4>End time and place:</h4>
+                        <span t-field="o.date_end" />
+                        <span t-field="o.arrival" />
+                    </div>
+                    <div class="row" name="activity-theme">
+                        <h4>Theme:</h4>
+                        <span t-field="o.activity_theme" />
+                    </div>
+                    <div class="row" name="activity-lang">
+                        <h4>Languages:</h4>
+                        <t t-foreach="o.langs" t-as="lang">
+                            <t t-if="lang">
+                                <div t-field="lang.name" />
+                            </t>
+                        </t>
+                    </div>
+                </div>
+            </div>
+            <div class="row" name="registrations" style="position:relative;top:10px;">
+                <div class="col-xs-12">
+                    <h3>Participants and resources</h3>
+                    <table
+                        name="registrations"
+                        class="table table-striped border-easymy-coop"
+                        style="width:90%;align:center;"
+                    >
+                        <thead
+                            class="invoice_tbody easymy-coop-normal"
+                            style="border-bottom: 2pt dotted #00B9E4 !important;"
+                        >
+                            <tr>
+                                <th>Attendee
+                                </th>
+                                <th>Amount of participants
+                                </th>
+                                <th>Quantity needed
+                                </th>
+                                <th>Resource needed
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="invoice_tbody easymy-coop-normal">
+                            <tr t-foreach="o.registrations" t-as="l">
+                                <td>
+                                    <span t-field="l.attendee_id.name" />
+                                </td>
+                                <td>
+                                    <span t-field="l.quantity" />
+                                </td>
+                                <td>
+                                    <span t-field="l.quantity_needed" />
+                                </td>
+                                <td>
+                                    <span t-field="l.resource_category.name" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </template>
+
+
+    <template id="resource_activity_report">
+        <t t-call="web.html_container">
+            <t t-set="data_report_margin_top" t-value="10" />
+            <t t-set="data_report_header_spacing" t-value="5" />
+            <t t-set="data_report_dpi" t-value="110" />
+            <t t-foreach="docs" t-as="o">
+                <t
+                    t-call="resource_activity.resource_activity_report_document"
+                    t-lang="o.partner_id.lang"
+                />
+            </t>
+        </t>
+    </template>
+
+    <report
+        id="action_resource_activity_report"
+        string="Resource Activity Report"
+        name="resource_activity.resource_activity_report"
+        model="resource.activity"
+        report_type="qweb-pdf"
+        menu="True"
+    />
+</odoo>
