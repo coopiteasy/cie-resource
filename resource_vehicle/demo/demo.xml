@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+     Copyright 2021 Coop IT Easy
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <record
+        id="resource_planning.resource_category_bike_demo"
+        model="resource.category"
+    >
+        <field name="vehicle" eval="True" />
+        <field name="vehicle_type">bike</field>
+    </record>
+    <record
+        id="resource_planning.resource_category_ebike_demo"
+        model="resource.category"
+    >
+        <field name="vehicle" eval="True" />
+        <field name="vehicle_type">bike</field>
+    </record>
+</odoo>
