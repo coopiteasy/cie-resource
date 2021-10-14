@@ -33,9 +33,11 @@
                 </page>
             </page>
 
-            <field name="internal_comment" position="before">
-                <field name="comment" />
-            </field>
+            <group name="internal-comment" position="before">
+                <group name="guide-comment">
+                    <field name="comment" />
+                </group>
+            </group>
         </field>
     </record>
 </odoo>
