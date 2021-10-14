@@ -58,7 +58,6 @@
                     <field name="state" widget="statusbar" />
                 </header>
                 <sheet>
-
                     <div class="oe_button_box" name="button_box">
                         <button
                             class="oe_stat_button"
@@ -86,7 +85,6 @@
                                 options="{'no_create': True}"
                                 groups="base.group_multi_company"
                             />
-                            <field name="active" invisible="True" />
                         </group>
                         <group name="category">
                             <field name="category_id" widget="selection" />
@@ -98,7 +96,6 @@
                             />
                             <field name="resource_type" />
                             <field name="calendar_id" />
-                            <field name="time_efficiency" invisible="True" />
                         </group>
                     </group>
                     <notebook>
