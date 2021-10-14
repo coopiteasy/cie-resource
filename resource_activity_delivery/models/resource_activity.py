@@ -3,11 +3,13 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 
-from odoo import api, fields, models
-from odoo.fields import Datetime
-from odoo.exceptions import ValidationError
-from odoo.addons.resource_activity.models.resource_activity import OrderLine
 from datetime import timedelta
+
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
+from odoo.fields import Datetime
+
+from odoo.addons.resource_activity.models.resource_activity import OrderLine
 
 
 class ResourceActivity(models.Model):
@@ -87,18 +89,12 @@ class ResourceActivity(models.Model):
 
         if self.need_delivery:
             if self.set_allocation_span:
-                start = Datetime.from_string(self.date_start) - timedelta(
-                    minutes=90
-                )
+                start = Datetime.from_string(self.date_start) - timedelta(minutes=90)
             else:
                 # get utc, set it to local time midnight
                 #  send it back as utc because we send fields
                 #  directly to the frontend
-                start = (
-                    self.delivery_time
-                    if self.delivery_time
-                    else self.date_start
-                )
+                start = self.delivery_time if self.delivery_time else self.date_start
                 start = self._trunc_day(start)
             self.resource_allocation_start = Datetime.to_string(start)
         else:

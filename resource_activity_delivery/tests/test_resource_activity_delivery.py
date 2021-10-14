@@ -3,10 +3,11 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 
+from datetime import datetime, timedelta
+
 from odoo.addons.resource_activity.tests.test_resource_activity import (
     TestResourceActivity,
 )
-from datetime import datetime, timedelta
 
 
 class TestResourceActivityDelivery(TestResourceActivity):

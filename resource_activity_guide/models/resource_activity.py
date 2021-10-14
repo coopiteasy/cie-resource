@@ -4,6 +4,7 @@
 
 
 from odoo import api, fields, models
+
 from odoo.addons.resource_activity.models.resource_activity import OrderLine
 
 

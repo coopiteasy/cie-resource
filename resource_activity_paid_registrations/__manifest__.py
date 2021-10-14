@@ -8,7 +8,7 @@
     ],
     "author": "Coop IT Easy SCRL fs",
     "category": "Resource",
-    "website": "https://www.coopiteasy.be",
+    "website": "https://coopiteasy.be",
     "license": "AGPL-3",
     "summary": """
         Mark activity registrations and activities as paid.
