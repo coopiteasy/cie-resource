@@ -27,10 +27,12 @@ class ResourceResource(models.Model):
         default="draft",
     )
     resource_type = fields.Selection(
-        [("user", "Human"), ("material", "Material")],
-        string="Resource Type",
-        required=True,
         default="material",
+    )
+    calendar_id = fields.Many2one(
+        # override resource.resource default function
+        default=False,
+        required=False,
     )
     allocations = fields.One2many(
         "resource.allocation", "resource_id", string="Booking lines"
@@ -50,6 +52,19 @@ class ResourceResource(models.Model):
             "The name of the resource must be unique !",
         )
     ]
+
+    @api.multi
+    @api.constrains("resource_type", "calendar_id", "user_id")
+    def _check_user_type_fields(self):
+        for resource in self:
+            if resource.resource_type == "user":
+                if not resource.calendar_id or not resource.user_id:
+                    raise ValidationError(
+                        _(
+                            "Working Time and User must be set on Human type "
+                            "resources."
+                        )
+                    )
 
     @api.multi
     def action_unavailable(self):

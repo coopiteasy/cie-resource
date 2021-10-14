@@ -78,7 +78,7 @@
                             <field name="serial_number" />
                             <field
                                 name="user_id"
-                                attrs="{'required':[('resource_type','=','user')], 'readonly':[('resource_type','=','material')]}"
+                                attrs="{'invisible':[('resource_type','!=', 'user')], 'required':[('resource_type','=','user')]} "
                             />
                             <field
                                 name="company_id"
@@ -95,7 +95,10 @@
                                 groups="resource_planning.group_multi_location"
                             />
                             <field name="resource_type" />
-                            <field name="calendar_id" />
+                            <field
+                                name="calendar_id"
+                                attrs="{'invisible':[('resource_type','!=', 'user')], 'required':[('resource_type','=','user')]} "
+                            />
                         </group>
                     </group>
                     <notebook>
