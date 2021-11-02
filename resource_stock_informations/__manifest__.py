@@ -10,7 +10,7 @@
     ],
     "author": "Coop IT Easy SCRLfs",
     "category": "Resource",
-    "website": "https://github.com/OCA/sale-workflow",
+    "website": "https://coopiteasy.be",
     "license": "AGPL-3",
     "summary": """
         Track resources movement in and out of stock.

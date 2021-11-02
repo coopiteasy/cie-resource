@@ -1,7 +1,7 @@
 # Copyright 2021 Coop IT Easy SCRLfs.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 
 
 class ResourceActivity(models.Model):
@@ -26,9 +26,7 @@ class ResourceActivity(models.Model):
                     lambda record: record.state == "booked"
                 )
 
-                activity.registrations_paid = all(
-                    registrations.mapped("is_paid")
-                )
+                activity.registrations_paid = all(registrations.mapped("is_paid"))
             else:
                 activity.registrations_paid = False
 

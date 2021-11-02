@@ -58,7 +58,6 @@
                     <field name="state" widget="statusbar" />
                 </header>
                 <sheet>
-
                     <div class="oe_button_box" name="button_box">
                         <button
                             class="oe_stat_button"
@@ -79,14 +78,13 @@
                             <field name="serial_number" />
                             <field
                                 name="user_id"
-                                attrs="{'required':[('resource_type','=','user')], 'readonly':[('resource_type','=','material')]}"
+                                attrs="{'invisible':[('resource_type','!=', 'user')], 'required':[('resource_type','=','user')]} "
                             />
                             <field
                                 name="company_id"
                                 options="{'no_create': True}"
                                 groups="base.group_multi_company"
                             />
-                            <field name="active" invisible="True" />
                         </group>
                         <group name="category">
                             <field name="category_id" widget="selection" />
@@ -97,8 +95,10 @@
                                 groups="resource_planning.group_multi_location"
                             />
                             <field name="resource_type" />
-                            <field name="calendar_id" />
-                            <field name="time_efficiency" invisible="True" />
+                            <field
+                                name="calendar_id"
+                                attrs="{'invisible':[('resource_type','!=', 'user')], 'required':[('resource_type','=','user')]} "
+                            />
                         </group>
                     </group>
                     <notebook>

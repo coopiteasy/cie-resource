@@ -11,7 +11,7 @@
     ],
     "author": "Coop IT Easy SCRL fs",
     "category": "Resource",
-    "website": "https://github.com/OCA/sale-workflow",
+    "website": "https://coopiteasy.be",
     "license": "AGPL-3",
     "summary": """
         Set opening hours for the locations and warn the use if

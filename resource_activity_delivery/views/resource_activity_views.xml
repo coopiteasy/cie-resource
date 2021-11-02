@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <!--
      Copyright 2021 Coop IT Easy
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
@@ -7,10 +7,10 @@
     <record id="view_resource_activity_tree" model="ir.ui.view">
         <field name="name">resource.activity.tree</field>
         <field name="model">resource.activity</field>
-        <field name="inherit_id" ref="resource_activity.view_resource_activity_tree"/>
+        <field name="inherit_id" ref="resource_activity.view_resource_activity_tree" />
         <field name="arch" type="xml">
             <field name="nb_allocated_resources" position="after">
-                <field name="need_delivery" string="Delivery"/>
+                <field name="need_delivery" string="Delivery" />
             </field>
         </field>
     </record>
@@ -18,20 +18,31 @@
     <record id="view_resource_activity_form" model="ir.ui.view">
         <field name="name">resource.activity.form</field>
         <field name="model">resource.activity</field>
-        <field name="inherit_id" ref="resource_activity.view_resource_activity_form"/>
+        <field name="inherit_id" ref="resource_activity.view_resource_activity_form" />
         <field name="arch" type="xml">
             <field name="set_allocation_span" position="after">
-                <field name="need_delivery"/>
-                <field name="delivery_product_id" options="{'no_create': True}"
-                       attrs="{'invisible':[('need_delivery','=',False)], 'required':[('need_delivery','=',True)]}"/>
-                <field name="delivery_place"
-                       attrs="{'invisible':[('need_delivery','=',False)], 'required':[('need_delivery','=',True)]}"/>
-                <field name="delivery_time"
-                       attrs="{'invisible':[('need_delivery','=',False)], 'required':[('need_delivery','=',True)]}"/>
-                <field name="pickup_place"
-                       attrs="{'invisible':[('need_delivery','=',False)], 'required':[('need_delivery','=',True)]}"/>
-                <field name="pickup_time"
-                       attrs="{'invisible':[('need_delivery','=',False)], 'required':[('need_delivery','=',True)]}"/>
+                <field name="need_delivery" />
+                <field
+                    name="delivery_product_id"
+                    options="{'no_create': True}"
+                    attrs="{'invisible':[('need_delivery','=',False)], 'required':[('need_delivery','=',True)]}"
+                />
+                <field
+                    name="delivery_place"
+                    attrs="{'invisible':[('need_delivery','=',False)], 'required':[('need_delivery','=',True)]}"
+                />
+                <field
+                    name="delivery_time"
+                    attrs="{'invisible':[('need_delivery','=',False)], 'required':[('need_delivery','=',True)]}"
+                />
+                <field
+                    name="pickup_place"
+                    attrs="{'invisible':[('need_delivery','=',False)], 'required':[('need_delivery','=',True)]}"
+                />
+                <field
+                    name="pickup_time"
+                    attrs="{'invisible':[('need_delivery','=',False)], 'required':[('need_delivery','=',True)]}"
+                />
             </field>
         </field>
     </record>

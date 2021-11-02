@@ -14,6 +14,7 @@ class ActivityRegistration(models.Model):
 
     def _get_activity_activity_date_lock(self):
         if self.resource_activity_id.booking_type:
+            # fixme
             self.booking_type = self.resource_activity_id.booking_type
 
     @api.onchange("resource_category")

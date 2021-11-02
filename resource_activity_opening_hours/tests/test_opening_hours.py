@@ -2,9 +2,10 @@
 #   Robin Keunen <robin@coopiteasy.be>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo.tests import common
-from odoo.exceptions import ValidationError
 import datetime as dt
+
+from odoo.exceptions import ValidationError
+from odoo.tests import common
 
 
 class TestOpeningHours(common.SavepointCase):
@@ -54,9 +55,7 @@ class TestOpeningHours(common.SavepointCase):
         location = self.env.ref("resource_planning.main_location")
 
         self.assertEqual(
-            self.env["activity.opening.hours"].get_opening_hours(
-                location, time
-            ),
+            self.env["activity.opening.hours"].get_opening_hours(location, time),
             False,
         )
 
