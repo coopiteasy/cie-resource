@@ -42,7 +42,7 @@ class ResourceResource(models.Model):
         comodel_name="resource.location",
         string="Location",
         default=_get_default_location,
-        required=True,
+        required=False,
     )
 
     _sql_constraints = [

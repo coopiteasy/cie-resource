@@ -7,4 +7,6 @@ from odoo import fields, models
 class ResUsers(models.Model):
     _inherit = "res.users"
 
-    resource_location = fields.Many2one("resource.location", string="Location")
+    resource_location = fields.Many2one(
+        comodel_name="resource.location", string="Location"
+    )
