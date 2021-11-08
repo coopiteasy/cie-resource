@@ -10,7 +10,7 @@ class ResPartner(models.Model):
     @api.multi
     def _resource_activity_count(self):
         for partner in self:
-            partner.activity_count = len(partner.resource_activities)
+            partner.activity_count = len(partner.sudo().resource_activities)
 
     is_partner = fields.Boolean(string="Partner")
     resource_activities = fields.One2many(

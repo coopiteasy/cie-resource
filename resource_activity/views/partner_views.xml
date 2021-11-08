@@ -30,6 +30,7 @@
                         name="%(resource_activity.act_res_partner_2_resource_activity)d"
                         attrs="{'invisible': [('customer', '=', False)]}"
                         icon="fa-bicycle"
+                        groups="resource_planning.group_resource_user"
                     >
                         <field
                             string="Activities"
