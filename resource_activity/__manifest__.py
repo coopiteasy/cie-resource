@@ -35,10 +35,9 @@
         "views/sale_order_views.xml",
         "wizard/activity_draft_to_done.xml",
         "wizard/cancel_sale_order_wizard.xml",
-        "reports/resource_activity_report.xml",
+        "reports/guide_report.xml",
         "reports/d_day_report.xml",
         "reports/sale_order_report.xml",
-        "reports/layouts.xml",
         "views/menus.xml",
     ],
     "demo": [

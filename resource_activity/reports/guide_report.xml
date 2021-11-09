@@ -1,24 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
-    <template id="d_day_report_document">
+    <template id="guide_report_document">
         <t t-set="company" t-value="o.company_id" />
         <div class="page">
-            <div class="row">
-                <div class="col-xs-6">
-                    <img
-                        t-if="company.logo"
-                        t-att-src="image_data_uri(company.logo)"
-                        style="height: 113px;"
-                    />
-                </div>
-            </div>
             <h2 name="activity_title">
-                Activity Summary D-Day:
+                Guide report:
                 <span t-field="o.description" />
                 <span
                     t-field="o.date_start"
                     t-options="{&quot;format&quot;: &quot;d MMMM y&quot;}"
                 />
+
             </h2>
 
             <div name="general_information" class="row mt32 mb32">
@@ -89,21 +81,14 @@
             </div>
 
             <h3 name="registration_header">Participants and resources</h3>
-
             <table name="registration_table" class="table table-sm o_main_table">
                 <thead>
                     <tr>
                         <th name="th_attendee">Attendee</th>
-                        <div t-if="not o.partner_id">
-                            <th name="th_mobile">Mobile
-                            </th>
-                        </div>
                         <th name="th_registered_participants">Registered participants
                         </th>
-                        <th name="th_present_participants">Present participants</th>
-                        <th name="th_resource_planned">Resource planned</th>
                         <th name="th_quantity_needed">Quantity needed</th>
-                        <th name="th_resource_used">Resource used</th>
+                        <th name="th_resource_planned">Resource planned</th>
                     </tr>
                 </thead>
                 <tbody class="invoice_tbody">
@@ -111,27 +96,11 @@
                         <td>
                             <span name="td_name" t-field="r.attendee_id.name" />
                         </td>
-                        <td t-if="not o.partner_id">
-                            <span
-                                name="td_mobile"
-                                t-if="r.attendee_id and r.attendee_id.mobile"
-                                t-field="r.attendee_id.mobile"
-                            />
-                        </td>
                         <td>
                             <span
                                 name="td_quantity"
                                 t-field="r.quantity"
                                 class="text-right"
-                            />
-                        </td>
-                        <td>
-                            <span />
-                        </td>
-                        <td>
-                            <span
-                                name="td_category"
-                                t-field="r.resource_category.name"
                             />
                         </td>
                         <td>
@@ -142,23 +111,22 @@
                             />
                         </td>
                         <td>
-                            <span />
+                            <span
+                                name="td_category"
+                                t-field="r.resource_category.name"
+                            />
                         </td>
                     </tr>
                 </tbody>
             </table>
-            <div name="internal_comment">
-                <h3 name="header_internal_comment">Internal Comments</h3>
-                <p t-field="o.internal_comment" name="internal_comments" />
-            </div>
         </div>
     </template>
 
-    <template id="d_day_report">
+    <template id="guide_report">
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="o">
                 <t
-                    t-call="resource_activity.d_day_report_document"
+                    t-call="resource_activity.guide_report_document"
                     t-lang="o.partner_id.lang"
                 />
             </t>
@@ -166,9 +134,9 @@
     </template>
 
     <report
-        id="action_d_day_report"
-        string="Activity D-Day Report"
-        name="resource_activity.d_day_report"
+        id="action_resource_activity_report"
+        string="Guide Report"
+        name="resource_activity.guide_report"
         model="resource.activity"
         report_type="qweb-pdf"
         menu="True"

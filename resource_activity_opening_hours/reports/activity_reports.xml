@@ -5,8 +5,8 @@
 -->
 <odoo>
     <template
-        id="resource_activity_report_document"
-        inherit_id="resource_activity.resource_activity_report_document"
+        id="guide_report_document"
+        inherit_id="resource_activity.guide_report_document"
     >
         <xpath expr="//span[@t-field='o.departure']" position="after">
             <br />
