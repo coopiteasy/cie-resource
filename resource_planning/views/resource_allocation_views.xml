@@ -132,20 +132,4 @@
             </search>
         </field>
     </record>
-
-    <record id="view_resource_allocation_gantt" model="ir.ui.view">
-        <field name="name">resource.allocation.gantt</field>
-        <field name="model">resource.allocation</field>
-        <field name="arch" type="xml">
-            <gantt
-                date_start="date_start"
-                date_stop="date_end"
-                string="Allocations"
-                default_group_by="serial_number"
-            >
-            </gantt>
-        </field>
-    </record>
-
-
 </odoo>
