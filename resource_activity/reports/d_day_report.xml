@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
     <template id="d_day_report_document">
-<!--        <t t-call="resource_activity.activity_report_layout">-->
-        <t>
+        <t t-call="resource_activity.activity_report_layout">
             <t t-set="company" t-value="o.company_id" />
             <div class="page">
                 <div class="row">
-                    <div class="col-xs-6">
+                    <div class="col-md-6">
                         <img
                             t-if="company.logo"
                             t-att-src="image_data_uri(company.logo)"
@@ -14,7 +13,7 @@
                         />
                     </div>
                 </div>
-                <h2 name="activity_title">
+                <h2 name="activity_title" class="ra_h2">
                     Activity Summary D-Day:
                     <span t-field="o.description" />
                     <span
@@ -51,7 +50,7 @@
                             </div>
                         </div>
                         <h4 name="participant_header">Expected participants</h4>
-                        <span t-field="o.registrations_expected" />
+                        <div t-field="o.registrations_expected" />
                     </div>
 
                     <div name="activity_information" class="col-sm">
@@ -95,9 +94,9 @@
 
                 <h3 name="registration_header">Participants and resources</h3>
 
-                <table name="registration_table" class="table table-sm o_main_table">
-                    <thead>
-                        <tr>
+                <table name="registration_table" class="table table-striped">
+                    <thead class="ta_thead">
+                        <tr class="ra_header_row">
                             <th name="th_attendee">Attendee</th>
                             <div t-if="not o.partner_id">
                                 <th name="th_mobile">Mobile
@@ -105,8 +104,7 @@
                             </div>
                             <th
                                 name="th_registered_participants"
-                            >Registered participants
-                            </th>
+                            >Registered participants</th>
                             <th name="th_present_participants">Present participants</th>
                             <th name="th_resource_planned">Resource planned</th>
                             <th name="th_quantity_needed">Quantity needed</th>
@@ -154,7 +152,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <div name="internal_comment">
+                <div name="internal_comment" class="ra_comments">
                     <h3 name="header_internal_comment">Internal Comments</h3>
                     <p t-field="o.internal_comment" name="internal_comments" />
                 </div>

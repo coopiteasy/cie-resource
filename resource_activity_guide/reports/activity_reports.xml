@@ -4,37 +4,39 @@
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 <odoo>
-    <template id="guide_comments">
-        <div>
-            <h3 style="margin-top:5px">Guide Comments</h3>
-            <p t-field="o.comment" name="guide-comments-field" />
+    <template id="guide_information">
+        <div class="container">
+            <div class="row" name="guides">
+                <div class="col-md-5 offset-md-7">
+                    <t t-if="o.guides">
+                        <h4>Guide(s):</h4>
+                        <t t-foreach="o.guides" t-as="guide">
+                            <t t-if="guide">
+                                <div t-field="guide.name" />
+                                <div t-if="guide.phone">
+                                    Tel:
+                                    <span t-field="guide.phone" />
+                                </div>
+                                <div>
+                                    Mobile:
+                                    <span t-field="guide.mobile" />
+                                </div>
+                                <div>
+                                    Mail:
+                                    <span t-field="guide.email" />
+                                </div>
+                            </t>
+                        </t>
+                    </t>
+                </div>
+            </div>
         </div>
     </template>
 
-    <template id="guide_information">
-        <div name="guides">
-            <div>
-                <t t-if="o.guides">
-                    <h4>Guide(s):</h4>
-                    <t t-foreach="o.guides" t-as="guide">
-                        <t t-if="guide">
-                            <div t-field="guide.name" />
-                            <div t-if="guide.phone">
-                                Tel:
-                                <span t-field="guide.phone" />
-                            </div>
-                            <div>
-                                Mobile:
-                                <span t-field="guide.mobile" />
-                            </div>
-                            <div>
-                                Mail:
-                                <span t-field="guide.email" />
-                            </div>
-                        </t>
-                    </t>
-                </t>
-            </div>
+    <template id="guide_comments">
+        <div class="ra_comments">
+            <h3>Guide Comments</h3>
+            <p t-field="o.comment" name="guide-comments-field" />
         </div>
     </template>
 

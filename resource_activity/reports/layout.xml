@@ -52,6 +52,7 @@
     </template>
 
     <template id="activity_report_layout">
-        <div>called activity report layout</div>
+        <link rel="stylesheet" href="/resource_activity/static/src/css/sheet.css" />
+        <t t-raw="0" />
     </template>
 </odoo>

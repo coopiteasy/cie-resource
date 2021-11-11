@@ -5,7 +5,7 @@
 -->
 <odoo>
     <template id="delivery_information">
-        <div t-if="o.need_delivery" name="delivery">
+        <div t-if="o.need_delivery" name="delivery" class="ra_comments">
             <h3>Delivery</h3>
             <p>
                 <strong>Delivery:</strong>

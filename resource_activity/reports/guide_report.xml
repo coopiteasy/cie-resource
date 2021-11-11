@@ -1,125 +1,133 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
     <template id="guide_report_document">
-        <t t-set="company" t-value="o.company_id" />
-        <div class="page">
-            <h2 name="activity_title">
-                Guide report:
-                <span t-field="o.description" />
-                <span
-                    t-field="o.date_start"
-                    t-options="{&quot;format&quot;: &quot;d MMMM y&quot;}"
-                />
+        <t t-call="resource_activity.activity_report_layout">
 
-            </h2>
+            <t t-set="company" t-value="o.company_id" />
+            <div class="page">
+                <h2 name="activity_title" class="ra_h2">
+                    Guide report:
+                    <span t-field="o.description" />
+                    <span
+                        t-field="o.date_start"
+                        t-options="{&quot;format&quot;: &quot;d MMMM y&quot;}"
+                    />
 
-            <div name="general_information" class="row mt32 mb32">
-                <div name="customer_information" class="col-sm">
-                    <h3 name="client_header">Client</h3>
-                    <div
-                        t-if="o.partner_id"
-                        class="col-auto mw-100"
-                        name="customer_name"
-                    >
-                        <div>
-                            <div
-                                t-if="o.partner_id.parent_id.name"
-                                t-field="o.partner_id.parent_id.name"
-                            />
-                            <div t-if="o.partner_id.name" t-field="o.partner_id.name" />
-                            <div t-if="o.partner_id.phone">
-                                Tel:
-                                <span t-field="o.partner_id.phone" />
+                </h2>
+
+                <div name="general_information" class="row mt32 mb32">
+                    <div name="customer_information" class="col-sm">
+                        <h3 name="client_header">Client</h3>
+                        <div
+                            t-if="o.partner_id"
+                            class="col-auto mw-100"
+                            name="customer_name"
+                        >
+                            <div>
+                                <div
+                                    t-if="o.partner_id.parent_id.name"
+                                    t-field="o.partner_id.parent_id.name"
+                                />
+                                <div
+                                    t-if="o.partner_id.name"
+                                    t-field="o.partner_id.name"
+                                />
+                                <div t-if="o.partner_id.phone">
+                                    Tel:
+                                    <span t-field="o.partner_id.phone" />
+                                </div>
+                                <div t-if="o.partner_id.mobile">
+                                    Mob:
+                                    <span t-field="o.partner_id.mobile" />
+                                </div>
                             </div>
-                            <div t-if="o.partner_id.mobile">
-                                Mob:
-                                <span t-field="o.partner_id.mobile" />
+                        </div>
+                        <h4 name="participant_header">Expected participants</h4>
+                        <span t-field="o.registrations_expected" />
+                    </div>
+
+                    <div name="activity_information" class="col-sm">
+                        <h3 name="activity_header">Activity</h3>
+                        <div name="activity_start">
+                            <h4>Start time and place</h4>
+                            <div>
+                                <span t-field="o.date_start" />
+                            </div>
+                            <div>
+                                <span t-field="o.departure" />
                             </div>
                         </div>
-                    </div>
-                    <h4 name="participant_header">Expected participants</h4>
-                    <span t-field="o.registrations_expected" />
-                </div>
-
-                <div name="activity_information" class="col-sm">
-                    <h3 name="activity_header">Activity</h3>
-                    <div name="activity_start">
-                        <h4>Start time and place</h4>
-                        <div>
-                            <span t-field="o.date_start" />
+                        <div name="activity_arrival">
+                            <h4>End time and place</h4>
+                            <div>
+                                <span t-field="o.date_end" />
+                            </div>
+                            <div>
+                                <span t-field="o.arrival" />
+                            </div>
                         </div>
-                        <div>
-                            <span t-field="o.departure" />
+                        <div name="activity_theme">
+                            <h4>Theme</h4>
+                            <span t-field="o.activity_theme" />
                         </div>
-                    </div>
-                    <div name="activity_arrival">
-                        <h4>End time and place</h4>
-                        <div>
-                            <span t-field="o.date_end" />
+                        <div name="activity_type">
+                            <h4>Type</h4>
+                            <span t-field="o.activity_type" />
                         </div>
-                        <div>
-                            <span t-field="o.arrival" />
-                        </div>
-                    </div>
-                    <div name="activity_theme">
-                        <h4>Theme</h4>
-                        <span t-field="o.activity_theme" />
-                    </div>
-                    <div name="activity_type">
-                        <h4>Type</h4>
-                        <span t-field="o.activity_type" />
-                    </div>
-                    <div name="activity_language">
-                        <h4>Languages</h4>
-                        <t t-foreach="o.langs" t-as="lang">
-                            <t t-if="lang">
-                                <div t-field="lang.name" />
+                        <div name="activity_language">
+                            <h4>Languages</h4>
+                            <t t-foreach="o.langs" t-as="lang">
+                                <t t-if="lang">
+                                    <div t-field="lang.name" />
+                                </t>
                             </t>
-                        </t>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <h3 name="registration_header">Participants and resources</h3>
-            <table name="registration_table" class="table table-sm o_main_table">
-                <thead>
-                    <tr>
-                        <th name="th_attendee">Attendee</th>
-                        <th name="th_registered_participants">Registered participants
-                        </th>
-                        <th name="th_quantity_needed">Quantity needed</th>
-                        <th name="th_resource_planned">Resource planned</th>
-                    </tr>
-                </thead>
-                <tbody class="invoice_tbody">
-                    <tr t-foreach="o.registrations" t-as="r">
-                        <td>
-                            <span name="td_name" t-field="r.attendee_id.name" />
-                        </td>
-                        <td>
-                            <span
-                                name="td_quantity"
-                                t-field="r.quantity"
-                                class="text-right"
-                            />
-                        </td>
-                        <td>
-                            <span
-                                name="td_quantity_needed"
-                                t-field="r.quantity_needed"
-                                class="text-right"
-                            />
-                        </td>
-                        <td>
-                            <span
-                                name="td_category"
-                                t-field="r.resource_category.name"
-                            />
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+                <h3 name="registration_header">Participants and resources</h3>
+                <table name="registration_table" class="table table-striped">
+                    <thead class="ta_thead">
+                        <tr class="ra_header_row">
+                            <th name="th_attendee">Attendee</th>
+                            <th
+                                name="th_registered_participants"
+                            >Registered participants
+                            </th>
+                            <th name="th_quantity_needed">Quantity needed</th>
+                            <th name="th_resource_planned">Resource planned</th>
+                        </tr>
+                    </thead>
+                    <tbody class="invoice_tbody">
+                        <tr t-foreach="o.registrations" t-as="r">
+                            <td>
+                                <span name="td_name" t-field="r.attendee_id.name" />
+                            </td>
+                            <td>
+                                <span
+                                    name="td_quantity"
+                                    t-field="r.quantity"
+                                    class="text-right"
+                                />
+                            </td>
+                            <td>
+                                <span
+                                    name="td_quantity_needed"
+                                    t-field="r.quantity_needed"
+                                    class="text-right"
+                                />
+                            </td>
+                            <td>
+                                <span
+                                    name="td_category"
+                                    t-field="r.resource_category.name"
+                                />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </t>
     </template>
 
     <template id="guide_report">
@@ -140,5 +148,6 @@
         model="resource.activity"
         report_type="qweb-pdf"
         menu="True"
+        paperformat="resource_activity.activity_report_format"
     />
 </odoo>
