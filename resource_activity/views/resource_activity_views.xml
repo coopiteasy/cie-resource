@@ -114,6 +114,11 @@
                             <field name="need_push" invisible="True" />
                             <field name="company_id" invisible="True" />
                             <group name="left-column">
+                                <!-- hack: this divs forces odoo to render the label column
+                                     and the value column to 50% each
+                                     source:  https://stackoverflow.com/questions/53340196/odoo-10-how-to-increase-the-field-width
+                                 -->
+                                <div />
                                 <field name="description" />
                                 <field
                                     name="partner_id"
@@ -134,6 +139,7 @@
                                 <field name="set_allocation_span" />
                             </group>
                             <group name="right-column">
+                                <div />
                                 <field name="date_start" />
                                 <field name="date_end" />
                                 <field name="duration" />
