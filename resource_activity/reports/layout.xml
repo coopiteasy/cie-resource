@@ -17,12 +17,11 @@
         <field name="margin_right">7</field>
         <field name="header_line" eval="False" />
         <field name="header_spacing">5</field>
-        <field name="dpi">110</field>
     </record>
 
     <template id="external_layout_standard" inherit_id="web.external_layout_standard">
         <xpath expr="//div[@name='company_address']" position="replace">
-            <div class="col-6" name="company_address">
+            <div class="col-5" name="company_address">
                 <t t-if="o and 'location_id' in o">
                     <t t-set="location" t-value="o.location_id" />
                 </t>
@@ -52,7 +51,14 @@
     </template>
 
     <template id="activity_report_layout">
-        <link rel="stylesheet" href="/resource_activity/static/src/css/sheet.css" />
-        <t t-raw="0" />
+        <div
+            class="article o_report_layout_standard"
+            t-att-data-oe-model="o and o._name"
+            t-att-data-oe-id="o and o.id"
+            t-att-data-oe-lang="o and o.env.context.get('lang')"
+        >
+            <link rel="stylesheet" href="/resource_activity/static/src/css/sheet.css" />
+            <t t-raw="0" />
+        </div>
     </template>
 </odoo>

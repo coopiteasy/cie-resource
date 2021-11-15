@@ -16,13 +16,9 @@
                 </h2>
 
                 <div name="general_information" class="row mt32 mb32">
-                    <div name="customer_information" class="col-sm">
+                    <div name="customer_information" class="col-6">
                         <h3 name="client_header">Client</h3>
-                        <div
-                            t-if="o.partner_id"
-                            class="col-auto mw-100"
-                            name="customer_name"
-                        >
+                        <div t-if="o.partner_id" name="customer_name">
                             <div>
                                 <div
                                     t-if="o.partner_id.parent_id.name"
@@ -46,7 +42,7 @@
                         <span t-field="o.registrations_expected" />
                     </div>
 
-                    <div name="activity_information" class="col-sm">
+                    <div name="activity_information" class="col-6">
                         <h3 name="activity_header">Activity</h3>
                         <div name="activity_start">
                             <h4>Start time and place</h4>

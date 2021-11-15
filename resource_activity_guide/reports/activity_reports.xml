@@ -7,7 +7,7 @@
     <template id="guide_information">
         <div class="container">
             <div class="row" name="guides">
-                <div class="col-md-5 offset-md-7">
+                <div class="col-5 offset-7">
                     <t t-if="o.guides">
                         <h4>Guide(s):</h4>
                         <t t-foreach="o.guides" t-as="guide">
