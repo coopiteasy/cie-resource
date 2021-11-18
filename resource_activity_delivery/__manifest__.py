@@ -19,8 +19,7 @@
         "views/resource_activity_delivery_views.xml",
         "views/resource_activity_views.xml",
         "views/sale_order_views.xml",
-        "reports/d_day_report.xml",
-        "reports/resource_activity_report.xml",
+        "reports/activity_reports.xml",
         "reports/sale_order_report.xml",
     ],
     "demo": [

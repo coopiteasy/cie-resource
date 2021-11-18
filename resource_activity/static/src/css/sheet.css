@@ -1,0 +1,13 @@
+.ra_h2 {
+    border-bottom: 4pt solid #00b9e4;
+}
+
+.ra_header_row {
+    border-top: 0pt dotted #ffffff !important;
+    border-bottom: 2pt dotted #00b9e4 !important;
+}
+
+.ra_comments {
+    border: medium dashed #00b9e4;
+    margin-top: 5pt;
+}

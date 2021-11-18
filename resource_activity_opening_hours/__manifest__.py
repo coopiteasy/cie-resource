@@ -23,7 +23,7 @@
         "views/opening_hours.xml",
         "views/resource_activity_views.xml",
         "views/resource_location_views.xml",
-        "reports/activity_report.xml",
+        "reports/activity_reports.xml",
     ],
     "demo": [
         "demo/opening_hours.xml",

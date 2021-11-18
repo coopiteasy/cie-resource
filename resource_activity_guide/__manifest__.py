@@ -16,8 +16,7 @@
         "views/product_views.xml",
         "views/resource_activity_views.xml",
         "views/resource_location_views.xml",
-        "reports/d_day_report.xml",
-        "reports/resource_activity_report.xml",
+        "reports/activity_reports.xml",
     ],
     "demo": [
         "demo/demo.xml",

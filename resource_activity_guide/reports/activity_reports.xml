@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+     Copyright 2021 Coop IT Easy
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <template id="guide_information">
+        <div class="container">
+            <div class="row" name="guides">
+                <div class="col-5 offset-7">
+                    <t t-if="o.guides">
+                        <h4>Guide(s):</h4>
+                        <t t-foreach="o.guides" t-as="guide">
+                            <t t-if="guide">
+                                <div t-field="guide.name" />
+                                <div t-if="guide.phone">
+                                    Tel:
+                                    <span t-field="guide.phone" />
+                                </div>
+                                <div>
+                                    Mobile:
+                                    <span t-field="guide.mobile" />
+                                </div>
+                                <div>
+                                    Mail:
+                                    <span t-field="guide.email" />
+                                </div>
+                            </t>
+                        </t>
+                    </t>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="guide_comments">
+        <div class="ra_comments">
+            <h3>Guide Comments</h3>
+            <p t-field="o.comment" name="guide-comments-field" />
+        </div>
+    </template>
+
+    <template
+        id="d_day_report_document"
+        inherit_id="resource_activity.d_day_report_document"
+    >
+        <xpath expr="//h2[@name='activity_title']" position="before">
+            <t t-call="resource_activity_guide.guide_information" />
+        </xpath>
+
+        <xpath expr="//table[@name='registration_table']" position="after">
+            <t t-call="resource_activity_guide.guide_comments" />
+        </xpath>
+    </template>
+
+    <template
+        id="guide_report_document"
+        inherit_id="resource_activity.guide_report_document"
+    >
+        <xpath expr="//h2[@name='activity_title']" position="before">
+            <t t-call="resource_activity_guide.guide_information" />
+        </xpath>
+        <xpath expr="//table[@name='registration_table']" position="after">
+            <t t-call="resource_activity_guide.guide_comments" />
+        </xpath>
+    </template>
+</odoo>
