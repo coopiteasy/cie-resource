@@ -14,7 +14,7 @@
             </field>
             <field name="note" position="after">
                 <field
-                    name="note_html_id"
+                    name="note_html"
                     class="oe_inline"
                     placeholder="Setup default terms and conditions in your company settings."
                 />
