@@ -5,58 +5,60 @@
             id="report_activity_saleorder_document"
             inherit_id="sale.report_saleorder_document"
         >
-            <xpath expr="//div[@name='payment_term']" position="after">
-                <div
-                    name="date_start"
-                    t-if="doc.date_start"
-                    class="col-auto mw-100 mb-2"
-                >
-                    <strong>Start date:</strong>
-                    <p class="m-0" t-field="doc.date_start" />
+            <xpath expr="//div[@name='payment_term']/.." position="after">
+                <div name="activity_info" class="row">
+
+                    <div
+                        name="activity_theme"
+                        t-if="doc.activity_theme"
+                        class="col-3 mb-3"
+                    >
+                        <strong>Theme:</strong>
+                        <p class="m-0" t-field="doc.activity_theme" />
+                    </div>
+                    <div
+                        name="activity_type"
+                        t-if="doc.activity_type"
+                        class="col-3 mb-3"
+                    >
+                        <strong>Type:</strong>
+                        <p class="m-0" t-field="doc.activity_type" />
+                    </div>
+                    <div
+                        name="registrations_expected"
+                        t-if="doc.registrations_expected"
+                        class="col-3 mb-3"
+                    >
+                        <strong>Registrations expected:</strong>
+                        <p class="m-0" t-field="doc.registrations_expected" />
+                    </div>
+                    <div name="langs" t-if="doc.langs" class="col-3 mb-3">
+                        <strong>Langs:</strong>
+                        <t t-foreach="doc.langs" t-as="lang">
+                            <t t-if="lang">
+                                <div class="m-0" t-field="lang.name" />
+                            </t>
+                        </t>
+                    </div>
                 </div>
-                <div name="date_end" t-if="doc.date_end" class="col-auto mw-100 mb-2">
-                    <strong>End date:</strong>
-                    <p class="m-0" t-field="doc.date_end" />
-                </div>
-                <div
-                    name="activity_theme"
-                    t-if="doc.activity_theme"
-                    class="col-auto mw-100 mb-2"
-                >
-                    <strong>Theme:</strong>
-                    <p class="m-0" t-field="doc.activity_theme" />
-                </div>
-                <div
-                    name="activity_type"
-                    t-if="doc.activity_type"
-                    class="col-auto mw-100 mb-2"
-                >
-                    <strong>Type:</strong>
-                    <p class="m-0" t-field="doc.activity_type" />
-                </div>
-                <div name="departure" t-if="doc.departure" class="col-auto mw-100 mb-2">
-                    <strong>Departure:</strong>
-                    <p class="m-0" t-field="doc.departure" />
-                </div>
-                <div name="arrival" t-if="doc.arrival" class="col-auto mw-100 mb-2">
-                    <strong>Arrival:</strong>
-                    <p class="m-0" t-field="doc.arrival" />
-                </div>
-                <div
-                    name="registrations_expected"
-                    t-if="doc.registrations_expected"
-                    class="col-auto mw-100 mb-2"
-                >
-                    <strong>Registrations expected:</strong>
-                    <p class="m-0" t-field="doc.registrations_expected" />
-                </div>
-                <div name="langs" t-if="doc.langs" class="col-auto mw-100 mb-2">
-<!--                    <strong>Langs:</strong>-->
-<!--                    <t t-foreach="doc.langs" t-as="lang">-->
-<!--                        <t t-if="lang">-->
-<!--                            <div class="m-0" t-field="lang.name" />-->
-<!--                        </t>-->
-<!--                    </t>-->
+                <div name="activity_start_end" class="row ">
+                    <div name="date_start" t-if="doc.date_start" class="col-3 ">
+                        <strong>Start date:</strong>
+                        <p class="m-0" t-field="doc.date_start" />
+                    </div>
+                    <div name="date_end" t-if="doc.date_end" class="col-3 mb-3">
+                        <strong>End date:</strong>
+                        <p class="m-0" t-field="doc.date_end" />
+                    </div>
+                    <div name="departure" t-if="doc.departure" class="col-3 mb-3">
+                        <strong>Departure:</strong>
+                        <p class="m-0" t-field="doc.departure" />
+                    </div>
+                    <div name="arrival" t-if="doc.arrival" class="col-3 mb-3">
+                        <strong>Arrival:</strong>
+                        <p class="m-0" t-field="doc.arrival" />
+                    </div>
+
                 </div>
             </xpath>
         </template>
