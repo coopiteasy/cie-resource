@@ -5,6 +5,22 @@
 -->
 <odoo>
     <template
+        id="report_saleorder_document"
+        inherit_id="sale.report_saleorder_document"
+    >
+        <xpath
+            expr="//strong[@t-if='doc.partner_shipping_id == doc.partner_invoice_id']"
+            position="replace"
+        >
+            <strong>Invoicing address:</strong>
+        </xpath>
+        <xpath
+            expr="//t[@t-if='doc.partner_shipping_id != doc.partner_invoice_id']"
+            position="replace"
+        />
+    </template>
+
+    <template
         id="report_activity_saleorder_document"
         inherit_id="resource_activity.report_activity_saleorder_document"
     >

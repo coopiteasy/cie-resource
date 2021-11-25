@@ -20,7 +20,8 @@
         "views/resource_activity_views.xml",
         "views/sale_order_views.xml",
         "reports/activity_reports.xml",
-        "reports/sale_order_report.xml",
+        "reports/invoice_report.xml",
+        "reports/saleorder_report.xml",
     ],
     "demo": [
         "demo/demo.xml",

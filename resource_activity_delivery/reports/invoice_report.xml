@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+     Copyright 2021 Coop IT Easy
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <template
+        id="report_invoice_document_inherit_sale"
+        inherit_id="sale.report_invoice_document_inherit_sale"
+    >
+        <xpath
+            expr="//t[@t-if='o.partner_shipping_id and (o.partner_shipping_id != o.partner_id)']"
+            position="replace"
+        />
+    </template>
+</odoo>
