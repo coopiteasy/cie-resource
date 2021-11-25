@@ -84,14 +84,14 @@
                                         name="action_reserve"
                                         states="free"
                                         help="Book"
-                                        icon="STOCK_MEDIA_PLAY"
+                                        icon="fa-play"
                                     />
                                     <button
                                         type="object"
                                         name="action_cancel"
                                         states="selected"
                                         help="Cancel"
-                                        icon="gtk-cancel"
+                                        icon="fa-ban"
                                     />
                                 </tree>
                             </field>
