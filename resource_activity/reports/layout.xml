@@ -26,7 +26,7 @@
                     <t t-set="location" t-value="o.location_id" />
                 </t>
 
-                <t t-if="location.address">
+                <t t-if="location and location.address">
                     <div>
                         <div
                             t-field="location.address"

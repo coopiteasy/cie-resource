@@ -11,6 +11,7 @@
         "sale",
         "web_tree_many2one_clickable",
         "web_tree_dynamic_colored_field",
+        "report_qweb_pdf_fixed_column",
     ],
     "author": "Coop IT Easy SCRLfs",
     "category": "Resource",
