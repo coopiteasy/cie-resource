@@ -8,8 +8,12 @@
         id="report_activity_saleorder_document"
         inherit_id="resource_activity.report_activity_saleorder_document"
     >
-        <xpath expr="//div[@name='langs']" position="after">
-            <div name="location_terms" t-if="doc.location_id.terms_ids">
+        <xpath expr="//div[@name='langs']" position="before">
+            <div
+                name="location_terms"
+                t-if="doc.location_id.terms_ids"
+                class="col-3 mb-3"
+            >
                 <t t-foreach="doc.location_id.terms_ids" t-as="line">
                     <t
                         t-if="(line.location_id == doc.location_id) and (line.activity_type_id == doc.activity_type)"
@@ -17,7 +21,6 @@
                         <div
                             name="resources"
                             t-if="(doc.activity_id.booked_resources) and (line.bike_number_display)"
-                            class="col-xs-3"
                         >
                             <strong>Resources booked:</strong>
                             <div

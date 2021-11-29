@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+     Copyright 2021 Coop IT Easy
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <template
+        id="report_saleorder_document"
+        inherit_id="sale.report_saleorder_document"
+    >
+        <xpath
+            expr="//strong[@t-if='doc.partner_shipping_id == doc.partner_invoice_id']"
+            position="replace"
+        >
+            <strong>Invoicing address:</strong>
+        </xpath>
+        <xpath
+            expr="//t[@t-if='doc.partner_shipping_id != doc.partner_invoice_id']"
+            position="replace"
+        />
+    </template>
+
+    <template
+        id="report_activity_saleorder_document"
+        inherit_id="resource_activity.report_activity_saleorder_document"
+    >
+        <xpath expr="//div[@name='activity_start_end']" position="after">
+            <div name="delivery_start_end" class="row">
+                <div name="delivery_place" t-if="doc.delivery_place" class="col-3 mb-3">
+                    <strong>Delivery place:</strong>
+                    <p t-field="doc.delivery_place" />
+                </div>
+                <div name="delivery_time" t-if="doc.delivery_time" class="col-3 mb-3">
+                    <strong>Delivery time:</strong>
+                    <p t-field="doc.delivery_time" />
+                </div>
+                <div name="pickup_place" t-if="doc.pickup_place" class="col-3 mb-3">
+                    <strong>Pickup place:</strong>
+                    <p t-field="doc.pickup_place" />
+                </div>
+                <div name="pickup_time" t-if="doc.pickup_time" class="col-3 mb-3">
+                    <strong>Pickup time:</strong>
+                    <p t-field="doc.pickup_time" />
+                </div>
+            </div>
+        </xpath>
+    </template>
+</odoo>
