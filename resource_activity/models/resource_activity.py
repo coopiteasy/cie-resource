@@ -3,8 +3,6 @@
 from collections import namedtuple
 from datetime import datetime, timedelta
 
-import pytz
-
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
 
@@ -237,16 +235,6 @@ class ResourceActivity(models.Model):
     def onchange_booking_type(self):
         if self.booking_type == "booked":
             self.date_lock = None
-
-    def _localize(self, date):
-        """localizes datetimes received from interface"""
-        tz = pytz.timezone(self._context["tz"]) if self._context["tz"] else pytz.utc
-        return pytz.utc.localize(date).astimezone(tz)
-
-    def _trunc_day(self, datetime_):
-        datetime_ = self._localize(datetime_)
-        datetime_ = datetime_.replace(hour=0, minute=0, second=0, microsecond=0)
-        return datetime_.astimezone(pytz.utc)
 
     @api.onchange(
         "date_start",

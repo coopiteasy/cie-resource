@@ -112,4 +112,5 @@ class TestResourceActivity(test_base.TestResourceActivityBase):
         activity.create_sale_order()
         sale_order = activity.sale_orders
         self.assertEquals(len(sale_order.order_line), 1)
+        # not sure when tax is applied in test or not
         self.assertEquals(activity.sale_orders.amount_total, 100)

@@ -8,7 +8,7 @@ from odoo.tests import common
 
 class TestResourceActivityBase(common.TransactionCase):
     def setUp(self):
-        super(TestResourceActivityBase, self).setUp()
+        super().setUp()
         self.partner_demo = self.browse_ref("base.partner_demo")
         self.main_location = self.browse_ref("resource_planning.main_location")
         self.bike_category = self.browse_ref(
