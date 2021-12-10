@@ -52,4 +52,5 @@ class TestResourceActivityDelivery(TestResourceActivity):
         sale_order = activity.sale_orders
         self.assertEquals(len(sale_order.order_line), 2)
         # tax = 15%
+        # not sure when tax is applied in test or not
         self.assertEquals(activity.sale_orders.amount_total, 120)

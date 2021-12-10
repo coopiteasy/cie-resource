@@ -5,9 +5,10 @@
 
 from datetime import timedelta
 
+import pytz
+
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
-from odoo.fields import Datetime
 
 from odoo.addons.resource_activity.models.resource_activity import OrderLine
 
@@ -71,6 +72,21 @@ class ResourceActivity(models.Model):
 
         return super(ResourceActivity, self).write(vals)
 
+    def _localize(self, datetime_):
+        """localizes datetime received from UI"""
+        tz = pytz.timezone(self._context["tz"]) if "tz" in self._context else pytz.utc
+        return pytz.utc.localize(datetime_).astimezone(tz)
+
+    def _delocalize(self, datetime_):
+        """return naive datetime to UI"""
+        return datetime_.astimezone(pytz.utc).replace(tzinfo=None)
+
+    def _trunc_day(self, datetime_):
+        # set to local time midnight
+        datetime_ = self._localize(datetime_)
+        datetime_ = datetime_.replace(hour=0, minute=0, second=0, microsecond=0)
+        return self._delocalize(datetime_)
+
     @api.onchange(
         "date_start",
         "need_delivery",
@@ -78,44 +94,59 @@ class ResourceActivity(models.Model):
         "set_allocation_span",
     )
     def _onchange_allocation_start(self):
-        """
-        Sets allocation start to the soonest date between
-        date_start and delivery_time.
-        resource_allocation_start can however still be
-        manually set by user if set_allocation_span is true.
-        """
         if not self.date_start:
             return
 
-        if self.need_delivery:
-            if self.set_allocation_span:
-                start = Datetime.from_string(self.date_start) - timedelta(minutes=90)
-            else:
-                # get utc, set it to local time midnight
-                #  send it back as utc because we send fields
-                #  directly to the frontend
-                start = self.delivery_time if self.delivery_time else self.date_start
-                start = self._trunc_day(start)
-            self.resource_allocation_start = Datetime.to_string(start)
-        else:
+        if not self.need_delivery:
             self.resource_allocation_start = self.date_start
+            return
 
-        @api.one
-        @api.constrains(
-            "need_delivery",
-            "delivery_time",
-            "pickup_time",
-        )
-        def _check_booked_resources_blocks_delivery_fields(self):
-            if self.booked_resources:
-                raise ValidationError(
-                    _(
-                        "You cannot modify activity delivery information "
-                        "when a resource is already booked. You must either "
-                        "delete this activity and create a new one or "
-                        "release all booked resources for this activity. "
-                    )
+        if self.set_allocation_span:
+            # todo check this is how it should behave
+            start = self.date_start - timedelta(minutes=90)
+        else:
+            start = self.delivery_time if self.delivery_time else self.date_start
+            start = self._trunc_day(start)
+
+        self.resource_allocation_start = start
+
+    @api.onchange(
+        "date_end",
+        "need_delivery",
+        "pickup_time",
+        "set_allocation_span",
+    )
+    def _onchange_allocation_end(self):
+        if not self.date_end:
+            return
+        if not self.need_delivery:
+            self.resource_allocation_end = self.date_end
+            return
+
+        if self.set_allocation_span:
+            end = self.date_end + timedelta(minutes=90)
+        else:
+            end = self.pickup_time if self.pickup_time else self.date_end
+            end = self._trunc_day(end + timedelta(days=1))
+        self.resource_allocation_end = end
+
+    @api.multi
+    @api.constrains(
+        "need_delivery",
+        "delivery_time",
+        "pickup_time",
+    )
+    def _check_booked_resources_blocks_delivery_fields(self):
+        self.ensure_one()
+        if self.booked_resources:
+            raise ValidationError(
+                _(
+                    "You cannot modify activity delivery information "
+                    "when a resource is already booked. You must either "
+                    "delete this activity and create a new one or "
+                    "release all booked resources for this activity. "
                 )
+            )
 
     def _prepare_lines(self):
         prepared_lines = super(ResourceActivity, self)._prepare_lines()
