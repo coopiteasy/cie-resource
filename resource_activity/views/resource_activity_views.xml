@@ -122,7 +122,7 @@
                                 <field name="description" />
                                 <field
                                     name="partner_id"
-                                    attrs="{'readonly':[('sale_orders','!=',[])]}"
+                                    attrs="{'readonly':[('state','not in',['draft', 'cancelled'])]}"
                                 />
                                 <field name="location_id" widget="selection" />
                                 <field name="registrations_max" />
