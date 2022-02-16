@@ -368,11 +368,24 @@ class ResourceActivity(models.Model):
         """
         for activity in self:
             if activity.state == "sale":
-                activity.state = "done"
+                activity.set_activity_as_done()
             else:
                 raise ValidationError(
                     _("You can only set the activity to done from Sale state.")
                 )
+
+    @api.multi
+    def set_activity_as_done(self):
+        self.ensure_one()
+        self.state = "done"
+        self.update_resource_registration_date_end(datetime.now())
+
+    @api.multi
+    def update_resource_registration_date_end(self, update_datetime):
+        self.ensure_one()
+        if self.date_end > update_datetime:
+            for allocation in self.registrations.mapped("allocations"):
+                allocation.date_end = update_datetime
 
     @api.multi
     def action_draft(self):
