@@ -10,8 +10,10 @@ class Resource(models.Model):
     purchase_date = fields.Date(string="Purchase Date")
     purchase_invoice_ref = fields.Char(string="Purchase Invoice Ref")
 
-    removed_from_stock = fields.Boolean(string="Removed From Stock", default=False)
-    stock_removal_date = fields.Date(string="Stock Removal Date")
+    removed_from_stock = fields.Boolean(
+        string="Removed From Stock", default=False, track_visibility=True
+    )
+    stock_removal_date = fields.Date(string="Stock Removal Date", track_visibility=True)
     stock_removal_reason = fields.Selection(
         string="Stock Removal Reason",
         selection=[
@@ -21,9 +23,10 @@ class Resource(models.Model):
             ("broken", "Broken"),
             ("other", "Other"),
         ],
+        track_visibility=True,
     )
-    selling_price = fields.Float(string="Selling Price")
-    sale_invoice_ref = fields.Char(string="Sale Invoice Ref")
+    selling_price = fields.Float(string="Selling Price", track_visibility=True)
+    sale_invoice_ref = fields.Char(string="Sale Invoice Ref", track_visibility=True)
 
     @api.multi
     def action_remove_from_stock(self):
@@ -42,3 +45,17 @@ class Resource(models.Model):
             "res_id": wiz.id,
             "target": "new",
         }
+
+    @api.multi
+    def action_available(self):
+        res = super().action_available()
+        self.write(
+            {
+                "removed_from_stock": False,
+                "stock_removal_date": False,
+                "stock_removal_reason": False,
+                "selling_price": False,
+                "sale_invoice_ref": False,
+            }
+        )
+        return res
