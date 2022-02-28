@@ -17,6 +17,7 @@ class ResourceResource(models.Model):
         return location
 
     category_id = fields.Many2one("resource.category", string="Category")
+    # todo is this needed ? couldn't it be dealt w/ active field ?
     state = fields.Selection(
         [
             ("draft", "Draft"),
@@ -68,18 +69,15 @@ class ResourceResource(models.Model):
 
     @api.multi
     def action_unavailable(self):
-        for resource in self:
-            resource.state = "unavailable"
+        self.write({"state": "unavailable"})
 
     @api.multi
     def action_available(self):
-        for resource in self:
-            resource.state = "available"
+        self.write({"state": "available"})
 
     @api.multi
     def action_draft(self):
-        for resource in self:
-            resource.state = "draft"
+        self.write({"state": "draft"})
 
     def check_dates(self, date_start, date_end):
         if not date_start or not date_end:
