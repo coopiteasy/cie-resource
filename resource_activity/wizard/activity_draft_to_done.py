@@ -14,5 +14,5 @@ class ActivityDraftToDoneWizard(models.TransientModel):
         activity = self.env["resource.activity"].browse(
             self._context.get("active_ids")
         )[0]
-        activity.state = "done"
+        activity.set_activity_as_done()
         return {"type": "ir.actions.act_window_close"}

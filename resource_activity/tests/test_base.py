@@ -17,7 +17,9 @@ class TestResourceActivityBase(common.TransactionCase):
         self.ebike_category = self.browse_ref(
             "resource_planning.resource_category_ebike_demo"
         )
-        self.mtb_category = self.env["resource.category"].create({"name": "VTT"})
+        self.mtb_category = self.env["resource.category"].create(
+            {"name": "VTT"}
+        )
         self.bike_product = self.browse_ref(
             "resource_activity.product_product_bike_rent_demo"
         )
