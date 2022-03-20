@@ -174,3 +174,32 @@ class TestResourceStockInformation(common.TransactionCase):
         )
         wiz.force_remove = True
         wiz.button_remove_resource_from_stock()
+
+    def test_resource_removed_set_available(self):
+        wiz_action = self.bike_1.action_remove_from_stock()
+        wiz = self.env[wiz_action["res_model"]].browse(wiz_action["res_id"])
+        today = Date.today()
+        reason = "sold"
+        selling_price = 3
+        invoice_ref = "REF001"
+
+        wiz.write(
+            {
+                "stock_removal_date": today,
+                "stock_removal_reason": reason,
+                "selling_price": selling_price,
+                "sale_invoice_ref": invoice_ref,
+                "force_remove": True,
+            }
+        )
+        wiz.remove_resource_from_stock()
+        self.assertEquals(self.bike_1.state, "unavailable")
+
+        self.bike_1.action_available()
+
+        self.assertFalse(self.bike_1.removed_from_stock)
+        self.assertEquals(self.bike_1.state, "available")
+        self.assertFalse(self.bike_1.stock_removal_date)
+        self.assertFalse(self.bike_1.stock_removal_reason)
+        self.assertFalse(self.bike_1.selling_price)
+        self.assertFalse(self.bike_1.sale_invoice_ref)
