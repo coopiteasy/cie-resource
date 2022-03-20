@@ -4,7 +4,7 @@
 
 {
     "name": "Resource Stock Information",
-    "version": "12.0.1.0.0",
+    "version": "12.0.1.1.0",
     "depends": [
         "resource_planning",
     ],
