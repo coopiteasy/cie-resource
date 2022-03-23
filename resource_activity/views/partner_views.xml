@@ -57,20 +57,6 @@
             </field>
         </record>
 
-        <record id="view_res_partner_filter_activity" model="ir.ui.view">
-            <field name="name">res.partner.select</field>
-            <field name="model">res.partner</field>
-            <field name="inherit_id" ref="base.view_res_partner_filter" />
-            <field name="arch" type="xml">
-                <xpath expr="//filter[@name='supplier']" position='after'>
-                    <filter
-                        string="Partner"
-                        name="partner"
-                        domain="[('is_partner','=',1)]"
-                    />
-                </xpath>
-            </field>
-        </record>
 
         <record id="action_partner_activity_tree" model="ir.actions.act_window">
             <field name="name">Contacts</field>
