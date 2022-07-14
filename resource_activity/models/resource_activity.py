@@ -394,6 +394,7 @@ class ResourceActivity(models.Model):
 
     @api.multi
     def action_cancel(self):
+        self.ensure_one()
         action = self.env.ref("resource_activity.action_cancel_sale_order")
         for activity in self:
             activity.registrations.action_cancel()
