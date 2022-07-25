@@ -10,14 +10,16 @@
     >
         <xpath
             expr="//strong[@t-if='doc.partner_shipping_id == doc.partner_invoice_id']"
-            position="replace"
+            position="attributes"
         >
             <strong>Invoicing address:</strong>
         </xpath>
         <xpath
-            expr="//t[@t-if='doc.partner_shipping_id != doc.partner_invoice_id']"
-            position="replace"
-        />
+            expr="//strong[@t-if='doc.partner_shipping_id != doc.partner_invoice_id']"
+            position="attributes"
+        >
+            <attribute name="invisible">1</attribute>
+        </xpath>
     </template>
 
     <template
