@@ -1,4 +1,4 @@
-# Copyright 2020 Coop IT Easy SCRL fs
+# Copyright 2020 Coop IT Easy SC
 #   Robin Keunen <robin@coopiteasy.be>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
@@ -79,9 +79,7 @@ class TestResourceActivity(test_base.TestResourceActivityBase):
             av_categ.category_id: av_categ.nb_resources
             for av_categ in activity.available_category_ids
         }
-        self.assertEquals(
-            {self.bike_category: 2, self.mtb_category: 2}, categories
-        )
+        self.assertEquals({self.bike_category: 2, self.mtb_category: 2}, categories)
 
         activity = activity_obj.create(
             {
@@ -191,11 +189,9 @@ class TestResourceActivity(test_base.TestResourceActivityBase):
         activity_not_finished.reserve_needed_resource()
         activity_not_finished.action_draft_to_sale()
         activity_not_finished.action_done()
-        for (
-            registration_date_end
-        ) in activity_not_finished.registrations.mapped("allocations").mapped(
-            "date_end"
-        ):
+        for registration_date_end in activity_not_finished.registrations.mapped(
+            "allocations"
+        ).mapped("date_end"):
             self.assertEqual(datetime.now(), registration_date_end)
         activity_not_finished.unreserve_resources()
 
@@ -226,10 +222,8 @@ class TestResourceActivity(test_base.TestResourceActivityBase):
         activity_not_finished.reserve_needed_resource()
         activity_not_finished.action_draft_to_sale()
         activity_not_finished.action_done()
-        for (
-            registration_date_end
-        ) in activity_not_finished.registrations.mapped("allocations").mapped(
-            "date_end"
-        ):
+        for registration_date_end in activity_not_finished.registrations.mapped(
+            "allocations"
+        ).mapped("date_end"):
             self.assertEqual(date_end, registration_date_end)
         activity_not_finished.unreserve_resources()

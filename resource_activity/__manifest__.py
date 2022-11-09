@@ -1,4 +1,4 @@
-# Copyright 2021 Coop IT Easy SCRL fs
+# Copyright 2021 Coop IT Easy SC
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 {
     "name": "Resource Activity",
@@ -13,9 +13,9 @@
         "web_tree_dynamic_colored_field",
         "report_qweb_pdf_fixed_column",
     ],
-    "author": "Coop IT Easy SCRLfs",
+    "author": "Coop IT Easy SC",
     "category": "Resource",
-    "website": "https://coopiteasy.be",
+    "website": "https://github.com/coopiteasy/cie-resource",
     "license": "AGPL-3",
     "summary": """
         Manage activities, book resources and generate sale orders.

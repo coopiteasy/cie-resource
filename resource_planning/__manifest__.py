@@ -1,4 +1,4 @@
-# Copyright 2018 Coop IT Easy SCRLfs.
+# Copyright 2018 Coop IT Easy SC.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 {
     "name": "Resource Planning",
@@ -8,9 +8,9 @@
         "mail",
         "resource",
     ],
-    "author": "Coop IT Easy SCRLfs",
+    "author": "Coop IT Easy SC",
     "category": "Resource",
-    "website": "https://coopiteasy.be",
+    "website": "https://github.com/coopiteasy/cie-resource",
     "license": "AGPL-3",
     "summary": """
     This module manages the planning of the resources (reservation, booking, ...).
