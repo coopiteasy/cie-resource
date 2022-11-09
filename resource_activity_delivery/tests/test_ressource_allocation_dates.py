@@ -1,4 +1,4 @@
-# Copyright 2021 Coop IT Easy SCRL fs
+# Copyright 2021 Coop IT Easy SC
 #   Robin Keunen <robin@coopiteasy.be>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
@@ -7,9 +7,7 @@ from datetime import datetime, timedelta
 from odoo.fields import Datetime
 from odoo.tests import Form
 
-from odoo.addons.resource_activity.tests.test_base import (
-    TestResourceActivityBase,
-)
+from odoo.addons.resource_activity.tests.test_base import TestResourceActivityBase
 
 
 class TestAllocationDates(TestResourceActivityBase):
