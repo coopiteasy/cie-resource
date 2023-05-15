@@ -341,7 +341,7 @@ class ResourceActivity(models.Model):
 
     @api.multi
     def search_all_resources(self):
-        self.mapped("registrations").search_resources()
+        return self.mapped("registrations").search_resources()
 
     @api.multi
     def reserve_needed_resource(self):

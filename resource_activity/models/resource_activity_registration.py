@@ -199,11 +199,13 @@ class ActivityRegistration(models.Model):
                         registration.state = "available"
                     else:
                         registration.state = "waiting"
-                        # fixme create own cursor to persist waiting state
-                        self.env.cr.commit()  # pylint: disable=invalid-commit
-                        raise UserError(
-                            _("Not enough resource found for the registration")
-                        )
+                        return {
+                            "type": "ir.actions.act_window.message",
+                            "title": _("Réservation Impossible"),
+                            "message": _(
+                                "Not enough resource found for the registration"
+                            ),
+                        }
         return True
 
     @api.multi

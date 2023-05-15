@@ -12,6 +12,7 @@
         "web_tree_many2one_clickable",
         "web_tree_dynamic_colored_field",
         "report_qweb_pdf_fixed_column",
+        "web_ir_actions_act_window_message",
     ],
     "author": "Coop IT Easy SC",
     "category": "Resource",
