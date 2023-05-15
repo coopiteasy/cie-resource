@@ -10,31 +10,29 @@ from . import test_base
 
 
 class TestResourceActivity(test_base.TestResourceActivityBase):
-    def setUp(self):
-        super().setUp()
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
 
-        self.registration_1 = {
-            "attendee_id": self.partner_demo.id,
+        cls.registration_1 = {
+            "attendee_id": cls.partner_demo.id,
             "quantity": 1,
             "quantity_needed": 1,
             "booking_type": "booked",
-            "resource_category": self.mtb_category.id,
-            "product_id": self.bike_product.id,
+            "resource_category": cls.mtb_category.id,
+            "product_id": cls.bike_product.id,
         }
-        self.registration_2 = {
-            "attendee_id": self.partner_demo.id,
+        cls.registration_2 = {
+            "attendee_id": cls.partner_demo.id,
             "quantity": 1,
             "quantity_needed": 1,
             "booking_type": "booked",
-            "resource_category": self.mtb_category.id,
-            "product_id": self.bike_product.id,
+            "resource_category": cls.mtb_category.id,
+            "product_id": cls.bike_product.id,
         }
 
     def test_compute_available_resources(self):
         activity_obj = self.env["resource.activity"]
-        # todo test should not rely on resource allocation demo data
-        #   from other module. It should rely only on basic entity
-        #   demo data
         activity = activity_obj.create(
             {
                 "date_start": "2020-11-23 14:30",

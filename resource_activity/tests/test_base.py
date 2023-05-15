@@ -2,43 +2,41 @@
 #   Robin Keunen <robin@coopiteasy.be>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
+from odoo.tests.common import SavepointCase
 
-from odoo.tests import common
 
-
-class TestResourceActivityBase(common.TransactionCase):
-    def setUp(self):
-        super().setUp()
-        self.partner_demo = self.browse_ref("base.partner_demo")
-        self.main_location = self.browse_ref("resource_planning.main_location")
-        self.bike_category = self.browse_ref(
-            "resource_planning.resource_category_bike_demo"
-        )
-        self.ebike_category = self.browse_ref(
+class TestResourceActivityBase(SavepointCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.partner_demo = cls.env.ref("base.partner_demo")
+        cls.main_location = cls.env.ref("resource_planning.main_location")
+        cls.bike_category = cls.env.ref("resource_planning.resource_category_bike_demo")
+        cls.ebike_category = cls.env.ref(
             "resource_planning.resource_category_ebike_demo"
         )
-        self.mtb_category = self.env["resource.category"].create({"name": "VTT"})
-        self.bike_product = self.browse_ref(
+        cls.mtb_category = cls.env["resource.category"].create({"name": "MTB"})
+        cls.bike_product = cls.env.ref(
             "resource_activity.product_product_bike_rent_demo"
         )
-        self.mtb_1 = self.env["resource.resource"].create(
+        cls.mtb_1 = cls.env["resource.resource"].create(
             {
-                "name": "Mountain Bike 3",
-                "serial_number": "MTB3",
+                "name": "Mountain Bike Test 1",
+                "serial_number": "MTBT1",
                 "state": "available",
-                "category_id": self.mtb_category.id,
-                "location": self.main_location.id,
+                "category_id": cls.mtb_category.id,
+                "location": cls.main_location.id,
             }
         )
-        self.mtb_2 = self.env["resource.resource"].create(
+        cls.mtb_2 = cls.env["resource.resource"].create(
             {
-                "name": "Mountain Bike 4",
-                "serial_number": "MTB4",
+                "name": "Mountain Bike Test 2",
+                "serial_number": "MTBT2",
                 "state": "available",
-                "category_id": self.mtb_category.id,
-                "location": self.main_location.id,
+                "category_id": cls.mtb_category.id,
+                "location": cls.main_location.id,
             }
         )
-        self.activity_type = self.browse_ref(
+        cls.activity_type = cls.env.ref(
             "resource_activity.resource_activity_type_tour_demo"
         )
