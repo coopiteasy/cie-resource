@@ -79,10 +79,10 @@ class ResourceResource(models.Model):
     def action_draft(self):
         self.write({"state": "draft"})
 
-    def check_dates(self, date_start, date_end):
-        if not date_start or not date_end:
-            raise ValidationError(_("Error. Date start or date end aren't set"))
-        elif date_end < date_start:
+    @api.multi
+    def check_availabilities(self, date_start, date_end, location):
+        # todo refactor, use resource.allocation.get_allocations
+        if date_end < date_start:
             raise ValidationError(
                 _(
                     "End date is preceding start date. Please "
@@ -90,10 +90,6 @@ class ResourceResource(models.Model):
                 )
             )
 
-    @api.multi
-    def check_availabilities(self, date_start, date_end, location):
-        # todo refactor, use resource.allocation.get_allocations
-        self.check_dates(date_start, date_end)
         available_resources = self.filtered(lambda r: r.state == "available")
         if location:
             available_resources = available_resources.filtered(
@@ -128,7 +124,6 @@ class ResourceResource(models.Model):
         location,
         date_lock=False,
     ):
-        self.check_dates(date_start, date_end)
         res_alloc = self.env["resource.allocation"]
 
         vals = {
