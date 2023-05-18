@@ -57,7 +57,7 @@
                         class="btn-primary"
                     />
                     <button
-                        name="book_resource"
+                        name="book_resources"
                         attrs="{'invisible':[('booking_allowed','=',False)]}"
                         string="Book resources"
                         type="object"

@@ -11,6 +11,7 @@ class TestResourcePlanning(common.TransactionCase):
     def setUp(self):
         super(TestResourcePlanning, self).setUp()
         self.main_location = self.browse_ref("resource_planning.main_location")
+        # todo use test data rather than demo data
         self.alloc_1 = self.browse_ref("resource_planning.resource_allocation_1_demo")
         self.alloc_2 = self.browse_ref("resource_planning.resource_allocation_2_demo")
         self.alloc_3 = self.browse_ref("resource_planning.resource_allocation_3_demo")

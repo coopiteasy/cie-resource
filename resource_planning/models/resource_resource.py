@@ -81,7 +81,8 @@ class ResourceResource(models.Model):
 
     @api.multi
     def check_availabilities(self, date_start, date_end, location):
-        # todo refactor, use resource.allocation.get_allocations
+        # fixme use resource.allocation.get_allocations
+        #  resource.available is not defined in this module
         if date_end < date_start:
             raise ValidationError(
                 _(
@@ -113,37 +114,3 @@ class ResourceResource(models.Model):
         for resource_id in unavailable_resources_ids:
             available_resources_ids.remove(resource_id)
         return available_resources_ids
-
-    @api.multi
-    def allocate_resource(
-        self,
-        allocation_type,
-        date_start,
-        date_end,
-        partner_id,
-        location,
-        date_lock=False,
-    ):
-        res_alloc = self.env["resource.allocation"]
-
-        vals = {
-            "date_start": date_start,
-            "date_end": date_end,
-            "date_lock": date_lock,
-            "state": allocation_type,
-            "partner_id": partner_id.id,
-            "location": location.id,
-        }
-
-        # we check again the availabilities in case in has been booked
-        # between the search and the allocation request
-        allocation_ids = []
-        available_resource_ids = self.check_availabilities(
-            date_start, date_end, location
-        )
-
-        for resource in self.browse(available_resource_ids):
-            vals["resource_id"] = resource.id
-            allocation = res_alloc.create(vals)
-            allocation_ids.append(allocation.id)
-        return allocation_ids

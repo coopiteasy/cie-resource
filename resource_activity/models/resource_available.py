@@ -36,16 +36,20 @@ class ResourceAvailable(models.Model):
     def action_reserve(self):
         for resource_available in self.filtered(lambda record: record.state == "free"):
             # todo pass registration / delegate to registration
-            allocation_ids = resource_available.resource_id.allocate_resource(
-                resource_available.registration_id.booking_type,
-                resource_available.registration_id.date_start,
-                resource_available.registration_id.date_end,
-                resource_available.registration_id.attendee_id,
-                resource_available.registration_id.location_id,
-                resource_available.registration_id.date_lock,
+            # fixme refresh availabilities
+            allocations = self.env["resource.allocation"].create(
+                {
+                    "resource_id": resource_available.resource_id,
+                    "partner_id": resource_available.registration_id.attendee_id.id,
+                    "date_start": resource_available.registration_id.date_start,
+                    "date_end": resource_available.registration_id.date_end,
+                    "date_lock": resource_available.registration_id.date_lock,
+                    "state": resource_available.registration_id.booking_type,
+                    "location": resource_available.registration_id.location_id.id,
+                }
             )
-            if allocation_ids:
-                allocations = self.env["resource.allocation"].browse(allocation_ids)
+            if allocations:
+                allocations = self.env["resource.allocation"].browse(allocations)
                 allocations.write(
                     {"activity_registration_id": resource_available.registration_id.id}
                 )

@@ -54,17 +54,31 @@ class ResourceAllocation(models.Model):
             allocation.state = "option"
 
     @api.model
-    def get_allocations(self, date_start, date_end, location):
-        """For given location, returns resource allocations intersecting
-        with date_start to date_end timespan"""
+    def get_allocations(
+        self, date_start, date_end, location, resource=None, category=None
+    ):
+        """
+        :param date_start: datetime
+        :param date_end: datetime
+        :param location: filter on allocation location
+        :param resource: filter on resource allocation
+        :param category: filter on resource category allocation
+        :return: resource allocations intersecting with date_start to date_end
+        """
 
-        return self.env["resource.allocation"].search(
-            [
-                ("location", "=", location.id),
-                ("state", "!=", "cancel"),
-                "!",
-                "|",
-                ("date_end", "<=", date_start),
-                ("date_start", ">=", date_end),
-            ]
-        )
+        domain = [
+            ("location", "=", location.id),
+            ("state", "!=", "cancel"),
+            "!",
+            "|",
+            ("date_end", "<=", date_start),
+            ("date_start", ">=", date_end),
+        ]
+
+        if resource is not None:
+            domain.append(("resource_id", "=", resource.id))
+
+        if category is not None:
+            domain.append(("resource_id.category_id", "=", category.id))
+
+        return self.env["resource.allocation"].search(domain)
