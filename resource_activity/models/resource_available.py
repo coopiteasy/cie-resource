@@ -12,9 +12,14 @@ class ResourceAvailable(models.Model):
     _description = "Resource Available"
 
     name = fields.Char(related="resource_id.serial_number", string="Name")
-    resource_id = fields.Many2one("resource.resource", string="Resource", required=True)
+    resource_id = fields.Many2one(
+        comodel_name="resource.resource", string="Resource", required=True
+    )
     registration_id = fields.Many2one(
-        "resource.activity.registration", string="Registration"
+        comodel_name="resource.activity.registration", string="Registration"
+    )
+    allocation_id = fields.Many2one(
+        comodel_name="resource.allocation", string="Allocation"
     )
     activity_id = fields.Many2one(
         related="registration_id.resource_activity_id",
@@ -34,44 +39,34 @@ class ResourceAvailable(models.Model):
 
     @api.multi
     def action_reserve(self):
-        for resource_available in self.filtered(lambda record: record.state == "free"):
-            # todo pass registration / delegate to registration
-            # fixme refresh availabilities
-            allocations = self.env["resource.allocation"].create(
-                {
-                    "resource_id": resource_available.resource_id,
-                    "partner_id": resource_available.registration_id.attendee_id.id,
-                    "date_start": resource_available.registration_id.date_start,
-                    "date_end": resource_available.registration_id.date_end,
-                    "date_lock": resource_available.registration_id.date_lock,
-                    "state": resource_available.registration_id.booking_type,
-                    "location": resource_available.registration_id.location_id.id,
-                }
-            )
-            if allocations:
-                allocations = self.env["resource.allocation"].browse(allocations)
-                allocations.write(
-                    {"activity_registration_id": resource_available.registration_id.id}
-                )
-                resource_available.state = "selected"
-                # resource_available.registration_id.quantity_allocated += 1  # mark
-                resource_available.registration_id.state = (
-                    resource_available.registration_id.booking_type
-                )
-            else:
-                _logger.info(
-                    "no resource found for : " + str(resource_available.resource_id.ids)
-                )
-            self.activity_id.registrations.action_refresh()
-        return True
+        self.ensure_one()
+        # this code works because it is called from
+        # a list view on an activity form after button search_resource
+        # was called.
+        # In other cases, registration might not be set
+        if not self.registration_id:
+            raise ValueError("Registration is not set on resource availability record.")
+        self.allocation_id = self.env["resource.allocation"].create(
+            {
+                "resource_id": self.resource_id.id,
+                "partner_id": self.registration_id.attendee_id.id,
+                "date_start": self.registration_id.date_start,
+                "date_end": self.registration_id.date_end,
+                "date_lock": self.registration_id.date_lock,
+                "state": self.registration_id.booking_type,
+                "location": self.registration_id.location_id.id,
+                "activity_registration_id": self.registration_id.id,
+            }
+        )
+        self.state = "selected"
+        self.activity_id.registrations.action_refresh()
 
     @api.multi
     def action_cancel(self):
-        allocation = self.registration_id.allocations.filtered(
-            lambda record: record.resource_id.id == self.resource_id.id
-            and record.state != "cancel"
-        )
-        allocation.action_cancel()
+        self.ensure_one()
+        # do not unlink to keep the resource available
+        # displayed in the user interface
         self.state = "cancelled"
-
+        if self.allocation_id:
+            self.allocation_id.action_cancel()
         return True

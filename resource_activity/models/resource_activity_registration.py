@@ -210,6 +210,8 @@ class ActivityRegistration(models.Model):
 
     @api.multi
     def action_refresh(self):
+        """Refreshes the state of resource_available according
+        to resource availability"""
         for registration in self:
             resources_available = registration.resources_available.filtered(
                 lambda record: record.state == "free"
@@ -230,27 +232,33 @@ class ActivityRegistration(models.Model):
     def reserve_needed_resource(self):
         for registration in self:
             if registration.quantity_needed == 0:
+                # fixme needed because _compute_state depends on allocations
+                # and there is no allocations here
+                # fixme make it depend on quantity_needed
                 registration.state = "booked"
-            else:
-                free_resources = registration.resources_available.filtered(
-                    lambda record: record.state == "free"
-                )
-                for resource_available in free_resources:
-                    if (
-                        registration.quantity_needed - registration.quantity_allocated
-                        <= 0
-                    ):
-                        break
-                    resource_available.action_reserve()
+                return
 
-                (registration.resource_activity_id.registrations.action_refresh())
-        return True
+            # update available resources
+            registration.search_resources()
+            free_resources = registration.resources_available.filtered(
+                lambda record: record.state == "free"
+            )
+            for resource_available in free_resources:
+                if registration.quantity_allocated >= registration.quantity_needed:
+                    break
+                resource_available.action_reserve()
+
+            if registration.quantity_allocated >= registration.quantity_needed:
+                registration.state = registration.booking_type
+
+            registration.resource_activity_id.registrations.action_refresh()
+            return
 
     @api.multi
     def action_cancel(self):
         for registration in self:
-            for resource_available in registration.resources_available:
-                resource_available.action_cancel()
+            registration.allocations.action_cancel()
+            registration.resources_available.unlink()
             registration.write(
                 {
                     "state": "cancelled",

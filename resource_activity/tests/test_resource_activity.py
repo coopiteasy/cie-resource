@@ -6,6 +6,8 @@ from datetime import datetime, timedelta
 
 from freezegun import freeze_time
 
+from odoo.exceptions import UserError
+
 from . import test_base
 
 
@@ -225,3 +227,86 @@ class TestResourceActivity(test_base.TestResourceActivityBase):
         ).mapped("date_end"):
             self.assertEqual(date_end, registration_date_end)
         activity_not_finished.unreserve_resources()
+
+    def test_unlink_registrations_raises_user_error_if_not_cancelled(self):
+        registration = self.env["resource.activity.registration"].create(
+            self.registration_1
+        )
+        registration.search_resources()
+        registration.reserve_needed_resource()
+        with self.assertRaises(UserError):
+            registration.action_unlink()
+
+    def test_cancel_registration_cancels_allocations(self):
+        registration = self.env["resource.activity.registration"].create(
+            self.registration_1
+        )
+        registration.search_resources()
+        registration.reserve_needed_resource()
+        registration.action_cancel()
+        self.assertEquals(registration.state, "cancelled")
+        self.assertEquals(registration.quantity_allocated, 0)
+        self.assertFalse(registration.resources_available)
+        self.assertTrue(
+            all(lambda a: a.state == "cancelled" for a in registration.allocations)
+        )
+
+    def test_modified_reservations_are_cancelled_by_activity(self):
+        date_start = datetime(2023, 1, 1, 16, 0)
+        date_end = datetime(2023, 1, 1, 18, 0)
+
+        # book mtb_1
+        mtb_1_allocation = self.env["resource.allocation"].create(
+            {
+                "resource_id": self.mtb_1.id,
+                "date_start": date_start,
+                "date_end": date_end,
+                # "location_id": self.main_location.id,
+                # "partner_id": self.partner_demo.id,
+            }
+        )
+        mtb_1_allocation.action_confirm()
+
+        activity = self.env["resource.activity"].create(
+            {
+                "date_start": date_start,
+                "date_end": date_end,
+                # set by _onchange_allocation_start in real life
+                "resource_allocation_start": date_start,
+                # set by _onchange_allocation_end in real life
+                "resource_allocation_end": date_end,
+                "location_id": self.main_location.id,
+                "activity_type": self.activity_type.id,
+                "registrations": [
+                    (
+                        0,
+                        0,
+                        {
+                            "attendee_id": self.partner_demo.id,
+                            "quantity": 1,
+                            "quantity_needed": 1,
+                            "booking_type": "booked",
+                            "resource_category": self.mtb_category.id,
+                            "product_id": self.bike_product.id,
+                        },
+                    ),
+                ],
+            }
+        )
+        activity.search_all_resources()
+        activity.reserve_needed_resource()
+        registration = activity.registrations[0]
+        self.assertEqual(registration.state, "booked")
+        self.assertEqual(registration.quantity_allocated, 1)
+        allocation = registration.allocations[0]
+        self.assertEqual(allocation.resource_id, self.mtb_2)
+        self.assertEqual(allocation.state, "booked")
+
+        allocation.resource_id = self.mtb_1
+        activity.unreserve_resources()
+        self.assertEqual(registration.quantity_allocated, 0)
+        self.assertEqual(allocation.state, "cancel")
+
+        activity.search_all_resources()
+        activity.reserve_needed_resource()
+        self.assertEqual(registration.quantity_allocated, 1)
