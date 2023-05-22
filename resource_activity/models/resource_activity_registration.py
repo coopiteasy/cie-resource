@@ -292,18 +292,6 @@ class ActivityRegistration(models.Model):
         return super(ActivityRegistration, self).unlink()
 
     @api.multi
-    @api.depends("quantity", "quantity_allocated")
-    def compute_state(self):
-        for subscription in self:  # fixme
-            if subscription.quantity_allocated == subscription.quantity:
-                subscription.state = subscription.booking_type
-            elif (
-                subscription.state != "draft"
-                and subscription.quantity_allocated < subscription.quantity
-            ):
-                subscription.state = "waiting"
-
-    @api.multi
     def view_registration_form(self):
         self.action_refresh()
         context = dict(self.env.context or {})
