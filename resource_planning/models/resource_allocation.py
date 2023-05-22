@@ -1,18 +1,41 @@
 # Copyright 2018 Coop IT Easy SC.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
 
 
 class ResourceAllocation(models.Model):
     _name = "resource.allocation"
     _description = "Resource Allocation"
 
+    @api.constrains("resource_id", "date_start", "date_end", "location")
+    def _check_resource_allocations(self):
+        for allocation in self:
+            other_allocations = (
+                self.get_allocations(
+                    allocation.date_start,
+                    allocation.date_end,
+                    allocation.location,
+                    resource=allocation.resource_id,
+                )
+                - allocation
+            )
+            if other_allocations:
+                raise ValidationError(
+                    _("There is already an allocation for resource %s from %s to %s")
+                    % (
+                        allocation.serial_number,
+                        allocation.date_start,
+                        allocation.date_end,
+                    )
+                )
+
     name = fields.Many2one(string="Name", related="partner_id")
+    resource_id = fields.Many2one("resource.resource", string="Resource", required=True)
     serial_number = fields.Char(
         related="resource_id.serial_number", string="Serial number"
     )
-    resource_id = fields.Many2one("resource.resource", string="Resource", required=True)
     resource_category_id = fields.Many2one(
         related="resource_id.category_id",
         string="Resource Category",
@@ -40,18 +63,15 @@ class ResourceAllocation(models.Model):
 
     @api.multi
     def action_confirm(self):
-        for allocation in self:
-            allocation.write({"state": "booked", "date_lock": False})
+        self.write({"state": "booked", "date_lock": False})
 
     @api.multi
     def action_cancel(self):
-        for allocation in self:
-            allocation.state = "cancel"
+        self.write({"state": "cancel"})
 
     @api.multi
     def action_option(self):
-        for allocation in self:
-            allocation.state = "option"
+        self.write({"state": "option"})
 
     @api.model
     def get_allocations(
