@@ -16,7 +16,7 @@ class TestResourceActivity(test_base.TestResourceActivityBase):
     def setUpClass(cls):
         super().setUpClass()
 
-        cls.registration_1 = {
+        cls.registration_1_vals = {
             "attendee_id": cls.partner_demo.id,
             "quantity": 1,
             "quantity_needed": 1,
@@ -24,7 +24,7 @@ class TestResourceActivity(test_base.TestResourceActivityBase):
             "resource_category": cls.mtb_category.id,
             "product_id": cls.bike_product.id,
         }
-        cls.registration_2 = {
+        cls.registration_2_vals = {
             "attendee_id": cls.partner_demo.id,
             "quantity": 1,
             "quantity_needed": 1,
@@ -154,8 +154,8 @@ class TestResourceActivity(test_base.TestResourceActivityBase):
                 "location_id": self.main_location.id,
                 "activity_type": self.activity_type.id,
                 "registrations": [
-                    (0, 0, self.registration_1),
-                    (0, 0, self.registration_2),
+                    (0, 0, self.registration_1_vals),
+                    (0, 0, self.registration_2_vals),
                 ],
             }
         )
@@ -180,8 +180,8 @@ class TestResourceActivity(test_base.TestResourceActivityBase):
                 "location_id": self.main_location.id,
                 "activity_type": self.activity_type.id,
                 "registrations": [
-                    (0, 0, self.registration_1),
-                    (0, 0, self.registration_2),
+                    (0, 0, self.registration_1_vals),
+                    (0, 0, self.registration_2_vals),
                 ],
             }
         )
@@ -213,8 +213,8 @@ class TestResourceActivity(test_base.TestResourceActivityBase):
                 "location_id": self.main_location.id,
                 "activity_type": self.activity_type.id,
                 "registrations": [
-                    (0, 0, self.registration_1),
-                    (0, 0, self.registration_2),
+                    (0, 0, self.registration_1_vals),
+                    (0, 0, self.registration_2_vals),
                 ],
             }
         )
@@ -230,7 +230,7 @@ class TestResourceActivity(test_base.TestResourceActivityBase):
 
     def test_unlink_registrations_raises_user_error_if_not_cancelled(self):
         registration = self.env["resource.activity.registration"].create(
-            self.registration_1
+            self.registration_1_vals
         )
         registration.search_resources()
         registration.reserve_needed_resource()
@@ -239,7 +239,7 @@ class TestResourceActivity(test_base.TestResourceActivityBase):
 
     def test_cancel_registration_cancels_allocations(self):
         registration = self.env["resource.activity.registration"].create(
-            self.registration_1
+            self.registration_1_vals
         )
         registration.search_resources()
         registration.reserve_needed_resource()
@@ -310,3 +310,23 @@ class TestResourceActivity(test_base.TestResourceActivityBase):
         activity.search_all_resources()
         activity.reserve_needed_resource()
         self.assertEqual(registration.quantity_allocated, 1)
+
+    def test_compute_quantity_allocated(self):
+        registration = self.env["resource.activity.registration"].create(
+            self.registration_1_vals
+        )
+        self.assertEquals(registration.quantity_allocated, 0)
+        registration.search_resources()
+        registration.reserve_needed_resource()
+        self.assertEquals(registration.quantity_allocated, 1)
+
+        registration.action_cancel()
+        self.assertEquals(registration.quantity_allocated, 0)
+
+        registration.action_draft()
+        registration.search_resources()
+        registration.reserve_needed_resource()
+        self.assertEquals(registration.quantity_allocated, 1)
+
+        registration.allocations.action_cancel()
+        self.assertEquals(registration.quantity_allocated, 0)

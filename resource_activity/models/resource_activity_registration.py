@@ -64,7 +64,7 @@ class ActivityRegistration(models.Model):
         readonly=True,
     )
 
-    # depends of the resource type
+    # depends on the resource type
     date_start = fields.Datetime(
         related="resource_activity_id.resource_allocation_start",
         string="Date Start",
@@ -138,7 +138,7 @@ class ActivityRegistration(models.Model):
                 registration.need_push = True
 
     @api.multi
-    @api.depends("allocations")
+    @api.depends("allocations.state")
     def _compute_quantity_allocated(self):
         for registration in self:
             registration.quantity_allocated = len(
@@ -262,7 +262,6 @@ class ActivityRegistration(models.Model):
             registration.write(
                 {
                     "state": "cancelled",
-                    "quantity_allocated": 0,
                     "need_push": True,
                 }
             )
