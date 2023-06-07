@@ -330,3 +330,42 @@ class TestResourceActivity(test_base.TestResourceActivityBase):
 
         registration.allocations.action_cancel()
         self.assertEquals(registration.quantity_allocated, 0)
+
+    def test_compute_state(self):
+        activity = self.env["resource.activity"].create(
+            {
+                "date_start": datetime.today(),
+                "resource_allocation_start": datetime.today(),
+                "date_end": datetime.today() + timedelta(days=1),
+                "resource_allocation_end": datetime.today() + timedelta(days=1),
+                "location_id": self.main_location.id,
+                "activity_type": self.activity_type.id,
+            }
+        )
+        registration_vals = {
+            "resource_activity_id": activity.id,
+            "attendee_id": self.partner_demo.id,
+            "quantity": 1,
+            "quantity_needed": 2,
+            "booking_type": "booked",
+            "resource_category": self.mtb_category.id,
+            "product_id": self.bike_product.id,
+        }
+        registration = self.env["resource.activity.registration"].create(
+            registration_vals
+        )
+        self.assertEquals(registration.state, "draft")
+        registration.search_resources()
+        self.assertEquals(registration.state, "available")
+        registration.reserve_needed_resource()
+        self.assertEquals(registration.state, "booked")
+
+        waiting_registration = self.env["resource.activity.registration"].create(
+            registration_vals
+        )
+        waiting_registration.search_resources()
+        self.assertEquals(waiting_registration.state, "waiting")
+        waiting_registration.reserve_needed_resource()
+
+        registration.action_cancel()
+        self.assertEquals(registration.state, "cancelled")
