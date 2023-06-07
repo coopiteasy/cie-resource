@@ -39,27 +39,31 @@ class ResourceAvailable(models.Model):
 
     @api.multi
     def action_reserve(self):
-        self.ensure_one()
         # this code works because it is called from
         # a list view on an activity form after button search_resource
         # was called.
         # In other cases, registration might not be set
-        if not self.registration_id:
-            raise ValueError("Registration is not set on resource availability record.")
-        self.allocation_id = self.env["resource.allocation"].create(
-            {
-                "resource_id": self.resource_id.id,
-                "partner_id": self.registration_id.attendee_id.id,
-                "date_start": self.registration_id.date_start,
-                "date_end": self.registration_id.date_end,
-                "date_lock": self.registration_id.date_lock,
-                "state": self.registration_id.booking_type,
-                "location": self.registration_id.location_id.id,
-                "activity_registration_id": self.registration_id.id,
-            }
-        )
-        self.state = "selected"
-        self.activity_id.registrations.action_refresh()
+        for available_resource in self:
+            if not available_resource.registration_id:
+                raise ValueError(
+                    "Registration is not set on resource availability record %s."
+                    % available_resource.id
+                )
+
+            available_resource.allocation_id = self.env["resource.allocation"].create(
+                {
+                    "resource_id": available_resource.resource_id.id,
+                    "partner_id": available_resource.registration_id.attendee_id.id,
+                    "date_start": available_resource.registration_id.date_start,
+                    "date_end": available_resource.registration_id.date_end,
+                    "date_lock": available_resource.registration_id.date_lock,
+                    "state": available_resource.registration_id.booking_type,
+                    "location": available_resource.registration_id.location_id.id,
+                    "activity_registration_id": available_resource.registration_id.id,
+                }
+            )
+            available_resource.state = "selected"
+            available_resource.activity_id.registrations.action_refresh()
 
     @api.multi
     def action_cancel(self):

@@ -243,10 +243,7 @@ class ActivityRegistration(models.Model):
             free_resources = registration.resources_available.filtered(
                 lambda record: record.state == "free"
             )
-            for resource_available in free_resources:
-                if registration.quantity_allocated >= registration.quantity_needed:
-                    break
-                resource_available.action_reserve()
+            free_resources[: registration.quantity_needed].action_reserve()
 
             if registration.quantity_allocated >= registration.quantity_needed:
                 registration.state = registration.booking_type
