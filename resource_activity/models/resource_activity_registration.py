@@ -146,7 +146,7 @@ class ActivityRegistration(models.Model):
             )
 
     @api.multi
-    @api.depends("allocations")
+    @api.depends("allocations.state")
     def _compute_state(self):
         for registration in self:
             if registration.quantity_needed == registration.quantity_allocated:
@@ -201,7 +201,7 @@ class ActivityRegistration(models.Model):
                         registration.state = "waiting"
                         return {
                             "type": "ir.actions.act_window.message",
-                            "title": _("Réservation Impossible"),
+                            "title": _("Registration Not Possible"),
                             "message": _(
                                 "Not enough resource found for the registration"
                             ),
@@ -236,26 +236,27 @@ class ActivityRegistration(models.Model):
                 # and there is no allocations here
                 # fixme make it depend on quantity_needed
                 registration.state = "booked"
-                return
+                continue
 
             # update available resources
             registration.search_resources()
             free_resources = registration.resources_available.filtered(
                 lambda record: record.state == "free"
             )
-            free_resources[: registration.quantity_needed].action_reserve()
+            for resource_available in free_resources:
+                if registration.quantity_allocated >= registration.quantity_needed:
+                    break
+                resource_available.action_reserve()
 
             if registration.quantity_allocated >= registration.quantity_needed:
                 registration.state = registration.booking_type
 
             registration.resource_activity_id.registrations.action_refresh()
-            return
 
     @api.multi
     def action_cancel(self):
         for registration in self:
             registration.allocations.action_cancel()
-            registration.resources_available.unlink()
             registration.write(
                 {
                     "state": "cancelled",

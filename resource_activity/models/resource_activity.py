@@ -289,7 +289,13 @@ class ResourceActivity(models.Model):
                 )
 
     @api.multi
-    @api.depends("registrations_max", "registrations.state", "registrations.quantity")
+    @api.depends(
+        "registrations_max",
+        "registrations.state",
+        "registrations.quantity",
+        "registrations.quantity_needed",
+        "registrations.quantity_allocated",
+    )
     def _compute_registrations(self):
         for activity in self:
             registrations = activity.registrations.filtered(

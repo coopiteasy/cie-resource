@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 
 from freezegun import freeze_time
 
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 
 from . import test_base
 
@@ -246,26 +246,19 @@ class TestResourceActivity(test_base.TestResourceActivityBase):
         registration.action_cancel()
         self.assertEquals(registration.state, "cancelled")
         self.assertEquals(registration.quantity_allocated, 0)
-        self.assertFalse(registration.resources_available)
         self.assertTrue(
-            all(lambda a: a.state == "cancelled" for a in registration.allocations)
+            all(
+                lambda a: a.state == "cancelled"
+                for a in registration.resources_available
+            )
+        )
+        self.assertTrue(
+            all(lambda a: a.state == "cancel" for a in registration.allocations)
         )
 
     def test_modified_reservations_are_cancelled_by_activity(self):
         date_start = datetime(2023, 1, 1, 16, 0)
         date_end = datetime(2023, 1, 1, 18, 0)
-
-        # book mtb_1
-        mtb_1_allocation = self.env["resource.allocation"].create(
-            {
-                "resource_id": self.mtb_1.id,
-                "date_start": date_start,
-                "date_end": date_end,
-                # "location_id": self.main_location.id,
-                # "partner_id": self.partner_demo.id,
-            }
-        )
-        mtb_1_allocation.action_confirm()
 
         activity = self.env["resource.activity"].create(
             {
@@ -299,10 +292,10 @@ class TestResourceActivity(test_base.TestResourceActivityBase):
         self.assertEqual(registration.state, "booked")
         self.assertEqual(registration.quantity_allocated, 1)
         allocation = registration.allocations[0]
-        self.assertEqual(allocation.resource_id, self.mtb_2)
+        self.assertEqual(allocation.resource_id, self.mtb_1)
         self.assertEqual(allocation.state, "booked")
 
-        allocation.resource_id = self.mtb_1
+        allocation.resource_id = self.mtb_2
         activity.unreserve_resources()
         self.assertEqual(registration.quantity_allocated, 0)
         self.assertEqual(allocation.state, "cancel")
@@ -317,6 +310,9 @@ class TestResourceActivity(test_base.TestResourceActivityBase):
         )
         self.assertEquals(registration.quantity_allocated, 0)
         registration.search_resources()
+        registration.reserve_needed_resource()
+        self.assertEquals(registration.quantity_allocated, 1)
+        # an extra call should have no effect
         registration.reserve_needed_resource()
         self.assertEquals(registration.quantity_allocated, 1)
 
@@ -369,3 +365,65 @@ class TestResourceActivity(test_base.TestResourceActivityBase):
 
         registration.action_cancel()
         self.assertEquals(registration.state, "cancelled")
+
+    def test_resource_available_computed_fields(self):
+        registration = self.env["resource.activity.registration"].create(
+            self.registration_1_vals
+        )
+        registration.search_resources()
+        resource_available = registration.resources_available[0]
+        self.assertEqual(resource_available.resource_id, self.mtb_1)
+        # changing the resource this way must work while allocation_id is not
+        # set
+        resource_available.resource_id = self.mtb_2
+        self.assertEqual(resource_available.resource_id, self.mtb_2)
+        resource_available.resource_id = self.mtb_1
+        # changing the state this way must work while allocation_id is not set
+        self.assertEqual(resource_available.state, "free")
+        resource_available.state = "not_free"
+        self.assertEqual(resource_available.state, "not_free")
+        resource_available.state = "free"
+        resource_available.action_reserve()
+        self.assertEqual(resource_available.state, "selected")
+        # changing the resource this way must not work anymore
+        with self.assertRaises(ValidationError):
+            resource_available.resource_id = self.mtb_2
+        self.assertEqual(resource_available.resource_id, self.mtb_1)
+        # change allocated resource
+        resource_available.allocation_id.resource_id = self.mtb_2
+        self.assertEqual(resource_available.resource_id, self.mtb_2)
+        # changing the state this way must not work anymore
+        with self.assertRaises(ValidationError):
+            resource_available.state = "cancelled"
+        self.assertEqual(resource_available.state, "selected")
+        # change allocation state
+        resource_available.allocation_id.state = "cancel"
+        self.assertEqual(resource_available.state, "cancelled")
+
+    def test_resource_available_resource_and_state_from_allocation(self):
+        registration = self.env["resource.activity.registration"].create(
+            self.registration_1_vals
+        )
+        registration.reserve_needed_resource()
+        resource_available = registration.resources_available[0]
+        # check whether it works even after changing the allocated resource
+        self.assertEqual(resource_available.resource_id, self.mtb_1)
+        registration.allocations.resource_id = self.mtb_2
+        self.assertEqual(resource_available.resource_id, self.mtb_2)
+        registration.action_cancel()
+        self.assertEqual(resource_available.state, "cancelled")
+
+    def test_reserve_and_cancel_resource_available(self):
+        registration = self.env["resource.activity.registration"].create(
+            self.registration_1_vals
+        )
+        registration.search_resources()
+        resource_available = registration.resources_available[0]
+        resource_available.action_reserve()
+        self.assertEqual(registration.quantity_allocated, 1)
+        # check whether it works even after changing the allocated resource
+        self.assertEqual(resource_available.resource_id, self.mtb_1)
+        registration.allocations.resource_id = self.mtb_2
+        resource_available.action_cancel()
+        self.assertEqual(registration.quantity_allocated, 0)
+        self.assertEqual(registration.allocations.state, "cancel")
