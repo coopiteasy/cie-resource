@@ -1,0 +1,41 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* resource_activity_paid_registrations
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: resource_activity_paid_registrations
+#: model:ir.model.fields,field_description:resource_activity_paid_registrations.field_resource_activity__registrations_paid
+msgid "All Registrations Paid"
+msgstr ""
+
+#. module: resource_activity_paid_registrations
+#: model_terms:ir.ui.view,arch_db:resource_activity_paid_registrations.view_resource_activity_form
+msgid "Mark all as paid"
+msgstr ""
+
+#. module: resource_activity_paid_registrations
+#: model:ir.model.fields,field_description:resource_activity_paid_registrations.field_resource_activity_registration__is_paid
+#: model_terms:ir.ui.view,arch_db:resource_activity_paid_registrations.view_resource_activity_tree
+msgid "Paid"
+msgstr ""
+
+#. module: resource_activity_paid_registrations
+#: model:ir.model,name:resource_activity_paid_registrations.model_resource_activity
+msgid "Resource Activity"
+msgstr ""
+
+#. module: resource_activity_paid_registrations
+#: model:ir.model,name:resource_activity_paid_registrations.model_resource_activity_registration
+msgid "Resource Activity Registration"
+msgstr ""
+
