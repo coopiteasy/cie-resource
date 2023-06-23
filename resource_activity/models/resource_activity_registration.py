@@ -17,73 +17,6 @@ class ActivityRegistration(models.Model):
             # fixme
             self.booking_type = self.resource_activity_id.booking_type
 
-    @api.onchange("resource_category")
-    def onchange_resource_category(self):
-        self.product_id = False
-        if self.is_accessory_registration:
-            self.quantity = 0
-
-    @api.onchange("quantity")
-    def onchange_quantity(self):
-        if not self.bring_bike and self.state not in ["option", "booked"]:
-            self.quantity_needed = self.quantity
-
-    @api.onchange("quantity_needed")
-    def onchange_quantity_needed(self):
-        if self.state not in ["booked", "option", "draft"]:
-            if self.quantity_needed > self.quantity_allocated:
-                self.state = "waiting"
-
-    @api.onchange("bring_bike")
-    def onchange_bring_bike(self):
-        if self.bring_bike:
-            self.quantity_needed = 0
-        else:
-            self.quantity_needed = self.quantity
-
-    @api.onchange("booking_type")
-    def onchange_booking_type(self):
-        if self.booking_type == "booked":
-            self.date_lock = None
-
-    @api.multi
-    @api.depends("quantity_needed", "quantity", "product_id", "state")
-    def _compute_need_push(self):
-        for registration in self:
-            # if sale order was created for registration, any
-            # any change must be pushed
-            if registration.sale_order_id:
-                registration.need_push = True
-
-            # if new registrations goes to booked or option state
-            elif (
-                registration.resource_activity_id.sale_orders
-                and registration.state in ["booked", "option"]
-            ):
-                registration.need_push = True
-
-    @api.multi
-    @api.depends("allocations")
-    def _compute_quantity_allocated(self):
-        for registration in self:
-            registration.quantity_allocated = len(
-                registration.allocations.filtered(lambda a: a.state != "cancel")
-            )
-
-    @api.multi
-    @api.depends("allocations")
-    def _compute_state(self):
-        for registration in self:
-            if registration.quantity_needed == registration.quantity_allocated:
-                registration.state = registration.booking_type
-            elif (
-                registration.quantity_needed < registration.quantity_allocated
-                and registration.quantity_allocated > 0
-            ):
-                registration.state = "waiting"
-            elif registration.quantity_allocated == 0:
-                registration.state = "cancelled"
-
     resource_activity_id = fields.Many2one("resource.activity", string="Activity")
     order_line_id = fields.Many2one("sale.order.line", string="Sale order line")
     partner_id = fields.Many2one(related="resource_activity_id.partner_id")
@@ -131,7 +64,7 @@ class ActivityRegistration(models.Model):
         readonly=True,
     )
 
-    # depends of the resource type
+    # depends on the resource type
     date_start = fields.Datetime(
         related="resource_activity_id.resource_allocation_start",
         string="Date Start",
@@ -158,6 +91,73 @@ class ActivityRegistration(models.Model):
         related="location_id.resource_categories",
     )
     is_accessory_registration = fields.Boolean(related="resource_category.is_accessory")
+
+    @api.onchange("resource_category")
+    def onchange_resource_category(self):
+        self.product_id = False
+        if self.is_accessory_registration:
+            self.quantity = 0
+
+    @api.onchange("quantity")
+    def onchange_quantity(self):
+        if not self.bring_bike and self.state not in ["option", "booked"]:
+            self.quantity_needed = self.quantity
+
+    @api.onchange("quantity_needed")
+    def onchange_quantity_needed(self):
+        if self.state not in ["booked", "option", "draft"]:
+            if self.quantity_needed > self.quantity_allocated:
+                self.state = "waiting"
+
+    @api.onchange("bring_bike")
+    def onchange_bring_bike(self):
+        if self.bring_bike:
+            self.quantity_needed = 0
+        else:
+            self.quantity_needed = self.quantity
+
+    @api.onchange("booking_type")
+    def onchange_booking_type(self):
+        if self.booking_type == "booked":
+            self.date_lock = None
+
+    @api.multi
+    @api.depends("quantity_needed", "quantity", "product_id", "state")
+    def _compute_need_push(self):
+        for registration in self:
+            # if sale order was created for registration, any
+            # any change must be pushed
+            if registration.sale_order_id:
+                registration.need_push = True
+
+            # if new registrations goes to booked or option state
+            elif (
+                registration.resource_activity_id.sale_orders
+                and registration.state in ["booked", "option"]
+            ):
+                registration.need_push = True
+
+    @api.multi
+    @api.depends("allocations.state")
+    def _compute_quantity_allocated(self):
+        for registration in self:
+            registration.quantity_allocated = len(
+                registration.allocations.filtered(lambda a: a.state != "cancel")
+            )
+
+    @api.multi
+    @api.depends("allocations.state")
+    def _compute_state(self):
+        for registration in self:
+            if registration.quantity_needed == registration.quantity_allocated:
+                registration.state = registration.booking_type
+            elif (
+                registration.quantity_needed < registration.quantity_allocated
+                and registration.quantity_allocated > 0
+            ):
+                registration.state = "waiting"
+            elif registration.quantity_allocated == 0:
+                registration.state = "cancelled"
 
     def create_resource_available(self, resource_ids, registration):
         for resource_id in resource_ids:
@@ -199,15 +199,19 @@ class ActivityRegistration(models.Model):
                         registration.state = "available"
                     else:
                         registration.state = "waiting"
-                        # fixme create own cursor to persist waiting state
-                        self.env.cr.commit()  # pylint: disable=invalid-commit
-                        raise UserError(
-                            _("Not enough resource found for the registration")
-                        )
+                        return {
+                            "type": "ir.actions.act_window.message",
+                            "title": _("Registration Not Possible"),
+                            "message": _(
+                                "Not enough resource found for the registration"
+                            ),
+                        }
         return True
 
     @api.multi
     def action_refresh(self):
+        """Refreshes the state of resource_available according
+        to resource availability"""
         for registration in self:
             resources_available = registration.resources_available.filtered(
                 lambda record: record.state == "free"
@@ -228,31 +232,34 @@ class ActivityRegistration(models.Model):
     def reserve_needed_resource(self):
         for registration in self:
             if registration.quantity_needed == 0:
+                # fixme needed because _compute_state depends on allocations
+                # and there is no allocations here
+                # fixme make it depend on quantity_needed
                 registration.state = "booked"
-            else:
-                free_resources = registration.resources_available.filtered(
-                    lambda record: record.state == "free"
-                )
-                for resource_available in free_resources:
-                    if (
-                        registration.quantity_needed - registration.quantity_allocated
-                        <= 0
-                    ):
-                        break
-                    resource_available.action_reserve()
+                continue
 
-                (registration.resource_activity_id.registrations.action_refresh())
-        return True
+            # update available resources
+            registration.search_resources()
+            free_resources = registration.resources_available.filtered(
+                lambda record: record.state == "free"
+            )
+            for resource_available in free_resources:
+                if registration.quantity_allocated >= registration.quantity_needed:
+                    break
+                resource_available.action_reserve()
+
+            if registration.quantity_allocated >= registration.quantity_needed:
+                registration.state = registration.booking_type
+
+            registration.resource_activity_id.registrations.action_refresh()
 
     @api.multi
     def action_cancel(self):
         for registration in self:
-            for resource_available in registration.resources_available:
-                resource_available.action_cancel()
+            registration.allocations.action_cancel()
             registration.write(
                 {
                     "state": "cancelled",
-                    "quantity_allocated": 0,
                     "need_push": True,
                 }
             )
@@ -281,18 +288,6 @@ class ActivityRegistration(models.Model):
             self.resource_activity_id.state = "draft"
 
         return super(ActivityRegistration, self).unlink()
-
-    @api.multi
-    @api.depends("quantity", "quantity_allocated")
-    def compute_state(self):
-        for subscription in self:  # fixme
-            if subscription.quantity_allocated == subscription.quantity:
-                subscription.state = subscription.booking_type
-            elif (
-                subscription.state != "draft"
-                and subscription.quantity_allocated < subscription.quantity
-            ):
-                subscription.state = "waiting"
 
     @api.multi
     def view_registration_form(self):

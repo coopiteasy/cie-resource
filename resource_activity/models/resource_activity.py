@@ -289,7 +289,13 @@ class ResourceActivity(models.Model):
                 )
 
     @api.multi
-    @api.depends("registrations_max", "registrations.state", "registrations.quantity")
+    @api.depends(
+        "registrations_max",
+        "registrations.state",
+        "registrations.quantity",
+        "registrations.quantity_needed",
+        "registrations.quantity_allocated",
+    )
     def _compute_registrations(self):
         for activity in self:
             registrations = activity.registrations.filtered(
@@ -341,7 +347,7 @@ class ResourceActivity(models.Model):
 
     @api.multi
     def search_all_resources(self):
-        self.mapped("registrations").search_resources()
+        return self.mapped("registrations").search_resources()
 
     @api.multi
     def reserve_needed_resource(self):
@@ -350,13 +356,11 @@ class ResourceActivity(models.Model):
 
     @api.multi
     def unreserve_resources(self):
-        registrations = self.env["resource.activity.registration"].browse()
-        for activity in self:
-            for registration in activity.registrations:
-                if registration.state == "booked":
-                    registrations |= registration
-        registrations.action_cancel()
-        registrations.action_draft()
+        booked_registrations = self.mapped("registrations").filtered(
+            lambda r: r.state == "booked"
+        )
+        booked_registrations.action_cancel()
+        booked_registrations.action_draft()
 
     @api.multi
     def action_done(self):

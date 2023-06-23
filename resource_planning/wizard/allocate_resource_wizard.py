@@ -82,13 +82,22 @@ class AllocateResourceWizard(models.TransientModel):
         }
 
     @api.multi
-    def book_resource(self):
-        if self.resources:
-            self.resources.allocate_resource(
-                self.allocation_type,
-                self.date_start,
-                self.date_end,
-                self.partner_id,
-                self.location,
-                self.date_lock,
+    def book_resources(self):
+        self.ensure_one()
+        for resource in self.resources:
+            # cf resource.check_availabilities(
+            #  this function returns resource.available records
+            #  nothing was done with it here
+            #  hope book_resources is called right after search_resources
+
+            self.env["resource.allocation"].create(
+                {
+                    "resource_id": resource.id,
+                    "date_start": self.date_start,
+                    "date_end": self.date_end,
+                    "date_lock": self.date_lock,
+                    "state": self.allocation_type,
+                    "partner_id": self.partner_id.id,
+                    "location": self.location.id,
+                }
             )

@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 {
     "name": "Resource Activity",
-    "version": "12.0.1.2.0",
+    "version": "12.0.1.3.0",
     "depends": [
         "base",
         "mail",
@@ -12,6 +12,7 @@
         "web_tree_many2one_clickable",
         "web_tree_dynamic_colored_field",
         "report_qweb_pdf_fixed_column",
+        "web_ir_actions_act_window_message",
     ],
     "author": "Coop IT Easy SC",
     "category": "Resource",

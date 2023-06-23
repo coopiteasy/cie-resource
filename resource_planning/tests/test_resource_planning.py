@@ -3,14 +3,17 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 
+from datetime import datetime
+
 from odoo.exceptions import ValidationError
-from odoo.tests import common
+from odoo.tests import Form, common
 
 
 class TestResourcePlanning(common.TransactionCase):
     def setUp(self):
         super(TestResourcePlanning, self).setUp()
         self.main_location = self.browse_ref("resource_planning.main_location")
+        # todo use test data rather than demo data
         self.alloc_1 = self.browse_ref("resource_planning.resource_allocation_1_demo")
         self.alloc_2 = self.browse_ref("resource_planning.resource_allocation_2_demo")
         self.alloc_3 = self.browse_ref("resource_planning.resource_allocation_3_demo")
@@ -123,3 +126,48 @@ class TestResourcePlanning(common.TransactionCase):
                 "calendar_id": self.calendar.id,
             }
         )
+
+    def test_check_resource_allocation_raises_if_conflict(self):
+        bike_1 = self.env.ref("resource_planning.resource_resource_bike_1_demo")
+        self.env["resource.allocation"].create(
+            {
+                "resource_id": bike_1.id,
+                "date_start": datetime(2023, 1, 1, 12, 0),
+                "date_end": datetime(2023, 1, 1, 14, 0),
+            }
+        )
+        with self.assertRaises(ValidationError):
+            self.env["resource.allocation"].create(
+                {
+                    "resource_id": bike_1.id,
+                    "date_start": datetime(2023, 1, 1, 13, 0),
+                    "date_end": datetime(2023, 1, 1, 14, 30),
+                }
+            )
+
+        allocation_1 = self.env["resource.allocation"].create(
+            {
+                "resource_id": bike_1.id,
+                "date_start": datetime(2024, 1, 1, 12, 0),
+                "date_end": datetime(2024, 1, 1, 14, 0),
+            }
+        )
+
+        with self.assertRaises(ValidationError):
+            allocation_1.date_start = datetime(2023, 1, 1, 11, 0)
+
+        with Form(allocation_1) as allocation_2_form:
+            allocation_2_form.date_start = datetime(2023, 1, 1, 11, 0)
+            allocation_2_form.date_end = datetime(2023, 1, 1, 11, 30)
+
+        bike_2 = self.env.ref("resource_planning.resource_resource_bike_2_demo")
+        allocation_2 = self.env["resource.allocation"].create(
+            {
+                "resource_id": bike_2.id,
+                "date_start": datetime(2023, 1, 1, 12, 0),
+                "date_end": datetime(2023, 1, 1, 14, 0),
+            }
+        )
+
+        with self.assertRaises(ValidationError):
+            allocation_2.resource_id = bike_1
