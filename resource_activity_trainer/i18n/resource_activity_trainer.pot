@@ -1,0 +1,50 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* resource_activity_trainer
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: resource_activity_trainer
+#: model:ir.model,name:resource_activity_trainer.model_res_partner
+msgid "Contact"
+msgstr ""
+
+#. module: resource_activity_trainer
+#: model:ir.model,name:resource_activity_trainer.model_resource_activity
+msgid "Resource Activity"
+msgstr ""
+
+#. module: resource_activity_trainer
+#: model:ir.model,name:resource_activity_trainer.model_resource_location
+msgid "Resource Location"
+msgstr ""
+
+#. module: resource_activity_trainer
+#: model:ir.model.fields,field_description:resource_activity_trainer.field_res_partner__is_trainer
+#: model:ir.model.fields,field_description:resource_activity_trainer.field_res_users__is_trainer
+#: model:ir.model.fields,field_description:resource_activity_trainer.field_resource_activity__trainers
+msgid "Trainer"
+msgstr ""
+
+#. module: resource_activity_trainer
+#: model:ir.model.fields,field_description:resource_activity_trainer.field_res_partner__resource_location_trainer
+#: model:ir.model.fields,field_description:resource_activity_trainer.field_res_users__resource_location_trainer
+msgid "Trainer location"
+msgstr ""
+
+#. module: resource_activity_trainer
+#: model:ir.model.fields,field_description:resource_activity_trainer.field_resource_location__trainers
+#: model_terms:ir.ui.view,arch_db:resource_activity_trainer.resource_location_form
+#: model_terms:ir.ui.view,arch_db:resource_activity_trainer.view_resource_activity_form
+msgid "Trainers"
+msgstr ""
+
