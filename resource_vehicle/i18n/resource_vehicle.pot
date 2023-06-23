@@ -1,0 +1,239 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* resource_vehicle
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: resource_vehicle
+#: model:ir.model.fields,field_description:resource_vehicle.field_resource_brand__active
+#: model:ir.model.fields,field_description:resource_vehicle.field_resource_color__active
+#: model:ir.model.fields,field_description:resource_vehicle.field_resource_gearbox__active
+#: model:ir.model.fields,field_description:resource_vehicle.field_resource_model__active
+msgid "Active"
+msgstr ""
+
+#. module: resource_vehicle
+#: selection:resource.category,vehicle_type:0
+msgid "Bike"
+msgstr ""
+
+#. module: resource_vehicle
+#: model:ir.model.fields,field_description:resource_vehicle.field_resource_brand__name
+#: model:ir.model.fields,field_description:resource_vehicle.field_resource_resource__brand_id
+msgid "Brand"
+msgstr ""
+
+#. module: resource_vehicle
+#: selection:resource.category,vehicle_type:0
+msgid "Car"
+msgstr ""
+
+#. module: resource_vehicle
+#: model:ir.model.fields,field_description:resource_vehicle.field_resource_resource__catalog_price
+msgid "Catalog price"
+msgstr ""
+
+#. module: resource_vehicle
+#: model:ir.model.fields,field_description:resource_vehicle.field_resource_brand__code
+#: model:ir.model.fields,field_description:resource_vehicle.field_resource_model__code
+msgid "Code"
+msgstr ""
+
+#. module: resource_vehicle
+#: model:ir.model.fields,field_description:resource_vehicle.field_resource_color__name
+#: model:ir.model.fields,field_description:resource_vehicle.field_resource_resource__color
+msgid "Color"
+msgstr ""
+
+#. module: resource_vehicle
+#: model:ir.model.fields,field_description:resource_vehicle.field_resource_brand__create_uid
+#: model:ir.model.fields,field_description:resource_vehicle.field_resource_color__create_uid
+#: model:ir.model.fields,field_description:resource_vehicle.field_resource_gearbox__create_uid
+#: model:ir.model.fields,field_description:resource_vehicle.field_resource_model__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: resource_vehicle
+#: model:ir.model.fields,field_description:resource_vehicle.field_resource_brand__create_date
+#: model:ir.model.fields,field_description:resource_vehicle.field_resource_color__create_date
+#: model:ir.model.fields,field_description:resource_vehicle.field_resource_gearbox__create_date
+#: model:ir.model.fields,field_description:resource_vehicle.field_resource_model__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: resource_vehicle
+#: model:ir.model.fields,field_description:resource_vehicle.field_resource_brand__display_name
+#: model:ir.model.fields,field_description:resource_vehicle.field_resource_color__display_name
+#: model:ir.model.fields,field_description:resource_vehicle.field_resource_gearbox__display_name
+#: model:ir.model.fields,field_description:resource_vehicle.field_resource_model__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: resource_vehicle
+#: model:ir.model.fields,field_description:resource_vehicle.field_resource_gearbox__name
+#: model:ir.model.fields,field_description:resource_vehicle.field_resource_resource__gearbox
+msgid "Gearbox"
+msgstr ""
+
+#. module: resource_vehicle
+#: model:ir.model.fields,field_description:resource_vehicle.field_resource_brand__id
+#: model:ir.model.fields,field_description:resource_vehicle.field_resource_color__id
+#: model:ir.model.fields,field_description:resource_vehicle.field_resource_gearbox__id
+#: model:ir.model.fields,field_description:resource_vehicle.field_resource_model__id
+msgid "ID"
+msgstr ""
+
+#. module: resource_vehicle
+#: model:ir.model.fields,field_description:resource_vehicle.field_resource_resource__insurance
+msgid "Insurance"
+msgstr ""
+
+#. module: resource_vehicle
+#: model:ir.model.fields,field_description:resource_vehicle.field_resource_brand____last_update
+#: model:ir.model.fields,field_description:resource_vehicle.field_resource_color____last_update
+#: model:ir.model.fields,field_description:resource_vehicle.field_resource_gearbox____last_update
+#: model:ir.model.fields,field_description:resource_vehicle.field_resource_model____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: resource_vehicle
+#: model:ir.model.fields,field_description:resource_vehicle.field_resource_brand__write_uid
+#: model:ir.model.fields,field_description:resource_vehicle.field_resource_color__write_uid
+#: model:ir.model.fields,field_description:resource_vehicle.field_resource_gearbox__write_uid
+#: model:ir.model.fields,field_description:resource_vehicle.field_resource_model__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: resource_vehicle
+#: model:ir.model.fields,field_description:resource_vehicle.field_resource_brand__write_date
+#: model:ir.model.fields,field_description:resource_vehicle.field_resource_color__write_date
+#: model:ir.model.fields,field_description:resource_vehicle.field_resource_gearbox__write_date
+#: model:ir.model.fields,field_description:resource_vehicle.field_resource_model__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: resource_vehicle
+#: model:ir.model.fields,field_description:resource_vehicle.field_resource_model__name
+#: model:ir.model.fields,field_description:resource_vehicle.field_resource_resource__model_id
+msgid "Model"
+msgstr ""
+
+#. module: resource_vehicle
+#: model:ir.model.fields,field_description:resource_vehicle.field_resource_resource__purchase_price
+msgid "Purchase price"
+msgstr ""
+
+#. module: resource_vehicle
+#: model:ir.model,name:resource_vehicle.model_resource_brand
+#: model_terms:ir.ui.view,arch_db:resource_vehicle.view_resource_brand_form
+msgid "Resource Brand"
+msgstr ""
+
+#. module: resource_vehicle
+#: model:ir.model,name:resource_vehicle.model_resource_category
+msgid "Resource Category"
+msgstr ""
+
+#. module: resource_vehicle
+#: model:ir.model,name:resource_vehicle.model_resource_color
+#: model_terms:ir.ui.view,arch_db:resource_vehicle.view_resource_color_form
+msgid "Resource Color"
+msgstr ""
+
+#. module: resource_vehicle
+#: model:ir.model,name:resource_vehicle.model_resource_gearbox
+#: model_terms:ir.ui.view,arch_db:resource_vehicle.view_resource_gearbox_form
+msgid "Resource Gearbox"
+msgstr ""
+
+#. module: resource_vehicle
+#: model:ir.model,name:resource_vehicle.model_resource_model
+#: model_terms:ir.ui.view,arch_db:resource_vehicle.view_resource_model_form
+msgid "Resource Model"
+msgstr ""
+
+#. module: resource_vehicle
+#: model_terms:ir.ui.view,arch_db:resource_vehicle.resource_brand_tree
+msgid "Resource brand"
+msgstr ""
+
+#. module: resource_vehicle
+#: model:ir.actions.act_window,name:resource_vehicle.action_resource_brand
+#: model:ir.ui.menu,name:resource_vehicle.resource_brand_menu
+msgid "Resource brands"
+msgstr ""
+
+#. module: resource_vehicle
+#: model_terms:ir.ui.view,arch_db:resource_vehicle.resource_color_tree
+msgid "Resource color"
+msgstr ""
+
+#. module: resource_vehicle
+#: model:ir.actions.act_window,name:resource_vehicle.action_resource_color
+#: model:ir.ui.menu,name:resource_vehicle.resource_color_menu
+msgid "Resource colors"
+msgstr ""
+
+#. module: resource_vehicle
+#: model_terms:ir.ui.view,arch_db:resource_vehicle.resource_gearbox_tree
+msgid "Resource gearbox"
+msgstr ""
+
+#. module: resource_vehicle
+#: model:ir.actions.act_window,name:resource_vehicle.action_resource_gearbox
+#: model:ir.ui.menu,name:resource_vehicle.resource_gearbox_menu
+msgid "Resource gearboxes"
+msgstr ""
+
+#. module: resource_vehicle
+#: model_terms:ir.ui.view,arch_db:resource_vehicle.resource_model_tree
+msgid "Resource model"
+msgstr ""
+
+#. module: resource_vehicle
+#: model:ir.actions.act_window,name:resource_vehicle.action_resource_model
+#: model:ir.ui.menu,name:resource_vehicle.resource_model_menu
+msgid "Resource models"
+msgstr ""
+
+#. module: resource_vehicle
+#: model:ir.model,name:resource_vehicle.model_resource_resource
+msgid "Resources"
+msgstr ""
+
+#. module: resource_vehicle
+#: model:ir.model.fields,field_description:resource_vehicle.field_resource_category__vehicle
+msgid "Vehicle"
+msgstr ""
+
+#. module: resource_vehicle
+#: model:ir.model.fields,field_description:resource_vehicle.field_resource_category__vehicle_type
+#: model:ir.model.fields,field_description:resource_vehicle.field_resource_resource__vehicle_type
+msgid "Vehicle type"
+msgstr ""
+
+#. module: resource_vehicle
+#: model:ir.ui.menu,name:resource_vehicle.vehicles_configuration_menu
+msgid "Vehicles"
+msgstr ""
+
+#. module: resource_vehicle
+#: model:ir.model.fields,field_description:resource_vehicle.field_resource_color__code
+#: model:ir.model.fields,field_description:resource_vehicle.field_resource_gearbox__code
+msgid "code"
+msgstr ""
+
+#. module: resource_vehicle
+#: model_terms:ir.ui.view,arch_db:resource_vehicle.resource_vehicle_form
+msgid "vehicle Info"
+msgstr ""
+
