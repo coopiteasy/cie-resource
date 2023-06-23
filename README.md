@@ -21,7 +21,7 @@ Available addons
 ----------------
 addon | version | maintainers | summary
 --- | --- | --- | ---
-[resource_activity](resource_activity/) | 12.0.1.2.0 |  | Manage activities, book resources and generate sale orders.
+[resource_activity](resource_activity/) | 12.0.1.3.0 |  | Manage activities, book resources and generate sale orders.
 [resource_activity_delivery](resource_activity_delivery/) | 12.0.1.0.1 |  | Manage resource deliveries for your activities.
 [resource_activity_guide](resource_activity_guide/) | 12.0.1.1.0 |  | Add guides to you activities
 [resource_activity_opening_hours](resource_activity_opening_hours/) | 12.0.1.0.0 |  | Set opening hours for the locations and warn the use if activity is outside those.
