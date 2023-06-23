@@ -1,0 +1,208 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* resource_stock_information
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: resource_stock_information
+#: model:ir.model.fields,field_description:resource_stock_information.field_resource_stock_removal_wizard__allocations_to_fix_ids
+msgid "Allocations to Fix"
+msgstr ""
+
+#. module: resource_stock_information
+#: selection:resource.resource,stock_removal_reason:0
+#: selection:resource.stock.removal.wizard,stock_removal_reason:0
+msgid "Broken"
+msgstr ""
+
+#. module: resource_stock_information
+#: model_terms:ir.ui.view,arch_db:resource_stock_information.view_resource_stock_removal_wizard_form
+msgid "Cancel"
+msgstr ""
+
+#. module: resource_stock_information
+#: model:ir.model.fields,field_description:resource_stock_information.field_resource_stock_removal_wizard__candidate_resource_ids
+msgid "Candidate Resources"
+msgstr ""
+
+#. module: resource_stock_information
+#: model:ir.model.fields,field_description:resource_stock_information.field_resource_stock_removal_wizard__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: resource_stock_information
+#: model:ir.model.fields,field_description:resource_stock_information.field_resource_stock_removal_wizard__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: resource_stock_information
+#: model:ir.model.fields,field_description:resource_stock_information.field_resource_stock_removal_wizard__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: resource_stock_information
+#: selection:resource.resource,stock_removal_reason:0
+#: selection:resource.stock.removal.wizard,stock_removal_reason:0
+msgid "Given"
+msgstr ""
+
+#. module: resource_stock_information
+#: model:ir.model.fields,field_description:resource_stock_information.field_resource_stock_removal_wizard___has_allocations_to_fix
+msgid "Has Allocations to Fix"
+msgstr ""
+
+#. module: resource_stock_information
+#: model:ir.model.fields,field_description:resource_stock_information.field_resource_stock_removal_wizard___has_candidates
+msgid "Has Candidates"
+msgstr ""
+
+#. module: resource_stock_information
+#: model:ir.model.fields,field_description:resource_stock_information.field_resource_stock_removal_wizard__id
+msgid "ID"
+msgstr ""
+
+#. module: resource_stock_information
+#: model:ir.model.fields,field_description:resource_stock_information.field_resource_stock_removal_wizard____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: resource_stock_information
+#: model:ir.model.fields,field_description:resource_stock_information.field_resource_stock_removal_wizard__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: resource_stock_information
+#: model:ir.model.fields,field_description:resource_stock_information.field_resource_stock_removal_wizard__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: resource_stock_information
+#: model:ir.model.fields,field_description:resource_stock_information.field_resource_stock_removal_wizard__force_remove
+msgid "No resources available to fix allocations. Remove anyway ?"
+msgstr ""
+
+#. module: resource_stock_information
+#: selection:resource.resource,stock_removal_reason:0
+#: selection:resource.stock.removal.wizard,stock_removal_reason:0
+msgid "Other"
+msgstr ""
+
+#. module: resource_stock_information
+#: code:addons/resource_stock_information/wizards/resource_stock_removal_wizard.py:79
+#, python-format
+msgid "Please provide a reason for the resource removal from stock "
+msgstr ""
+
+#. module: resource_stock_information
+#: code:addons/resource_stock_information/wizards/resource_stock_removal_wizard.py:108
+#, python-format
+msgid "Please select a resource to replace %s"
+msgstr ""
+
+#. module: resource_stock_information
+#: model:ir.model.fields,field_description:resource_stock_information.field_resource_resource__purchase_date
+msgid "Purchase Date"
+msgstr ""
+
+#. module: resource_stock_information
+#: model:ir.model.fields,field_description:resource_stock_information.field_resource_resource__purchase_invoice_ref
+msgid "Purchase Invoice Ref"
+msgstr ""
+
+#. module: resource_stock_information
+#: model_terms:ir.ui.view,arch_db:resource_stock_information.resource_planning_resource_form
+#: model_terms:ir.ui.view,arch_db:resource_stock_information.view_resource_stock_removal_wizard_form
+msgid "Remove from Stock"
+msgstr ""
+
+#. module: resource_stock_information
+#: model_terms:ir.ui.view,arch_db:resource_stock_information.view_resource_stock_removal_wizard_form
+msgid "Remove from Stock and Fix Allocations"
+msgstr ""
+
+#. module: resource_stock_information
+#: model:ir.model.fields,field_description:resource_stock_information.field_resource_resource__removed_from_stock
+msgid "Removed From Stock"
+msgstr ""
+
+#. module: resource_stock_information
+#: model:ir.model.fields,field_description:resource_stock_information.field_resource_stock_removal_wizard__replacing_resource_id
+msgid "Replacing Resource"
+msgstr ""
+
+#. module: resource_stock_information
+#: model:ir.model.fields,field_description:resource_stock_information.field_resource_stock_removal_wizard__resource_id
+msgid "Resource"
+msgstr ""
+
+#. module: resource_stock_information
+#: model_terms:ir.ui.view,arch_db:resource_stock_information.view_resource_stock_removal_wizard_form
+msgid "Resource Stock Removal"
+msgstr ""
+
+#. module: resource_stock_information
+#: model:ir.model,name:resource_stock_information.model_resource_stock_removal_wizard
+msgid "Resource Stock Removal Wizard"
+msgstr ""
+
+#. module: resource_stock_information
+#: model:ir.model,name:resource_stock_information.model_resource_resource
+msgid "Resources"
+msgstr ""
+
+#. module: resource_stock_information
+#: model:ir.model.fields,field_description:resource_stock_information.field_resource_resource__sale_invoice_ref
+#: model:ir.model.fields,field_description:resource_stock_information.field_resource_stock_removal_wizard__sale_invoice_ref
+msgid "Sale Invoice Ref"
+msgstr ""
+
+#. module: resource_stock_information
+#: model:ir.model.fields,field_description:resource_stock_information.field_resource_resource__selling_price
+#: model:ir.model.fields,field_description:resource_stock_information.field_resource_stock_removal_wizard__selling_price
+msgid "Selling Price"
+msgstr ""
+
+#. module: resource_stock_information
+#: selection:resource.resource,stock_removal_reason:0
+#: selection:resource.stock.removal.wizard,stock_removal_reason:0
+msgid "Sold"
+msgstr ""
+
+#. module: resource_stock_information
+#: model_terms:ir.ui.view,arch_db:resource_stock_information.resource_planning_resource_form
+msgid "Stock Info"
+msgstr ""
+
+#. module: resource_stock_information
+#: model:ir.model.fields,field_description:resource_stock_information.field_resource_resource__stock_removal_date
+#: model:ir.model.fields,field_description:resource_stock_information.field_resource_stock_removal_wizard__stock_removal_date
+msgid "Stock Removal Date"
+msgstr ""
+
+#. module: resource_stock_information
+#: model:ir.model.fields,field_description:resource_stock_information.field_resource_resource__stock_removal_reason
+#: model:ir.model.fields,field_description:resource_stock_information.field_resource_stock_removal_wizard__stock_removal_reason
+msgid "Stock Removal Reason"
+msgstr ""
+
+#. module: resource_stock_information
+#: selection:resource.resource,stock_removal_reason:0
+#: selection:resource.stock.removal.wizard,stock_removal_reason:0
+msgid "Stolen"
+msgstr ""
+
+#. module: resource_stock_information
+#: code:addons/resource_stock_information/wizards/resource_stock_removal_wizard.py:84
+#, python-format
+msgid "You must first fix existing allocations before removing %s from the stock"
+msgstr ""
+
