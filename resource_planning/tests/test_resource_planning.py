@@ -171,3 +171,28 @@ class TestResourcePlanning(common.TransactionCase):
 
         with self.assertRaises(ValidationError):
             allocation_2.resource_id = bike_1
+
+    def test_check_resource_allocation_ignore_cancelled(self):
+        """
+        Test that updating the end date of a cancelled allocation does not
+        trigger a conflict error if another non-cancelled allocation exists.
+        """
+        bike_1 = self.env.ref("resource_planning.resource_resource_bike_1_demo")
+        allocation_1 = self.env["resource.allocation"].create(
+            {
+                "resource_id": bike_1.id,
+                "date_start": datetime(2023, 1, 1, 12, 0),
+                "date_end": datetime(2023, 1, 1, 14, 0),
+                "state": "cancel",
+            }
+        )
+        self.env["resource.allocation"].create(
+            {
+                "resource_id": bike_1.id,
+                "date_start": datetime(2023, 1, 1, 12, 0),
+                "date_end": datetime(2023, 1, 1, 14, 0),
+                "state": "booked",
+            }
+        )
+        # this should not raise a ValidationError.
+        allocation_1.date_end = datetime(2023, 1, 1, 13, 0)
