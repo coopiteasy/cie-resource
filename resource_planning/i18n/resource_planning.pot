@@ -1329,7 +1329,7 @@ msgid "The name of the resource must be unique !"
 msgstr ""
 
 #. module: resource_planning
-#: code:addons/resource_planning/models/resource_allocation.py:33
+#: code:addons/resource_planning/models/resource_allocation.py:36
 #, python-format
 msgid "There is already an allocation for resource %s from %s to %s"
 msgstr ""
