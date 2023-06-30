@@ -1,2 +1,0 @@
-Ensure that cancelled resource allocation are ignored when checking for
-allocation conflicts.
