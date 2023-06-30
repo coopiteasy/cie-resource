@@ -16,6 +16,9 @@ class ResourceAllocation(models.Model):
     @api.constrains("resource_id", "date_start", "date_end", "location")
     def _check_resource_allocations(self):
         for allocation in self:
+            if allocation.state == "cancel":
+                # cancelled allocations never conflict and must thus be ignored.
+                continue
             other_allocations = (
                 self.get_allocations(
                     allocation.date_start,
