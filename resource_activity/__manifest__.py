@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 {
     "name": "Resource Activity",
-    "version": "12.0.1.3.0",
+    "version": "12.0.1.3.1",
     "depends": [
         "base",
         "mail",
