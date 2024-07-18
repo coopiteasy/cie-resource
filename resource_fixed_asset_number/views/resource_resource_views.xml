@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+     Copyright 2021 Coop IT Easy
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+
+    <record id="resource_planning_resource_form" model="ir.ui.view">
+        <field name="name">resource.planning.resource.form</field>
+        <field name="model">resource.resource</field>
+        <field
+            name="inherit_id"
+            ref="resource_stock_information.resource_planning_resource_form"
+        />
+        <field name="arch" type="xml">
+            <field name="purchase_invoice_ref" position="after">
+                <field name="fixed_asset_number" />
+            </field>
+        </field>
+    </record>
+
+
+</odoo>
